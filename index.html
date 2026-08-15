@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tra Cứu Tần Số Học</title>
+    <style>
+        /* Giao diện tối ưu cho màn hình điện thoại */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            margin: 0;
+        }
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        h2 { color: #4a154b; margin-bottom: 20px; }
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        button {
+            width: 100%;
+            padding: 14px;
+            background-color: #611f69;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover { background-color: #4a154b; }
+        .result {
+            margin-top: 25px;
+            padding: 15px;
+            background-color: #f8f0fb;
+            border-radius: 8px;
+            display: none;
+        }
+        .number {
+            font-size: 48px;
+            font-weight: bold;
+            color: #611f69;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>Tra Cứu Tần Số Học</h2>
+    
+    <label for="dob">Chọn Ngày Tháng Năm Sinh:</label>
+    <input type="date" id="dob">
+    
+    <button onclick="tinhSoChuDao()">Xem Số Chủ Đạo</button>
+
+    <div id="resultBox" class="result">
+        <h3>Số Chủ Đạo Của Bạn:</h3>
+        <div id="resultNumber" class="number">--</div>
+        <p id="resultText"></p>
+    </div>
+</div>
+
+<script>
+    function tinhSoChuDao() {
+        const dobInput = document.getElementById('dob').value;
+        if (!dobInput) {
+            alert('Vui lòng chọn ngày tháng năm sinh!');
+            return;
+        }
+
+        // Lấy chuỗi số ngày sinh (VD: 1995-12-25 -> "19951225")
+        let cleanNumbers = dobInput.replace(/-/g, '');
+        
+        // Tính tổng các chữ số
+        let sum = 0;
+        for (let char of cleanNumbers) {
+            sum += parseInt(char);
+        }
+
+        // Rút gọn tổng về 1 chữ số (hoặc giữ lại số đặc biệt 11, 22 nếu cần)
+        while (sum > 11 && sum !== 22) {
+            let tempSum = 0;
+            let sumStr = sum.toString();
+            for (let char of sumStr) {
+                tempSum += parseInt(char);
+            }
+            sum = tempSum;
+        }
+
+        // Hiển thị kết quả
+        document.getElementById('resultNumber').innerText = sum;
+        document.getElementById('resultBox').style.display = 'block';
+    }
+</script>
+
+</body>
+</html>
