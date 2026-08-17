@@ -2,8 +2,8 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Tra Cứu Thần Số Học</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tra Cứu Thần Số Học Pro</title>
     <style>
         :root {
             --primary: #5c257f;
@@ -17,75 +17,103 @@
             font-family: Arial, "Segoe UI", Roboto, Helvetica, sans-serif;
             background-color: var(--bg);
             margin: 0;
-            padding: 15px;
+            padding: 10px;
             color: var(--text-main);
+            -webkit-text-size-adjust: 100%;
         }
         .container {
-            max-width: 600px;
+            width: min(100%, 680px);
             margin: 0 auto;
         }
         .card {
             background: var(--card-bg);
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-            margin-bottom: 20px;
+            border-radius: 14px;
+            padding: clamp(14px, 4vw, 20px);
+            box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+            margin-bottom: 14px;
         }
         h2 {
             color: var(--primary);
             text-align: center;
             margin-top: 0;
-            font-size: 22px;
+            font-size: clamp(20px, 5vw, 24px);
+        }
+        .input-subtitle {
+            margin: -4px 0 16px;
+            text-align: center;
+            color: var(--text-light);
+            font-size: 13px;
+            line-height: 1.5;
         }
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
         label {
             display: block;
-            font-weight: 600;
-            margin-bottom: 5px;
+            font-weight: 700;
+            margin-bottom: 6px;
             font-size: 14px;
         }
         input {
             width: 100%;
+            min-height: 48px;
             font-family: inherit;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
+            padding: 12px 14px;
+            border: 1px solid #d8d8df;
+            border-radius: 10px;
             box-sizing: border-box;
             font-size: 16px;
+            background: #fff;
+            color: var(--text-main);
+            outline: none;
+            transition: border-color .2s, box-shadow .2s;
+        }
+        input:focus {
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(135,62,172,.10);
+        }
+        .input-hint {
+            margin-top: 5px;
+            color: #888;
+            font-size: 12px;
         }
         button {
             width: 100%;
+            min-height: 48px;
             font-family: inherit;
-            padding: 14px;
+            padding: 13px 14px;
             background-color: var(--primary);
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             font-size: 16px;
-            font-weight: bold;
+            font-weight: 700;
             cursor: pointer;
-            transition: 0.3s;
+            transition: background .2s, transform .05s;
+            touch-action: manipulation;
         }
+        button:active { transform: scale(.99); }
         button:hover { background-color: var(--secondary); }
         
         /* Giao diện Báo Cáo */
         #reportSection { display: none; }
         .grid-2 {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
             gap: 10px;
             margin-bottom: 15px;
         }
         .stat-box {
             background: #fbf5ff;
             border: 1px solid #eedbf7;
-            padding: 15px;
+            padding: 13px 10px;
             border-radius: 10px;
             text-align: center;
-            cursor: pointer; /* Thêm con trỏ click */
+            cursor: pointer;
             transition: transform 0.2s, box-shadow 0.2s;
+            min-width: 0;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
         }
         .stat-box:hover {
             transform: translateY(-3px);
@@ -98,10 +126,11 @@
             text-transform: uppercase;
         }
         .stat-box .num {
-            font-size: 28px;
+            font-size: clamp(24px, 7vw, 30px);
             font-weight: bold;
             color: var(--primary);
             margin-top: 5px;
+            overflow-wrap: anywhere;
         }
         .stat-box-large {
             grid-column: span 2;
@@ -112,15 +141,21 @@
         .stat-box-large .num { color: white; font-size: 36px; }
         
         /* Bảng 4 Chặng & Thách Thức */
+        .table-wrap {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin-top: 10px;
+            border-radius: 10px;
+        }
         table {
             width: 100%;
+            min-width: 420px;
             border-collapse: collapse;
-            margin-top: 10px;
             font-size: 14px;
             text-align: center;
         }
         th, td {
-            padding: 10px;
+            padding: 10px 8px;
             border: 1px solid #ddd;
         }
         td { cursor: pointer; transition: background 0.2s; }
@@ -160,16 +195,16 @@
         }
         .modal-content {
             background: white;
-            border-radius: 12px;
-            padding: 25px;
-            max-width: 500px;
+            border-radius: 16px;
+            padding: 22px;
+            max-width: 540px;
             width: 100%;
             position: relative;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            max-height: 85vh;
+            max-height: 82vh;
             overflow-y: auto;
-            animation: popIn 0.3s ease-out;
-            line-height: 1.6;
+            animation: popIn 0.22s ease-out;
+            line-height: 1.65;
         }
         @keyframes popIn {
             from { opacity: 0; transform: scale(0.95); }
@@ -198,9 +233,40 @@
         }
         .modal-body strong { color: var(--secondary); }
         .modal-body .meaning-box {
-            background: #fbf5ff; padding: 10px 15px;
-            border-radius: 8px; margin-bottom: 15px;
+            background: #fbf5ff; padding: 11px 14px;
+            border-radius: 9px; margin-bottom: 12px;
             font-size: 14px;
+        }
+        .modal-body .advice-box {
+            background: #fff8ea;
+            border-left: 4px solid #d79b2f;
+            padding: 10px 12px;
+            border-radius: 8px;
+            margin-top: 12px;
+            font-size: 14px;
+        }
+        .mobile-only-note { display: none; }
+
+        @media (max-width: 520px) {
+            body { padding: 8px; }
+            .grid-2 { gap: 8px; }
+            .stat-box h4 { font-size: 12px; line-height: 1.3; }
+            .stat-box .num { font-size: 25px; }
+            .stat-box-large .num { font-size: 31px; }
+            .section-title { margin-top: 20px; }
+            .modal-overlay { align-items: flex-end; padding: 0; }
+            .modal-content {
+                max-width: none;
+                border-radius: 18px 18px 0 0;
+                max-height: 78vh;
+                padding: 18px 16px calc(18px + env(safe-area-inset-bottom));
+            }
+            .modal-close { top: 10px; right: 10px; }
+            .mobile-only-note { display: block; }
+        }
+        @media (max-width: 360px) {
+            .grid-2 { grid-template-columns: 1fr; }
+            .stat-box-large { grid-column: span 1; }
         }
     </style>
 </head>
@@ -210,22 +276,25 @@
     <!-- KHUNG NHẬP LIỆU -->
     <div class="card" id="inputSection">
         <h2>Tra cứu thần số học</h2>
+        <p class="input-subtitle">Nhập 2 thông tin cơ bản để xem báo cáo. Có thể dùng bàn phím số trên điện thoại.</p>
         <div class="form-group">
-            <label>Họ và tên:</label>
-            <input type="text" id="fullName" placeholder="VD: NGUYEN VAN A">
+            <label for="fullName">Họ và tên</label>
+            <input type="text" id="fullName" autocomplete="name" autocapitalize="words" spellcheck="false" placeholder="Ví dụ: Nguyễn Văn A" enterkeyhint="next">
         </div>
         <div class="form-group">
-            <label>Ngày tháng năm sinh:</label>
-            <input type="date" id="dob">
+            <label for="dobQuick">Ngày sinh</label>
+            <input type="text" id="dobQuick" inputmode="numeric" autocomplete="bday" placeholder="DD/MM/YYYY" maxlength="10" enterkeyhint="done" aria-describedby="dobHint">
+            <div class="input-hint" id="dobHint">Ví dụ: 05/05/2006</div>
+            <input type="hidden" id="dob">
         </div>
-        <button onclick="calculateNumerology()">Xem Báo Cáo Chi Tiết</button>
+        <button id="calculateBtn" type="button" onclick="calculateNumerology()">Xem báo cáo chi tiết</button>
     </div>
 
     <!-- KHUNG KẾT QUẢ HIỂN THỊ -->
     <div id="reportSection">
         <h2 class="text-center" style="margin-bottom: 5px;">BÁO CÁO CỦA BẠN</h2>
         <p class="text-center" id="displayInfo" style="margin-top:0; font-weight:bold; color:#777;"></p>
-        <p class="text-center" style="font-size: 13px; color: #888; font-style: italic;">* Nhấp vào từng ô để xem luận giải chi tiết</p>
+        <p class="text-center" style="font-size: 13px; color: #888; font-style: italic;"> </p>
 
         <!-- Nhóm Chỉ Số Cốt Lõi -->
         <div class="card">
@@ -306,6 +375,7 @@
                 </div>
             </div>
             
+            <div class="table-wrap">
             <table>
                 <thead>
                     <tr>
@@ -366,245 +436,249 @@
     // Dữ liệu luận giải chi tiết theo yêu cầu
     const dictData = {
         duongDoi: {
-            title: "Chỉ số Đường đời (Life Path Number)",
-            meaning: "Con đường phát triển chính, bài học lớn nhất và môi trường cốt lõi giúp bạn trưởng thành.",
-            "1": "Học cách đứng trên đôi chân mình, tự chủ, tiên phong và dẫn dắt.",
-            "2": "Học cách lắng nghe, thấu hiểu, hợp tác và làm nhà ngoại giao hòa giải.",
-            "3": "Học cách biểu đạt bản thân, sáng tạo nghệ thuật và truyền cảm hứng.",
-            "4": "Học cách xây dựng hệ thống, làm việc kỷ luật, thực tế và bền vững.",
-            "5": "Học cách bứt phá giới hạn, thích nghi linh hoạt và khám phá tự do.",
-            "6": "Học cách gánh vác trách nhiệm, chăm sóc gia đình và phụng sự tình yêu thương.",
-            "7": "Học cách đào sâu trí tuệ, chiêm nghiệm bản chất và phát triển đời sống tinh thần.",
-            "8": "Học cách quản lý tài chính, vận hành nguồn lực và làm chủ sự thịnh vượng.",
-            "9": "Học cách bao dung, cống hiến vì cộng đồng và hoàn thành sứ mệnh nhân đạo.",
-            "11": "Trở thành bậc thầy trực giác, kết nối tâm linh và khai sáng nhận thức.",
-            "22": "Trở thành bậc thầy kiến tạo, thực thi các dự án vĩ đại có giá trị trường tồn.",
-            "33": "Trở thành bậc thầy chữa lành, lan tỏa tình yêu thương vô điều kiện."
+            title: "Chỉ số Đường đời",
+            meaning: "Con đường phát triển cốt lõi và bài học lớn nhất cả đời.",
+            "1": ["Thủ lĩnh, độc lập, tiên phong.", "Học cách khiêm tốn, lắng nghe và tránh áp đặt."],
+            "2": ["Hòa giải, kết nối, tinh tế.", "Học cách thiết lập ranh giới, tránh quá nhạy cảm."],
+            "3": ["Sáng tạo, truyền cảm hứng, giao tiếp.", "Tăng cường kỷ luật, tránh phân tán năng lượng."],
+            "4": ["Kỷ luật, thực tế, vững chắc.", "Mở rộng góc nhìn, tránh bảo thủ và cứng nhắc."],
+            "5": ["Tự do, linh hoạt, bứt phá.", "Giữ chừng mực, tránh ham vui hay thay đổi vô định."],
+            "6": ["Trách nhiệm, yêu thương, phụng sự.", "Yêu thương bản thân trước khi bao đồng lo cho người khác."],
+            "7": ["Tri thức, chiêm nghiệm, phân tích.", "Cởi mở chia sẻ, tránh khép kín hay hoài nghi quá mức."],
+            "8": ["Lãnh đạo, điều hành, tài chính.", "Cân bằng giữa giá trị vật chất và đời sống tinh thần."],
+            "9": ["Nhân đạo, cống hiến, vị tha.", "Buông bỏ quá khứ, buông xả sự bám chấp."],
+            "11": ["Trực giác cao, thắp sáng tâm hồn.", "Rèn luyện tinh thần vững vàng để không bị quá tải cảm xúc."],
+            "22": ["Kiến tạo tầm vóc, biến ước mơ thành thực tế.", "Kiên trì, tránh áp lực quá tải từ mục tiêu lớn."],
+            "33": ["Chữa lành, phụng sự cộng đồng bằng tình yêu lớn.", "Giữ năng lượng tích cực, tránh hy sinh vô điều kiện."]
         },
         canBang: {
-            title: "Chỉ số Cân bằng (Balance Number)",
-            meaning: "Cách bạn phản ứng, giữ bình tĩnh và lấy lại sự cân bằng khi gặp áp lực hay biến cố.",
-            "1": "Cần độc lập giải quyết vấn đề, tin vào bản thân thay vì phụ thuộc.",
-            "2": "Cần giữ thái độ nhẹ nhàng, lắng nghe và tìm kiếm giải pháp hòa giải.",
-            "3": "Cần bộc lộ cảm xúc, chia sẻ và dùng góc nhìn lạc quan để giải tỏa.",
-            "4": "Cần bình tĩnh quay về thực tế, lập kế hoạch và xử lý theo quy trình.",
-            "5": "Cần thả lỏng tâm trí, nhìn nhận đa chiều và thay đổi không gian sống/làm việc.",
-            "6": "Cần cân bằng giữa việc chăm sóc người khác và bảo vệ năng lượng bản thân.",
-            "7": "Cần rút lui tĩnh lặng, phân tích nguyên nhân tận gốc một cách độc lập.",
-            "8": "Cần kiểm soát cảm xúc, tập trung vào giải pháp thực tế và làm chủ tình thế.",
-            "9": "Cần nhìn bức tranh toàn cảnh, buông bỏ cái tôi và hướng tới lợi ích chung.",
-            "11": "Lắng nghe trực giác, thiền định để khôi phục sự tĩnh lặng nội tâm.",
-            "22": "Giữ cái đầu lạnh, tái cấu trúc lại kế hoạch và kiên trì với tầm nhìn lớn.",
-            "33": "Dùng lòng vị tha và tình yêu thương để xoa dịu những tổn thương."
+            title: "Chỉ số Cân bằng",
+            meaning: "Cách phản ứng và lấy lại bình tĩnh khi gặp sóng gió.",
+            "1": ["Độc lập tự giải quyết.", "Tránh độc đoán, hãy hạ cái tôi xuống."],
+            "2": ["Lắng nghe, hòa giải.", "Đừng chịu đựng sự tổn thương một mình."],
+            "3": ["Lắng nghe cảm xúc, bộc lộ qua lời nói.", "Kiểm soát ngôn từ lúc tức giận."],
+            "4": ["Tìm kiếm sự thật, phân tích logic.", "Đừng quá sa đà vào sự soi mói."],
+            "5": ["Tìm không gian riêng, tạo sự thay đổi.", "Đừng trốn chạy thực tại."],
+            "6": ["Tìm đến gia đình, người thân.", "Tránh đóng vai nạn nhân."],
+            "7": ["Rút lui để suy ngẫm một mình.", "Đừng tự cô lập bản thân quá lâu."],
+            "8": ["Tập trung vào công việc và mục tiêu.", "Đừng dùng tiền bạc hay sức mạnh để áp đặt."],
+            "9": ["Mở lòng tha thứ, hướng về lợi ích chung.", "Tránh gạt bỏ cảm xúc cá nhân."],
+            "11": ["Dùng trực giác và cái nhìn bao quát.", "Thiền định, bình tĩnh quản lý năng lượng."],
+            "22": ["Dùng trực giác và cái nhìn bao quát.", "Thiền định, bình tĩnh quản lý năng lượng."],
+            "33": ["Dùng trực giác và cái nhìn bao quát.", "Thiền định, bình tĩnh quản lý năng lượng."]
         },
         suMenh: {
-            title: "Chỉ số Sứ mệnh (Destiny / Expression Number)",
-            meaning: "Năng lực tiềm ẩn, sức mạnh bẩm sinh và công việc/vai trò bạn đến để hoàn thành.",
-            "1": "Trở thành người đi đầu, người lãnh đạo bứt phá và mở đường.",
-            "2": "Trở thành cầu nối hòa bình, nhà ngoại giao và người đồng hành tin cậy.",
-            "3": "Trở thành người diễn thuyết, người sáng tạo nội dung và truyền cảm hứng tích cực.",
-            "4": "Trở thành chuyên gia, người xây dựng nền móng vững chắc và chuẩn mực.",
-            "5": "Trở thành người khai phóng, truyền bá sự đổi mới và tự do sáng tạo.",
-            "6": "Trở thành người chữa lành, bảo vệ gia đình và kiến tạo môi trường sống yêu thương.",
-            "7": "Trở thành nhà nghiên cứu, nhà triết học, người đi tìm và chia sẻ chân lý.",
-            "8": "Trở thành nhà điều hành tài chính, quản lý dự án lớn và tạo ra giá trị kinh tế.",
-            "9": "Trở thành nhà nhân đạo, cống hiến cho sự phát triển của cộng đồng.",
-            "11": "Nâng cao nhận thức cộng đồng, dẫn dắt tinh thần và truyền cảm hứng lớn.",
-            "22": "Xây dựng những công trình, tổ chức tầm cỡ để lại di sản cho đời.",
-            "33": "Phục vụ xã hội bằng tình yêu thương và sự nâng tầm đời sống tinh thần."
+            title: "Chỉ số Sứ mệnh",
+            meaning: "Mục đích sống và giá trị bạn tạo ra cho đời.",
+            "1": ["Trở thành người dẫn đường, tạo lối đi riêng.", "Dũng cảm tiên phong."],
+            "2": ["Trở thành sứ giả hòa bình, kết nối con người.", "Phát huy sự thấu cảm."],
+            "3": ["Trở thành người truyền cảm hứng, lan tỏa niềm vui.", "Sử dụng ngôn từ chữa lành."],
+            "4": ["Xây dựng nền tảng, hệ thống vững chắc.", "Tạo giá trị thực tế lâu dài."],
+            "5": ["Khai phá thế giới, tạo sự đổi mới.", "Truyền cảm hứng sống tự do có trách nhiệm."],
+            "6": ["Săn sóc, nâng đỡ và bảo vệ mái ấm/cộng đồng.", "Trở thành chỗ dựa tinh thần."],
+            "7": ["Mở rộng tri thức, đi tìm sự thật.", "Đào sâu chuyên môn và chia sẻ lại."],
+            "8": ["Tạo dựng sự thịnh vượng, điều hành nguồn lực.", "Dùng thành công tài chính để giúp đỡ cộng đồng."],
+            "9": ["Cống hiến cho sự tiến bộ của xã hội.", "Lan tỏa tình yêu thương nhân loại."],
+            "11": ["Đánh thức nhận thức tinh thần cho người khác.", "Dẫn dắt bằng trực giác nhạy bén."],
+            "22": ["Xây dựng công trình/dự án quy mô lớn cho xã hội.", "Hiện thực hóa những kế hoạch vĩ đại."],
+            "33": ["Nâng tầm nhận thức và nâng đỡ tâm hồn con người.", "Chữa lành bằng tình yêu vô điều kiện."]
         },
         knDdSm: {
-            title: "Chỉ số Kết nối Đường đời - Sứ mệnh (Bridge Number)",
-            meaning: "Cầu nối giúp dung hòa con người hiện tại (Đường đời) và mục tiêu lý tưởng (Sứ mệnh).",
-            "0": "Đường đời và Sứ mệnh đã có sự đồng điệu tự nhiên; hãy sống đúng với chính mình.",
-            "1": "Cần quyết đoán hơn, tự tin đứng ra làm chủ và tin vào định hướng cá nhân.",
-            "2": "Cần hạ cái tôi, lắng nghe nhiều hơn và gia tăng sự tinh tế trong giao tiếp.",
-            "3": "Cần học cách tự do bộc lộ suy nghĩ, giao tiếp cởi mở và lạc quan hơn.",
-            "4": "Cần rèn luyện tính kỷ luật, sự kiên trì và làm việc có hệ thống rõ ràng.",
-            "5": "Cần linh hoạt, dám bước ra khỏi vùng an toàn và mở lòng đón nhận cái mới.",
-            "6": "Cần gia tăng trách nhiệm, biết yêu thương và chăm sóc bản thân lẫn người quanh mình.",
-            "7": "Cần dành thời gian học hỏi, phân tích chiều sâu và tin tưởng vào trí tuệ nội tâm.",
-            "8": "Cần tập trung vào thực tế, học cách quản lý nguồn lực và hành động vì mục tiêu.",
-            "9": "Cần mở rộng lòng bao dung, sống hướng thiện và biết hy sinh vì mục tiêu lớn hơn."
+            title: "Chỉ số Kết nối giữa Đường đời - Sứ mệnh",
+            meaning: "Cầu nối giúp bạn hoàn thành sứ mệnh trên đường đời.",
+            "0": ["Tiềm năng vô hạn.", "Lắng nghe tâm trí, đón nhận mọi bài học."],
+            "1": ["Tự tin, chủ động ra quyết định.", "Tin tưởng vào năng lực bản thân."],
+            "2": ["Học cách lắng nghe và lắng nghe trực giác.", "Nhẫn nại và mềm mỏng hơn."],
+            "3": ["Mở rộng giao tiếp, tự tin thể hiện.", "Bộc lộ suy nghĩ một cách chân thành."],
+            "4": ["Lập kế hoạch chi tiết, hành động thực tế.", "Thực hiện mọi việc có tính kỷ luật."],
+            "5": ["Dũng cảm trải nghiệm, bước ra khỏi vùng an toàn.", "Đón nhận sự thay đổi tích cực."],
+            "6": ["Trao đi tình yêu thương và sự quan tâm.", "Kết nối bằng sự chân thành."],
+            "7": ["Nghiên cứu kỹ lưỡng, đúc kết bài học.", "Đừng vội vã, hãy tìm hiểu bản chất vấn đề."],
+            "8": ["Quản lý tài chính, rèn luyện tư duy kinh doanh.", "Thực tế hóa mọi cơ hội."],
+            "9": ["Học cách tha thứ, hướng tới mục tiêu chung.", "Mở rộng lòng nhân ái."]
         },
         linhHon: {
-            title: "Chỉ số Linh hồn (Soul Urge Number)",
-            meaning: "Khát khao sâu thẳm trong tâm hồn, động lực ẩn sau mọi quyết định và điều làm bạn thực sự hạnh phúc.",
-            "1": "Khao khát sự độc lập, tự chủ khẳng định bản thân và chinh phục đỉnh cao.",
-            "2": "Khao khát yêu và được yêu, sự hòa hợp, bình yên và mối quan hệ gắn kết.",
-            "3": "Khao khát được thể hiện cảm xúc, sáng tạo và nhận được sự công nhận.",
-            "4": "Khao khát sự an toàn, ổn định, ngăn nắp và rõ ràng trong cuộc sống.",
-            "5": "Khao khát sự tự do, trải nghiệm mới lạ, khám phá và không bị gò bó.",
-            "6": "Khao khát mái ấm gia đình, sự chăm sóc và chở che người thân yêu.",
-            "7": "Khao khát tri thức sâu sắc, sự thật và không gian riêng tư tĩnh lặng.",
-            "8": "Khao khát thành công vật chất, quyền lực, vị thế và tự chủ tài chính.",
-            "9": "Khao khát cống hiến, giúp đỡ cộng đồng và hướng tới thế giới tốt đẹp.",
-            "11": "Khao khát sự thức tỉnh tâm linh, kết nối sâu sắc và giác ngộ lý tưởng.",
-            "22": "Khao khát tạo ra ảnh hưởng tầm cỡ, xây dựng các giá trị trường tồn.",
-            "33": "Khao khát yêu thương vô điều kiện, xoa dịu nỗi đau và phụng sự xã hội."
+            title: "Chỉ số Linh hồn",
+            meaning: "Khao khát ẩn sâu bên trong nội tâm.",
+            "1": ["Khao khát được tự do làm chủ, độc lập.", "Hãy tự tôn trọng mong muốn cá nhân."],
+            "2": ["Khao khát yêu thương, hòa hợp, thấu hiểu.", "Tìm kiếm môi trường bình yên."],
+            "3": ["Khao khát thể hiện bản thân, được sáng tạo.", "Đừng đè nén niềm vui nội tại."],
+            "4": ["Khao khát sự an toàn, ổn định và rõ ràng.", "Xây dựng nền tảng vững chắc cho bản thân."],
+            "5": ["Khao khát sự tự do, trải nghiệm mới lạ.", "Cho phép bản thân khám phá thế giới."],
+            "6": ["Khao khát chăm sóc gia đình, người thân.", "Tạo dựng một tổ ấm bình an."],
+            "7": ["Khao khát tri thức, không gian riêng tư.", "Dành thời gian kết nối với chính mình."],
+            "8": ["Khao khát độc lập tài chính, thành công.", "Đặt mục tiêu rõ ràng và chinh phục."],
+            "9": ["Khao khát cống hiến, giúp đỡ người khác.", "Tham gia các hoạt động vì cộng đồng."],
+            "11": ["Khao khát giá trị tâm linh, kiến tạo sự thay đổi lớn.", "Sống đúng với giá trị tinh thần cao đẹp."],
+            "22": ["Khao khát giá trị tâm linh, kiến tạo sự thay đổi lớn.", "Sống đúng với giá trị tinh thần cao đẹp."],
+            "33": ["Khao khát giá trị tâm linh, kiến tạo sự thay đổi lớn.", "Sống đúng với giá trị tinh thần cao đẹp."]
         },
         ngaySinh: {
-            title: "Chỉ số Ngày sinh (Birthday Number)",
-            meaning: "Tài năng thiên bẩm, công cụ tự nhiên hỗ trợ bạn trên hành trình cuộc sống.",
-            "1": "Tính tự lập cao, cá tính mạnh mẽ, ra quyết định nhanh chóng.",
-            "2": "Trực giác nhạy bén, khả năng đồng cảm và xoa dịu người khác.",
-            "3": "Khả năng ngôn ngữ, tính hài hước và sự sáng tạo phong phú.",
-            "4": "Tư duy ngăn nắp, cẩn thận, óc thực tế và sự đáng tin cậy.",
-            "5": "Sự linh hoạt, khả năng thích nghi nhanh và sức hút tự nhiên.",
-            "6": "Khiếu thẩm mỹ, sự chu đáo và năng lực chăm sóc chu toàn.",
-            "7": "Óc quan sát sắc bén, tư duy logic, khả năng nghiên cứu độc lập.",
-            "8": "Nhạy bén với cơ hội kinh doanh, tài chính và năng lực tổ chức.",
-            "9": "Tầm nhìn rộng, lòng trắc ẩn và sức hút nhân văn tự nhiên.",
-            "11": "Trực giác đặc biệt nhạy bén và chiều sâu cảm nhận tâm linh.",
-            "22": "Tầm nhìn vĩ mô kết hợp năng lực thực thi công việc quy mô lớn."
+            title: "Chỉ số Ngày sinh",
+            meaning: "Năng khiếu, công cụ hỗ trợ bạn trong cuộc sống.",
+            "1": ["Độc lập, quyết đoán, tố chất lãnh đạo.", "Tự tin làm chủ cuộc đời."],
+            "2": ["Tinh tế, lắng nghe, hòa nhã.", "Phát huy khả năng ngoại giao."],
+            "3": ["Hoạt ngôn, hài hước, sáng tạo.", "Tận dụng sức mạnh ngôn từ."],
+            "4": ["Cẩn trọng, tỉ mỉ, có trách nhiệm.", "Tận dụng khả năng tổ chức, quản lý."],
+            "5": ["Linh hoạt, thích ứng nhanh, sáng tạo.", "Mở rộng các mối quan hệ xã hội."],
+            "6": ["Có gu thẩm mỹ, chu đáo, ấm áp.", "Chăm sóc và tư vấn cho người khác."],
+            "7": ["Phân tích tốt, trực giác nhạy, thích nghiên cứu.", "Tin vào khả năng tự học."],
+            "8": ["Tư duy kinh doanh, nhạy bén tài chính.", "Phát triển kỹ năng quản lý nguồn lực."],
+            "9": ["Giàu lòng bao dung, dễ thu hút niềm tin.", "Lan tỏa năng lượng tích cực."],
+            "11": ["Trực giác cực nhạy hoặc năng lực thực thi vượt trội.", "Tận dụng món quà thiên bẩm để giúp đời."],
+            "22": ["Trực giác cực nhạy hoặc năng lực thực thi vượt trội.", "Tận dụng món quà thiên bẩm để giúp đời."]
         },
         nhanCach: {
-            title: "Chỉ số Nhân cách (Personality Number)",
-            meaning: "Diện mạo bên ngoài, vỏ bọc xã hội và ấn tượng đầu tiên người khác cảm nhận về bạn.",
-            "1": "Hiện lên là người mạnh mẽ, tự tin, quyết đoán và có khí chất.",
-            "2": "Hiện lên là người nhẹ nhàng, lịch thiệp, dễ gần và biết lắng nghe.",
-            "3": "Hiện lên là người vui vẻ, năng động, cuốn hút và giao tiếp duyên dáng.",
-            "4": "Hiện lên là người chỉn chu, nghiêm túc, đáng tin cậy và thực tế.",
-            "5": "Hiện lên là người hiện đại, cá tính, phóng khoáng và tràn đầy năng lượng.",
-            "6": "Hiện lên là người ấm áp, chu đáo, có trách nhiệm và hay giúp đỡ.",
-            "7": "Hiện lên là người kín đáo, trầm tính, có chiều sâu và bí ẩn.",
-            "8": "Hiện lên là người chuyên nghiệp, có tác phong sang trọng và uy quyền.",
-            "9": "Hiện lên là người rộng lượng, thân thiện, tử tế và dễ mến.",
-            "11": "Hiện lên là người tinh tế, có sức hút tâm linh và thần thái đặc biệt.",
-            "22": "Hiện lên là người bản lĩnh, tầm vóc và vững chắc như núi đá."
+            title: "Chỉ số Nhân cách",
+            meaning: "Ấn tượng ban đầu của người khác về bạn.",
+            "1": ["Mạnh mẽ, tự tin, đôi khi hơi lạnh lùng.", "Thể hiện sự lắng nghe nhiều hơn."],
+            "2": ["Nhẹ nhàng, dễ mến, lịch sự.", "Tự tin thể hiện lập trường cá nhân."],
+            "3": ["Năng động, vui vẻ, cuốn hút.", "Tránh nói quá nhiều mà thiếu lắng nghe."],
+            "4": ["Nghiêm túc, đáng tin cậy, thực tế.", "Mềm mỏng và cởi mở hơn trong giao tiếp."],
+            "5": ["Thú vị, thời trang, tràn đầy năng lượng.", "Giữ sự chỉn chu trong môi trường nghiêm túc."],
+            "6": ["Cần mẫn, chu đáo, có vẻ ngoài ấm áp.", "Tránh can thiệp quá sâu vào chuyện người khác."],
+            "7": ["Trầm lắng, bí ẩn, tri thức.", "Mở lòng, mỉm cười và giao lưu nhiều hơn."],
+            "8": ["Sang trọng, chuyên nghiệp, có quyền uy.", "Tránh tỏ ra quá áp đặt hay tính toán."],
+            "9": ["Thân thiện, đáng tin, giàu lòng nhân ái.", "Đặt ranh giới để tránh bị lợi dụng."],
+            "11": ["Cuốn hút tâm linh, đáng tin cậy, tầm vóc.", "Giữ phong thái khiêm nhường."],
+            "22": ["Cuốn hút tâm linh, đáng tin cậy, tầm vóc.", "Giữ phong thái khiêm nhường."],
+            "33": ["Cuốn hút tâm linh, đáng tin cậy, tầm vóc.", "Giữ phong thái khiêm nhường."]
         },
         knLhNc: {
-            title: "Chỉ số Kết nối Linh hồn - Nhân cách",
-            meaning: "Phương pháp để đồng bộ giữa mong muốn bên trong (Linh hồn) và biểu hiện bên ngoài (Nhân cách).",
-            "0": "Sống đúng với bản chất; suy nghĩ bên trong và thể hiện bên ngoài hoàn toàn thống nhất.",
-            "1": "Cần dũng cảm sống thật với mong muốn cá nhân, không cần mang vỏ bọc gượng ép.",
-            "2": "Cần bộc lộ sự mềm mỏng, nhạy cảm bên trong thay vì cố gồng mình mạnh mẽ.",
-            "3": "Cần thể hiện cảm xúc chân thật thông qua lời nói và hành động cởi mở.",
-            "4": "Cần nhất quán giữa lời nói và việc làm bằng sự chân thành, thực tế.",
-            "5": "Cần giải phóng bản thân khỏi các quy chuẩn gò bó để sống tự do hơn.",
-            "6": "Cần thể hiện sự quan tâm một cách tự nhiên mà không sợ bị đánh giá.",
-            "7": "Cần mở lòng chia sẻ thế giới nội tâm thay vì khép kín quá mức.",
-            "8": "Cần thể hiện năng lực thực tế và sự chuyên nghiệp ra bên ngoài.",
-            "9": "Cần đem lòng tốt và lý tưởng nội tâm thể hiện bằng những hành động thiết thực."
+            title: "Chỉ số Kết nối giữa Linh hồn và Nhân cách",
+            meaning: "Giải tỏa mâu thuẫn giữa mong muốn bên trong và biểu hiện bên ngoài.",
+            "0": ["Nhất trí hoàn toàn.", "Thể hiện đúng những gì nội tâm muốn."],
+            "1": ["Dũng cảm sống đúng với mong muốn cá nhân.", "Đừng che giấu sự quyết đoán."],
+            "2": ["Dung hòa cảm xúc và hành vi.", "Thể hiện sự dịu dàng ra bên ngoài."],
+            "3": ["Bộc lộ khao khát ra bằng lời nói/nghệ thuật.", "Đừng giấu niềm vui bên trong."],
+            "4": ["Đưa mong muốn thành hành động cụ thể.", "Kỷ luật hóa các mục tiêu nội tâm."],
+            "5": ["Giải phóng bản thân khỏi rào cản.", "Sống thật với sự tự do bên trong."],
+            "6": ["Lan tỏa tình yêu nội tâm ra xung quanh.", "Thể hiện sự chăm sóc rõ ràng hơn."],
+            "7": ["Dùng tri thức nội tâm để hướng dẫn hành động.", "Tự tin chia sẻ góc nhìn sâu sắc."],
+            "8": ["Hiện thực hóa hoài bão nội tâm thành thành tựu.", "Đừng ngại thể hiện tham vọng."],
+            "9": ["Đưa lòng nhân ái nội tâm vào cuộc sống thực tế.", "Hành động vì lợi ích chung."]
         },
         truongThanh: {
-            title: "Chỉ số Trưởng thành (Maturity Number)",
-            meaning: "Năng lượng định hướng phát triển mạnh nhất từ giai đoạn trung niên (từ 35–40 tuổi trở đi).",
-            "1": "Đạt đến sự tự chủ hoàn toàn, trở thành người dẫn dắt độc lập.",
-            "2": "Đạt được sự bình an trong tâm hồn, giỏi xây dựng mối quan hệ bền chặt.",
-            "3": "Đạt đỉnh cao về sáng tạo, truyền thông điệp và cống hiến niềm vui.",
-            "4": "Xây dựng nền móng sự nghiệp và tài sản vững chắc, trường tồn.",
-            "5": "Tận hưởng đời sống phong phú, tự do, trải nghiệm và đổi mới không ngừng.",
-            "6": "Đạt được sự viên mãn gia đình, cống hiến tình yêu thương cho cộng đồng.",
-            "7": "Đạt đến chiều sâu trí tuệ, sự giác ngộ và thấu hiểu chân lý.",
-            "8": "Đạt thành tựu lớn về tài chính, quyền lực và vị thế xã hội.",
-            "9": "Sống vì lý tưởng cao đẹp, để lại di sản nhân văn cho đời.",
-            "11": "Trở thành ngọn hải đăng tâm linh, người truyền cảm hứng mạnh mẽ.",
-            "22": "Hiện thực hóa các công trình, tổ chức tầm cỡ vĩ mô.",
-            "33": "Trở thành biểu tượng của tình yêu thương và sự chữa lành cộng đồng."
+            title: "Chỉ số Trưởng thành",
+            meaning: "Năng lượng đỉnh cao giai đoạn trung niên - từ 30-40 tuổi trở đi.",
+            "1": ["Trở thành nhà lãnh đạo độc lập.", "Tự chủ hoàn toàn cuộc đời."],
+            "2": ["Trở thành chuyên gia kết nối, hòa giải.", "Xây dựng các mối quan hệ chất lượng."],
+            "3": ["Trở thành người diễn thuyết, sáng tạo đỉnh cao.", "Lan tỏa năng lượng tích cực."],
+            "4": ["Xây dựng sự nghiệp bền vững, hệ thống vững chắc.", "Tích lũy tài sản và tri thức."],
+            "5": ["Đạt đến sự tự do đích thực về tinh thần lẫn cuộc sống.", "Mở rộng trải nghiệm sống."],
+            "6": ["Đạt được sự bình an trong gia đình và sự nghiệp.", "Phụng sự bằng tình yêu."],
+            "7": ["Trở thành bậc thầy tri thức/chuyên gia sâu sắc.", "Chiêm nghiệm và truyền dạy."],
+            "8": ["Đạt đến đỉnh cao tài chính và quyền lực quản lý.", "Tạo dựng giá trị bền vững."],
+            "9": ["Cống hiến lớn cho cộng đồng, xã hội.", "Sống cho lý tưởng cao đẹp."],
+            "11": ["Đạt được thành tựu mang tính bước ngoặt, ảnh hưởng lớn.", "Vẫn giữ sự khiêm nhường."],
+            "22": ["Đạt được thành tựu mang tính bước ngoặt, ảnh hưởng lớn.", "Vẫn giữ sự khiêm nhường."],
+            "33": ["Đạt được thành tựu mang tính bước ngoặt, ảnh hưởng lớn.", "Vẫn giữ sự khiêm nhường."]
         },
         thieu: {
-            title: "Chỉ số Thiếu (Karmic Lesson Number)",
-            meaning: "Những năng lượng, kỹ năng còn thiếu sót mà bạn cần chủ động rèn luyện trong cuộc sống.",
-            "1": "Rèn luyện tính tự lập, quyết đoán, vượt qua sự phụ thuộc và sợ hãi.",
-            "2": "Rèn luyện sự kiên nhẫn, tinh tế, biết lắng nghe và kiềm chế cái tôi.",
-            "3": "Rèn luyện khả năng giao tiếp, cởi mở cảm xúc và sự tự tin phát ngôn.",
-            "4": "Rèn luyện sự kỷ luật, tính ngăn nắp, kiên trì và thực tế.",
-            "5": "Rèn luyện sự linh hoạt, dám bước ra khỏi vùng an toàn và chấp nhận thay đổi.",
-            "6": "Rèn luyện trách nhiệm gia đình, biết yêu thương và chăm sóc người khác.",
-            "7": "Rèn luyện sự tập trung học hỏi, đào sâu nghiên cứu và phát triển đời sống nội tâm.",
-            "8": "Rèn luyện tư duy tài chính, quản lý tiền bạc và chủ động hành động.",
-            "9": "Rèn luyện lòng bao dung, vị tha và sự quan tâm đến cộng đồng."
+            title: "Chỉ số Thiếu",
+            meaning: "Góc khuyết năng lượng cần rèn luyện và bổ sung.",
+            "1": ["Thiếu sự tự tin, hay do dự.", "Học cách tự ra quyết định và dũng cảm."],
+            "2": ["Thiếu lắng nghe, thiếu sự nhạy cảm.", "Tập kiên nhẫn và đồng cảm."],
+            "3": ["Thiếu tự tin giao tiếp, ngại thể hiện.", "Tập nói trước đám đông, học sáng tạo."],
+            "4": ["Thiếu sự cẩn trọng, hay bỏ dở giữa chừng.", "Rèn luyện tính kỷ luật, chi tiết."],
+            "5": ["Cứng nhắc, sợ thay đổi.", "Chủ động trải nghiệm điều mới."],
+            "6": ["Ít quan tâm gia đình, ngại trách nhiệm.", "Học cách yêu thương và chăm sóc."],
+            "7": ["Ngại nghiên cứu, thiếu đức tin/sự sâu sắc.", "Đọc sách và chiêm nghiệm nhiều hơn."],
+            "8": ["Kém quản lý tài chính, ngại mục tiêu lớn.", "Học về tư duy kinh doanh, tiền bạc."],
+            "9": ["Ít bao dung, sống khép kín.", "Mở lòng tham gia các hoạt động cống hiến."]
         },
         tuDuy: {
-            title: "Chỉ số Tư duy Lý trí (Rational Thought)",
-            meaning: "Phong cách suy nghĩ, phân tích thông tin và thói quen ra quyết định hàng ngày.",
-            "1": "Suy nghĩ nhanh, độc lập, tập trung vào mục tiêu và đi thẳng vào vấn đề.",
-            "2": "Suy nghĩ đắn đo, cân nhắc nhiều chiều, chú trọng cảm xúc của người khác.",
-            "3": "Suy nghĩ sáng tạo, linh hoạt, lạc quan và giàu hình ảnh.",
-            "4": "Suy nghĩ logic, chi tiết, thực tế, dựa trên căn cứ và quy trình rõ ràng.",
-            "5": "Suy nghĩ bứt phá, không đi theo lối mòn, thích các giải pháp mới lạ.",
-            "6": "Suy nghĩ hướng về sự an toàn của người thân, ưu tiên giải pháp chu toàn.",
-            "7": "Suy nghĩ phân tích sâu, mang tính triết lý, hoài nghi và đòi hỏi sự kiểm chứng.",
-            "8": "Suy nghĩ thực dụng, tính toán hiệu quả, chi phí - lợi ích rõ ràng.",
-            "9": "Suy nghĩ tầm vóc, hướng đến lợi ích chung và giá trị dài hạn.",
-            "11": "Suy nghĩ vượt qua logic thông thường, dựa vào trực giác nhạy bén.",
-            "22": "Tư duy chiến lược xuất sắc, kết hợp tầm nhìn vĩ mô và chi tiết vi mô."
+            title: "Chỉ số Tư duy Lý trí",
+            meaning: "Cách bạn suy nghĩ và đưa ra quyết định.",
+            "1": ["Quyết định nhanh, độc lập, hướng tới mục tiêu.", "Tránh vội vàng, nên tham khảo ý kiến."],
+            "2": ["Cân nhắc kỹ, chú trọng cảm xúc người khác.", "Quyết đoán hơn, tránh chần chừ."],
+            "3": ["Suy nghĩ sáng tạo, linh hoạt, dựa trên cảm hứng.", "Cần giữ sự thực tế khi ra quyết định."],
+            "4": ["Logic, căn cứ vào số liệu và thực tế.", "Tránh quá bảo thủ hay rập khuôn."],
+            "5": ["Cơ hội, đột phá, suy nghĩ ngoài khuôn khổ.", "Cân nhắc rủi ro trước khi hành động."],
+            "6": ["Suy nghĩ vì sự an toàn của người thân.", "Đừng để tình cảm lấn át lý trí quá đà."],
+            "7": ["Phân tích sâu, hoài nghi, tìm bản chất.", "Đừng quá cầu toàn gây chần chừ."],
+            "8": ["Hướng đến kết quả, tính toán hiệu quả/tài chính.", "Cân bằng yếu tố con người."],
+            "9": ["Suy nghĩ nhân văn, hướng đến cái chung.", "Chú ý đến tính khả thi thực tế."]
         },
         tiemThuc: {
-            title: "Sức mạnh Tiềm thức (Subconscious Self)",
-            meaning: "Khả năng phản xạ bản năng, niềm tin vào bản thân khi đối mặt với khủng hoảng.",
-            "1-3": "Khi gặp biến cố dễ bị hoang mang, cần thời gian lấy lại bình tĩnh và niềm tin.",
-            "4-6": "Bản năng ứng biến tốt, nền tảng tâm lý vững vàng và giải quyết việc thực tế.",
-            "7-8": "Sức mạnh tiềm thức lớn, điềm tĩnh và chủ động làm chủ tình thế khó khăn.",
-            "9": "Phục hồi tâm lý tuyệt vời, có niềm tin tuyệt đối vào năng lực bản thân."
+            title: "Chỉ số Sức mạnh Tiềm thức",
+            meaning: "Phản ứng tự nhiên từ bên trong khi đối mặt sự cố bất ngờ.",
+            "1": ["Tự mình đứng dậy, không dựa dẫm.", "Luôn giữ vững niềm tin vào bản thân."],
+            "2": ["Tìm kiếm sự giúp đỡ, hòa giải.", "Tin vào trực giác của chính mình."],
+            "3": ["Dùng sự lạc quan, lời nói để vượt qua.", "Giữ tinh thần tích cực."],
+            "4": ["Bình tĩnh tìm giải pháp theo từng bước.", "Bám sát thực tế để giải quyết."],
+            "5": ["Xử lý linh hoạt, chuyển hướng nhanh chóng.", "Giữ sự bình tĩnh, tránh hoảng loạn."],
+            "6": ["Bảo vệ người khác, nhận phần trách nhiệm.", "Giữ tâm lý vững vàng."],
+            "7": ["Trút bỏ ồn ào, âm thầm phân tích nguyên nhân.", "Tin vào trí tuệ nội tại."],
+            "8": ["Kiểm soát tình hình, làm chủ tình thế.", "Phát huy bản lĩnh cá nhân."],
+            "9": ["Tha thứ, lấy tình yêu thương đáp lại.", "Giữ lòng vị tha để vượt qua sóng gió."]
         },
         damMe: {
-            title: "Chỉ số Đam mê (Passion Number)",
-            meaning: "Sở thích tự nhiên, ngọn lửa thúc đẩy sự hưng phấn và mang lại niềm vui lớn nhất.",
-            "1": "Thích cạnh tranh, chiến thắng, làm người dẫn đầu và kiểm soát.",
-            "2": "Thích sự hòa bình, tâm sự, hợp tác và môi trường nhẹ nhàng.",
-            "3": "Thích nghệ thuật, sân khấu, trò chuyện, tạo niềm vui và thu hút sự chú ý.",
-            "4": "Thích sự ngăn nắp, làm việc cẩn thận, sắp xếp và tích lũy.",
-            "5": "Thích du lịch, trải nghiệm, sự mới lạ và không khí sôi động.",
-            "6": "Thích chăm sóc nhà cửa, trang trí, giúp đỡ người thân và làm đẹp.",
-            "7": "Thích đọc sách, nghiên cứu, tìm hiểu bí ẩn và không gian riêng tư.",
-            "8": "Thích kinh doanh, tài chính, đồ hiệu, quyền lực và sự thành đạt.",
-            "9": "Thích tham gia hoạt động xã hội, từ thiện, giúp đỡ người nghèo khó."
+            title: "Chỉ số Đam mê",
+            meaning: "Điều mang lại năng lượng vui vẻ và hứng khởi nhất.",
+            "1": ["Đam mê chiến thắng, dẫn đầu, tự chủ.", "Đặt mục tiêu và chinh phục."],
+            "2": ["Đam mê kết nối, tâm sự, làm hòa.", "Dành thời gian cho quan hệ chất lượng."],
+            "3": ["Đam mê nói, biểu diễn, sáng tạo nghệ thuật.", "Hãy tỏa sáng qua đam mê ngôn từ."],
+            "4": ["Đam mê sắp xếp, xây dựng, quy trình hóa.", "Hãy tạo ra sự ngăn nắp, rõ ràng."],
+            "5": ["Đam mê du lịch, trải nghiệm, tự do.", "Hãy xê dịch và đổi mới bản thân."],
+            "6": ["Đam mê trang hoàng nhà cửa, chăm sóc gia đình.", "Dành thời gian cho người thân."],
+            "7": ["Đam mê đọc sách, khám phá bí ẩn, nâng cao trí tuệ.", "Dành không gian yên tĩnh học tập."],
+            "8": ["Đam mê kinh doanh, làm giàu, khẳng định vị thế.", "Thử sức với lĩnh vực đầu tư/quản lý."],
+            "9": ["Đam mê từ thiện, giúp đỡ người yếu thế.", "Tham gia các dự án cộng đồng."]
         },
         namCaNhan: {
-            title: "Chỉ số Năm cá nhân (Personal Year)",
-            meaning: "Năng lượng dịch chuyển theo chu kỳ 9 năm, định hướng trọng tâm công việc và bài học mỗi năm.",
-            "1": "Năm gieo hạt, bắt đầu dự án mới, tự lập và hành động bứt phá.",
-            "2": "Năm lắng đọng, xây dựng mối quan hệ, kiên nhẫn và nuôi dưỡng.",
-            "3": "Năm mở rộng, học tập, giao lưu, sáng tạo và thể hiện bản thân.",
-            "4": "Năm củng cố, làm việc chăm chỉ, hoàn thiện quy trình và giữ gìn sức khỏe.",
-            "5": "Năm thay đổi, bứt phá, du lịch, tự do và nắm bắt cơ hội mới.",
-            "6": "Năm của gia đình, trách nhiệm, yêu thương và xây dựng tổ ấm.",
-            "7": "Năm quay vào bên trong, nâng cao trình độ, chiêm nghiệm đời sống.",
-            "8": "Năm gặt hái, thành tựu tài chính, tập trung công danh và quyền lực.",
-            "9": "Năm buông bỏ, dọn dẹp cái cũ, hoàn thành chu kỳ để chuẩn bị cho giai đoạn mới."
+            title: "Chỉ số Năm cá nhân",
+            meaning: "Năng lượng chủ đạo trong chu kỳ 9 năm.",
+            "1": ["Khởi đầu mới, gieo hạt giống, hành động.", "Bắt đầu dự án mới, tự tin bứt phá."],
+            "2": ["Hợp tác, nhẫn nại, phát triển mối quan hệ.", "Chậm lại, lắng nghe và kết nối."],
+            "3": ["Mở rộng giao tiếp, học tập, sáng tạo.", "Đẩy mạnh hình ảnh, biểu đạt bản thân."],
+            "4": ["Củng cố nền tảng, sức khỏe, kỷ luật.", "Tận tụy làm việc, quản lý rủi ro."],
+            "5": ["Thay đổi, bứt phá, trải nghiệm mới.", "Đón nhận cơ hội, linh hoạt thích ứng."],
+            "6": ["Trách nhiệm gia đình, tình yêu, phụng sự.", "Tập trung chăm sóc tổ ấm, hòa giải."],
+            "7": ["Quay vào bên trong, học tập, nâng cấp trí tuệ.", "Hạn chế đầu tư mạo hiểm, tập trung học."],
+            "8": ["Thu hoạch kết quả, tài chính, khẳng định quyền lực.", "Đẩy mạnh kinh doanh, gặt hái kết quả."],
+            "9": ["Buông bỏ, dọn dẹp, hoàn thành chu kỳ cũ.", "Tha thứ, buông bỏ những điều không phù hợp."]
         },
         thangCaNhan: {
-            title: "Chỉ số Tháng cá nhân (Personal Month)",
-            meaning: "Nhịp điệu năng lượng tác động theo từng tháng để điều chỉnh kế hoạch ngắn hạn.",
-            "1": "Đột phá, khởi động công việc mới, chủ động quyết định.",
-            "2": "Chậm lại, tập trung vào lắng nghe, hợp tác và tình cảm.",
-            "3": "Sôi nổi, gặp gỡ giao lưu, thể hiện ý tưởng sáng tạo.",
-            "4": "Tập trung cao độ vào công việc, củng cố kế hoạch và tài chính.",
-            "5": "Nhiều sự chuyển biến, di chuyển, thay đổi nhịp sinh hoạt.",
-            "6": "Dành thời gian cho gia đình, giải quyết việc nội bộ, tình cảm.",
-            "7": "Dành thời gian suy ngẫm, học tập, hạn chế đầu tư rủi ro.",
-            "8": "Đẩy mạnh hoạt động kinh doanh, thu hồi vốn, gặt hái kết quả.",
-            "9": "Rà soát, kết thúc những việc tồn đọng, chuẩn bị cho năng lượng mới."
+            title: "Chỉ số Tháng cá nhân",
+            meaning: "Năng lượng dịch chuyển trong từng tháng.",
+            "1": ["Chủ động, lên kế hoạch cho mục tiêu tháng.", "Hành động không chần chừ."],
+            "2": ["Lắng nghe cảm xúc, hợp tác.", "Tránh tranh cãi gay gắt."],
+            "3": ["Học tập, giao lưu, lan tỏa năng lượng.", "Tham gia các cuộc gặp gỡ."],
+            "4": ["Tăng cường làm việc, tổ chức công việc gọn gàng.", "Tập trung vào chi tiết."],
+            "5": ["Tạo sự đổi mới, gặp gỡ bạn bè, đi xa.", "Làm mới không gian sống/làm việc."],
+            "6": ["Dành thời gian cho gia đình, người thân.", "Yêu thương và chia sẻ."],
+            "7": ["Chiêm nghiệm, đọc sách, nghiên cứu.", "Dành thời gian tĩnh lặng."],
+            "8": ["Tập trung vào công việc, tài chính, ký kết.", "Quyết đoán trong kinh doanh."],
+            "9": ["Rà soát, dọn dẹp, chuẩn bị cho điều mới.", "Hoàn thành công việc tồn đọng."]
         },
         chang: {
-            title: "Chỉ số Đỉnh Cao Chặng (Pinnacle Cycles)",
-            meaning: "Giai đoạn đỉnh cao trong cuộc đời, thể hiện cơ hội và môi trường phát triển chính.",
-            "1": "Cơ hội phát triển tính tự lập, độc lập xây dựng sự nghiệp riêng.",
-            "2": "Cơ hội phát triển sự hợp tác, ngoại giao, trực giác và tình cảm.",
-            "3": "Cơ hội phát triển nghệ thuật, truyền thông, sáng tạo và thu hút đám đông.",
-            "4": "Giai đoạn tích lũy tài sản, xây dựng nền tảng sự nghiệp vững chắc.",
-            "5": "Giai đoạn mở rộng sự tự do, trải nghiệm, đổi mới và thách thức giới hạn.",
-            "6": "Giai đoạn cống hiến cho gia đình, cộng đồng, xây dựng mái ấm và trách nhiệm.",
-            "7": "Giai đoạn nâng cao trí tuệ, nghiên cứu, phát triển đời sống tâm linh.",
-            "8": "Giai đoạn đỉnh cao về tài chính, điều hành tổ chức và gặt hái quyền lực.",
-            "9": "Giai đoạn phụng sự nhân loại, từ thiện và lan tỏa các giá trị nhân văn.",
-            "11": "Giai đoạn thức tỉnh tâm linh, truyền cảm hứng và khai sáng.",
-            "22": "Giai đoạn kiến tạo những công trình hay sự nghiệp tầm vóc vĩ mô."
+            title: "Chỉ số Chặng",
+            meaning: "4 đỉnh cao phát triển của cuộc đời.",
+            "1": ["Chặng xây dựng sự độc lập, bản lĩnh cá nhân.", "Học cách tự đứng trên đôi chân mình."],
+            "2": ["Chặng rèn luyện sự nhẫn nại, thấu hiểu và hòa hợp.", "Phát triển nghệ thuật ứng xử."],
+            "3": ["Chặng phát triển tư duy sáng tạo, khả năng biểu đạt.", "Tỏa sáng qua năng lực ngôn từ."],
+            "4": ["Chặng xây dựng sự nghiệp, tài sản vững chắc.", "Làm việc chăm chỉ, tạo nền móng vững."],
+            "5": ["Chặng bứt phá, tự do và trải nghiệm đa dạng.", "Dũng cảm bước ra thế giới lớn."],
+            "6": ["Chặng tập trung vào gia đình, giáo dục và tình yêu.", "Xây dựng các giá trị nhân văn."],
+            "7": ["Chặng rèn luyện trí tuệ, đi sâu vào tinh thần/chuyên môn.", "Chiêm nghiệm bài học cuộc sống."],
+            "8": ["Chặng đạt thành tựu lớn về tài chính, địa vị.", "Quản lý và nhân rộng nguồn lực tài chính."],
+            "9": ["Chặng phụng sự cộng đồng, nhân ái.", "Trao giá trị cho xã hội."],
+            "11": ["Chặng gánh vác sứ mệnh lớn, khai sáng hoặc kiến tạo.", "Giữ tâm trong sáng để dẫn dắt."],
+            "22": ["Chặng gánh vác sứ mệnh lớn, khai sáng hoặc kiến tạo.", "Giữ tâm trong sáng để dẫn dắt."]
         },
         thachThuc: {
-            title: "Chỉ số Thách Thức (Challenge Numbers)",
-            meaning: "Bài học chướng ngại vật cần vượt qua trong từng chặng cuộc đời.",
-            "0": "Bài học tổng hợp hoặc không có rào cản lớn; cần tự giác hoàn thiện bản thân.",
-            "1": "Cần vượt qua sự tự ti, tính phụ thuộc hoặc sự độc đoán quá mức.",
-            "2": "Cần vượt qua sự quá nhạy cảm, sợ mâu thuẫn hay phụ thuộc cảm xúc.",
-            "3": "Cần vượt qua sự phân tán tập trung, giao tiếp nông nổi hoặc lãng phí năng lượng.",
-            "4": "Cần vượt qua tính bảo thủ, lười biếng hoặc sự cứng nhắc.",
-            "5": "Cần vượt qua sự thèm muốn tự do thái quá, thiếu kiên nhẫn hoặc sa đà tiêu cực.",
-            "6": "Cần vượt qua tính kiểm soát người khác quá mức hoặc hy sinh quên mình.",
-            "7": "Cần vượt qua sự hoài nghi thái quá, cô lập bản thân hoặc thiếu niềm tin.",
-            "8": "Cần vượt qua sự dính mắc quá đà vào tiền bạc/quyền lực hoặc sợ hãi thất bại tài chính."
+            title: "Chỉ số Thách thức",
+            meaning: "Bài học/rào cản cần vượt qua ở từng chặng.",
+            "0": ["Thách thức của tiềm năng (hoặc không có thách thức cụ thể).", "Tự do lựa chọn hướng đi, tránh vô định."],
+            "1": ["Thách thức vượt qua cái tôi quá lớn hoặc sự tự ti.", "Học cách làm chủ mà không áp đặt."],
+            "2": ["Thách thức kiểm soát sự nhạy cảm, dễ tổn thương.", "Học cách từ chối và rèn bản lĩnh."],
+            "3": ["Thách thức về kiểm soát lời nói, tránh phân tán.", "Cẩn ngôn, tập trung vào mục tiêu."],
+            "4": ["Thách thức về sự lười biếng hoặc quá cứng nhắc.", "Rèn tính kỷ luật và sự linh hoạt."],
+            "5": ["Thách thức về sự thèm khát tự do quá mức, dễ sa đà.", "Tự do trong khuôn khổ trách nhiệm."],
+            "6": ["Thách thức về sự áp đặt tình yêu thương, hay lo lắng quá đà.", "Tôn trọng không gian riêng của người khác."],
+            "7": ["Thách thức vượt qua sự hoài nghi, cô độc, mất niềm tin.", "Mở lòng và tin tưởng hơn vào đời."],
+            "8": ["Thách thức về lòng tham vật chất, dính mắc tài chính.", "Kinh doanh minh bạch, sử dụng tiền đúng đắn."]
         }
     };
 
@@ -629,12 +703,39 @@
         return n;
     }
 
+    function parseQuickDate(value) {
+        const digits = value.replace(/\D/g, '').slice(0, 8);
+        if (digits.length !== 8) return null;
+        const dd = digits.slice(0, 2);
+        const mm = digits.slice(2, 4);
+        const yyyy = digits.slice(4, 8);
+        const day = Number(dd), month = Number(mm), year = Number(yyyy);
+        if (year < 1900 || year > 2100 || month < 1 || month > 12 || day < 1) return null;
+        const lastDay = new Date(year, month, 0).getDate();
+        if (day > lastDay) return null;
+        return { iso: `${yyyy}-${mm}-${dd}`, dd, mm, yyyy };
+    }
+
+    function formatQuickDateInput(value) {
+        const digits = value.replace(/\D/g, '').slice(0, 8);
+        const parts = [];
+        if (digits.length > 0) parts.push(digits.slice(0, 2));
+        if (digits.length > 2) parts.push(digits.slice(2, 4));
+        if (digits.length > 4) parts.push(digits.slice(4, 8));
+        return parts.join('/');
+    }
+
     function calculateNumerology() {
-        const rawName = document.getElementById('fullName').value;
-        const dob = document.getElementById('dob').value;
+        const rawName = document.getElementById('fullName').value.trim();
+        const quickDate = document.getElementById('dobQuick').value;
+        const parsedDate = parseQuickDate(quickDate);
+        const dob = parsedDate ? parsedDate.iso : '';
+        document.getElementById('dob').value = dob;
         
         if (!rawName || !dob) {
-            alert("Vui lòng nhập đầy đủ Họ Tên và Ngày Sinh!");
+            alert(!rawName ? "Vui lòng nhập Họ và tên." : "Ngày sinh chưa đúng. Hãy nhập theo dạng DD/MM/YYYY.");
+            if (!rawName) document.getElementById('fullName').focus();
+            else document.getElementById('dobQuick').focus();
             return;
         }
 
@@ -755,44 +856,32 @@
 
     // === HÀM XỬ LÝ MODAL LUẬN GIẢI ===
     function showDetail(type, elementId) {
-        let valText = document.getElementById(elementId).innerText;
+        const valText = document.getElementById(elementId).innerText;
         if (!valText || valText === '--') return;
 
-        let data = dictData[type];
+        const data = dictData[type];
         if (!data) return;
 
         let contentHTML = `<div class="meaning-box"><strong>Ý nghĩa:</strong> ${data.meaning}</div>`;
 
-        // Xử lý các trường hợp đặc biệt (Thiếu, Đam mê có thể có nhiều số)
         if (type === 'thieu' || type === 'damMe') {
             if (valText === 'Không thiếu' || valText === '') {
-                 contentHTML += `<p>Bạn đang ở trạng thái cân bằng, không bị thiếu chỉ số nào.</p>`;
+                contentHTML += `<p>Bạn đang ở trạng thái cân bằng, không bị thiếu chỉ số nào.</p>`;
             } else {
-                let nums = valText.split(',').map(n => n.trim());
+                const nums = valText.split(',').map(n => n.trim());
                 nums.forEach(n => {
-                    if (data[n]) {
-                        contentHTML += `<p><strong>Số ${n}:</strong> ${data[n]}</p>`;
+                    const entry = data[n];
+                    if (entry) {
+                        contentHTML += `<p><strong>Số ${n}:</strong> ${entry[0]}</p>`;
+                        contentHTML += `<div class="advice-box"><strong>Lời khuyên:</strong> ${entry[1]}</div>`;
                     }
                 });
             }
-        } 
-        // Xử lý Sức mạnh tiềm thức (theo thang điểm)
-        else if (type === 'tiemThuc') {
-            let n = parseInt(valText);
-            let key = '';
-            if (n >= 1 && n <= 3) key = '1-3';
-            else if (n >= 4 && n <= 6) key = '4-6';
-            else if (n >= 7 && n <= 8) key = '7-8';
-            else if (n === 9) key = '9';
-
-            if (key && data[key]) {
-                contentHTML += `<p><strong>Thang điểm ${valText}:</strong> ${data[key]}</p>`;
-            }
-        } 
-        // Các chỉ số bình thường
-        else {
-            if (data[valText]) {
-                contentHTML += `<p><strong>Số ${valText}:</strong> ${data[valText]}</p>`;
+        } else {
+            const entry = data[valText];
+            if (entry) {
+                contentHTML += `<p><strong>Số ${valText}:</strong> ${entry[0]}</p>`;
+                contentHTML += `<div class="advice-box"><strong>Lời khuyên:</strong> ${entry[1]}</div>`;
             } else {
                 contentHTML += `<p>Chưa có dữ liệu luận giải cho số ${valText}.</p>`;
             }
@@ -860,6 +949,33 @@
             document.getElementById('detailModal').style.display = 'none';
         }
     }
+
+    // === TỐI ƯU NHẬP LIỆU MOBILE ===
+    const dobQuickInput = document.getElementById('dobQuick');
+    const nameInput = document.getElementById('fullName');
+    const calculateBtn = document.getElementById('calculateBtn');
+
+    dobQuickInput.addEventListener('input', () => {
+        const formatted = formatQuickDateInput(dobQuickInput.value);
+        dobQuickInput.value = formatted;
+        const parsed = parseQuickDate(formatted);
+        document.getElementById('dob').value = parsed ? parsed.iso : '';
+    });
+
+    nameInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            dobQuickInput.focus();
+        }
+    });
+
+    dobQuickInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            calculateNumerology();
+        }
+    });
+
 </script>
 </body>
 </html>
