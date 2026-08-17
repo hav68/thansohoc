@@ -247,8 +247,20 @@
         }
         .mobile-only-note { display: none; }
 
+        /* Tối ưu cảm ứng và màn hình điện thoại */
+        html { scroll-behavior: smooth; }
+        button, input, .stat-box, td, .modal-close {
+            -webkit-tap-highlight-color: transparent;
+        }
         @media (max-width: 520px) {
-            body { padding: 8px; }
+            body { padding: 6px; }
+            .container { width: 100%; }
+            .card { padding: 14px 12px; border-radius: 12px; margin-bottom: 10px; }
+            h2 { font-size: 21px; line-height: 1.25; }
+            .input-subtitle { font-size: 12px; margin-bottom: 14px; }
+            label { font-size: 13px; }
+            input { min-height: 50px; font-size: 16px; padding: 12px; }
+            button { min-height: 50px; font-size: 15px; }
             .grid-2 { gap: 8px; }
             .stat-box h4 { font-size: 12px; line-height: 1.3; }
             .stat-box .num { font-size: 25px; }
@@ -264,6 +276,15 @@
             .modal-close { top: 10px; right: 10px; }
             .mobile-only-note { display: block; }
         }
+        @media (max-width: 420px) {
+            table { min-width: 380px; font-size: 13px; }
+            th, td { padding: 9px 6px; }
+            .stat-box { padding: 11px 7px; }
+            .stat-box .num { font-size: 23px; }
+            .section-title { font-size: 15px; }
+            .modal-body { font-size: 14px; }
+        }
+
         @media (max-width: 360px) {
             .grid-2 { grid-template-columns: 1fr; }
             .stat-box-large { grid-column: span 1; }
@@ -276,7 +297,7 @@
     <!-- KHUNG NHẬP LIỆU -->
     <div class="card" id="inputSection">
         <h2>Tra cứu thần số học</h2>
-        <p class="input-subtitle">Nhập 2 thông tin cơ bản để xem báo cáo. Có thể dùng bàn phím số trên điện thoại.</p>
+        
         <div class="form-group">
             <label for="fullName">Họ và tên</label>
             <input type="text" id="fullName" autocomplete="name" autocapitalize="words" spellcheck="false" placeholder="Ví dụ: Nguyễn Văn A" enterkeyhint="next">
@@ -284,7 +305,7 @@
         <div class="form-group">
             <label for="dobQuick">Ngày sinh</label>
             <input type="text" id="dobQuick" inputmode="numeric" autocomplete="bday" placeholder="DD/MM/YYYY" maxlength="10" enterkeyhint="done" aria-describedby="dobHint">
-            <div class="input-hint" id="dobHint">Ví dụ: 05/05/2006</div>
+            <div class="input-hint" id="dobHint">Ví dụ: 01/01/2000</div>
             <input type="hidden" id="dob">
         </div>
         <button id="calculateBtn" type="button" onclick="calculateNumerology()">Xem báo cáo chi tiết</button>
@@ -598,7 +619,8 @@
             "6": ["Suy nghĩ vì sự an toàn của người thân.", "Đừng để tình cảm lấn át lý trí quá đà."],
             "7": ["Phân tích sâu, hoài nghi, tìm bản chất.", "Đừng quá cầu toàn gây chần chừ."],
             "8": ["Hướng đến kết quả, tính toán hiệu quả/tài chính.", "Cân bằng yếu tố con người."],
-            "9": ["Suy nghĩ nhân văn, hướng đến cái chung.", "Chú ý đến tính khả thi thực tế."]
+            "9": ["Suy nghĩ nhân văn, hướng đến cái chung.", "Chú ý đến tính khả thi thực tế."],
+            "33": ["Tư duy tầm vóc, giàu lòng trắc ẩn và luôn hướng đến lợi ích cộng đồng.", "Cân bằng giữa lý tưởng giúp người và tính thực tế; tránh để cảm xúc thương người làm mờ lý trí khi ra quyết định."]
         },
         tiemThuc: {
             title: "Chỉ số Sức mạnh Tiềm thức",
@@ -703,26 +725,75 @@
         return n;
     }
 
+    // Phân tích ngày sinh theo DD/MM/YYYY.
+    // Kiểm tra số ngày thực tế của từng tháng, bao gồm cả năm nhuận.
     function parseQuickDate(value) {
-        const digits = value.replace(/\D/g, '').slice(0, 8);
+        const digits = String(value || '').replace(/\D/g, '').slice(0, 8);
         if (digits.length !== 8) return null;
+
         const dd = digits.slice(0, 2);
         const mm = digits.slice(2, 4);
         const yyyy = digits.slice(4, 8);
-        const day = Number(dd), month = Number(mm), year = Number(yyyy);
-        if (year < 1900 || year > 2100 || month < 1 || month > 12 || day < 1) return null;
+        const day = Number(dd);
+        const month = Number(mm);
+        const year = Number(yyyy);
+
+        if (!Number.isInteger(day) || !Number.isInteger(month) || !Number.isInteger(year)) return null;
+        if (year < 1900 || year > 2100) return null;
+        if (month < 1 || month > 12) return null;
+
         const lastDay = new Date(year, month, 0).getDate();
-        if (day > lastDay) return null;
+        if (day < 1 || day > lastDay) return null;
+
         return { iso: `${yyyy}-${mm}-${dd}`, dd, mm, yyyy };
     }
 
+    // Format DD/MM/YYYY và chặn từng phần vượt giới hạn cơ bản.
     function formatQuickDateInput(value) {
-        const digits = value.replace(/\D/g, '').slice(0, 8);
+        const digits = String(value || '').replace(/\D/g, '').slice(0, 8);
+        if (!digits) return '';
+
+        let day = digits.slice(0, 2);
+        let month = digits.slice(2, 4);
+        const year = digits.slice(4, 8);
+
+        if (month.length === 2) {
+            const m = Number(month);
+            if (m > 12) month = '12';
+            if (m === 0) month = '01';
+        }
+        if (day.length === 2) {
+            const d = Number(day);
+            if (d > 31) day = '31';
+            if (d === 0) day = '01';
+        }
+
         const parts = [];
-        if (digits.length > 0) parts.push(digits.slice(0, 2));
-        if (digits.length > 2) parts.push(digits.slice(2, 4));
-        if (digits.length > 4) parts.push(digits.slice(4, 8));
+        if (day) parts.push(day);
+        if (month) parts.push(month);
+        if (year) parts.push(year);
         return parts.join('/');
+    }
+
+    // Kiểm tra sâu và trả thông báo cụ thể để người dùng sửa ngay.
+    function getDateValidationMessage(value) {
+        const digits = String(value || '').replace(/\D/g, '').slice(0, 8);
+        if (digits.length === 0) return 'Vui lòng nhập ngày sinh.';
+        if (digits.length < 8) return 'Ngày sinh phải đủ dạng DD/MM/YYYY.';
+
+        const day = Number(digits.slice(0, 2));
+        const month = Number(digits.slice(2, 4));
+        const year = Number(digits.slice(4, 8));
+
+        if (month < 1 || month > 12) return 'Tháng phải từ 01 đến 12.';
+        if (day < 1 || day > 31) return 'Ngày phải từ 01 đến 31.';
+        if (year < 1900 || year > 2100) return 'Năm phải từ 1900 đến 2100.';
+
+        const lastDay = new Date(year, month, 0).getDate();
+        if (day > lastDay) {
+            return `Tháng ${String(month).padStart(2, '0')}/${year} chỉ có ${lastDay} ngày.`;
+        }
+        return '';
     }
 
     function calculateNumerology() {
@@ -733,9 +804,14 @@
         document.getElementById('dob').value = dob;
         
         if (!rawName || !dob) {
-            alert(!rawName ? "Vui lòng nhập Họ và tên." : "Ngày sinh chưa đúng. Hãy nhập theo dạng DD/MM/YYYY.");
-            if (!rawName) document.getElementById('fullName').focus();
-            else document.getElementById('dobQuick').focus();
+            const dateMessage = getDateValidationMessage(quickDate);
+            alert(!rawName ? "Vui lòng nhập Họ và tên." : dateMessage);
+            if (!rawName) {
+                document.getElementById('fullName').focus();
+            } else {
+                document.getElementById('dobQuick').focus();
+                document.getElementById('dobQuick').setCustomValidity(dateMessage);
+            }
             return;
         }
 
@@ -958,8 +1034,29 @@
     dobQuickInput.addEventListener('input', () => {
         const formatted = formatQuickDateInput(dobQuickInput.value);
         dobQuickInput.value = formatted;
+
         const parsed = parseQuickDate(formatted);
+        const validationMessage = getDateValidationMessage(formatted);
         document.getElementById('dob').value = parsed ? parsed.iso : '';
+
+        if (formatted.length === 10 && validationMessage) {
+            dobQuickInput.setCustomValidity(validationMessage);
+            dobQuickInput.setAttribute('aria-invalid', 'true');
+            dobQuickInput.style.borderColor = '#d9534f';
+        } else {
+            dobQuickInput.setCustomValidity('');
+            dobQuickInput.removeAttribute('aria-invalid');
+            dobQuickInput.style.borderColor = '';
+        }
+    });
+
+    dobQuickInput.addEventListener('blur', () => {
+        const validationMessage = getDateValidationMessage(dobQuickInput.value);
+        dobQuickInput.setCustomValidity(validationMessage);
+        if (validationMessage && dobQuickInput.value.length === 10) {
+            dobQuickInput.setAttribute('aria-invalid', 'true');
+            dobQuickInput.style.borderColor = '#d9534f';
+        }
     });
 
     nameInput.addEventListener('keydown', (e) => {
