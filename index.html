@@ -2,33 +2,54 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tra Cứu Thần Số Học</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Tra Cứu Thần Số Học </title>
     <style>
-        /* Giao diện tối ưu cho màn hình điện thoại */
+        :root {
+            --primary: #5c257f;
+            --secondary: #873eac;
+            --bg: #f4f6f9;
+            --card-bg: #ffffff;
+            --text-main: #333333;
+            --text-light: #777777;
+        }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: #f0f2f5;
-            display: flex;
-            justify-content: center;
-            padding: 20px;
+            background-color: var(--bg);
             margin: 0;
+            padding: 15px;
+            color: var(--text-main);
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
         }
         .card {
-            background: white;
-            padding: 25px;
-            border-radius: 16px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
         }
-        h2 { color: #4a154b; margin-bottom: 20px; }
+        h2 {
+            color: var(--primary);
+            text-align: center;
+            margin-top: 0;
+            font-size: 22px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
         input {
             width: 100%;
             padding: 12px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
+            border: 1px solid #ddd;
             border-radius: 8px;
             box-sizing: border-box;
             font-size: 16px;
@@ -36,80 +57,356 @@
         button {
             width: 100%;
             padding: 14px;
-            background-color: #611f69;
+            background-color: var(--primary);
             color: white;
             border: none;
             border-radius: 8px;
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
-            margin-top: 10px;
+            transition: 0.3s;
         }
-        button:hover { background-color: #4a154b; }
-        .result {
-            margin-top: 25px;
+        button:hover { background-color: var(--secondary); }
+        
+        /* Giao diện Báo Cáo */
+        #reportSection { display: none; }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .stat-box {
+            background: #fbf5ff;
+            border: 1px solid #eedbf7;
             padding: 15px;
-            background-color: #f8f0fb;
-            border-radius: 8px;
-            display: none;
+            border-radius: 10px;
+            text-align: center;
         }
-        .number {
-            font-size: 48px;
+        .stat-box h4 {
+            margin: 0;
+            font-size: 13px;
+            color: var(--text-light);
+            text-transform: uppercase;
+        }
+        .stat-box .num {
+            font-size: 28px;
             font-weight: bold;
-            color: #611f69;
-            margin: 10px 0;
+            color: var(--primary);
+            margin-top: 5px;
+        }
+        .stat-box-large {
+            grid-column: span 2;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+        .stat-box-large h4 { color: #f0f0f0; }
+        .stat-box-large .num { color: white; font-size: 36px; }
+        
+        /* Bảng 4 Chặng & Thách Thức */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            font-size: 14px;
+            text-align: center;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: var(--primary);
+            color: white;
+        }
+        .text-center { text-align: center; }
+        .section-title {
+            font-size: 16px;
+            color: var(--primary);
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 5px;
+            margin-top: 25px;
+            margin-bottom: 15px;
         }
     </style>
 </head>
 <body>
 
-<div class="card">
-    <h2>Tra Cứu Thần Số Học</h2>
-    
-    <label for="dob">Chọn Ngày Tháng Năm Sinh:</label>
-    <input type="date" id="dob">
-    
-    <button onclick="tinhSoChuDao()">Xem Số Chủ Đạo</button>
+<div class="container">
+    <!-- KHUNG NHẬP LIỆU -->
+    <div class="card" id="inputSection">
+        <h2>Thần Số Học Pythagorean</h2>
+        <div class="form-group">
+            <label>Họ và tên :</label>
+            <input type="text" id="fullName" placeholder="VD: NGUYEN VAN A">
+        </div>
+        <div class="form-group">
+            <label>Ngày tháng năm sinh:</label>
+            <input type="date" id="dob">
+        </div>
+        <button onclick="calculateNumerology()">Xem Báo Cáo Chi Tiết</button>
+    </div>
 
-    <div id="resultBox" class="result">
-        <h3>Số Chủ Đạo Của Bạn:</h3>
-        <div id="resultNumber" class="number">--</div>
-        <p id="resultText"></p>
+    <!-- KHUNG KẾT QUẢ HIỂN THỊ -->
+    <div id="reportSection">
+        <h2 class="text-center" style="margin-bottom: 5px;">BÁO CÁO CỦA BẠN</h2>
+        <p class="text-center" id="displayInfo" style="margin-top:0; font-weight:bold; color:#777;"></p>
+
+        <!-- Nhóm Chỉ Số Cốt Lõi -->
+        <div class="card">
+            <div class="grid-2">
+                <div class="stat-box stat-box-large">
+                    <h4>Đường Đời</h4>
+                    <div class="num" id="r_duongDoi">--</div>
+                </div>
+                <div class="stat-box">
+                    <h4>Sứ Mệnh</h4>
+                    <div class="num" id="r_suMenh">--</div>
+                </div>
+                <div class="stat-box">
+                    <h4>Linh Hồn</h4>
+                    <div class="num" id="r_linhHon">--</div>
+                </div>
+                <div class="stat-box">
+                    <h4>Nhân Cách</h4>
+                    <div class="num" id="r_nhanCach">--</div>
+                </div>
+                <div class="stat-box">
+                    <h4>Ngày Sinh</h4>
+                    <div class="num" id="r_ngaySinh">--</div>
+                </div>
+                <div class="stat-box">
+                    <h4>Trưởng Thành</h4>
+                    <div class="num" id="r_truongThanh">--</div>
+                </div>
+                <div class="stat-box">
+                    <h4>Cân Bằng</h4>
+                    <div class="num" id="r_canBang">--</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Nhóm Chỉ Số Kết Nối & Đặc Biệt -->
+        <div class="card">
+            <div class="section-title">Chỉ Số Kết Nối & Tiềm Thức</div>
+            <div class="grid-2">
+                <div class="stat-box">
+                    <h4>KN Đường Đời - Sứ Mệnh</h4>
+                    <div class="num" id="r_knDdSm">--</div>
+                </div>
+                <div class="stat-box">
+                    <h4>KN Linh Hồn - Nhân Cách</h4>
+                    <div class="num" id="r_knLhNc">--</div>
+                </div>
+                <div class="stat-box">
+                    <h4>Tư Duy Lý Trí</h4>
+                    <div class="num" id="r_tuDuy">--</div>
+                </div>
+                <div class="stat-box">
+                    <h4>Sức Mạnh Tiềm Thức</h4>
+                    <div class="num" id="r_tiemThuc">--</div>
+                </div>
+                <div class="stat-box stat-box-large">
+                    <h4>Chỉ Số Đam Mê</h4>
+                    <div class="num" id="r_damMe" style="font-size: 24px;">--</div>
+                </div>
+                <div class="stat-box stat-box-large" style="background: #fff0f0; border-color: #ffd6d6;">
+                    <h4 style="color:#d9534f;">Chỉ Số Thiếu</h4>
+                    <div class="num" id="r_thieu" style="color:#d9534f; font-size: 24px;">--</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Nhóm Dự Báo (Chặng, Thách Thức, Năm) -->
+        <div class="card">
+            <div class="section-title">Dự Báo & Chặng Đường</div>
+            <div class="grid-2">
+                <div class="stat-box">
+                    <h4>Năm Cá Nhân</h4>
+                    <div class="num" id="r_namCaNhan">--</div>
+                </div>
+                <div class="stat-box">
+                    <h4>Tháng Cá Nhân</h4>
+                    <div class="num" id="r_thangCaNhan">--</div>
+                </div>
+            </div>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Giai Đoạn</th>
+                        <th>Đỉnh Cao (Chặng)</th>
+                        <th>Thách Thức</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Chặng 1</td><td id="c1"></td><td id="t1"></td></tr>
+                    <tr><td>Chặng 2</td><td id="c2"></td><td id="t2"></td></tr>
+                    <tr><td>Chặng 3</td><td id="c3"></td><td id="t3"></td></tr>
+                    <tr><td>Chặng 4</td><td id="c4"></td><td id="t4"></td></tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <button onclick="location.reload()" style="background-color: #666;">Tra cứu người khác</button>
     </div>
 </div>
 
 <script>
-    function tinhSoChuDao() {
-        const dobInput = document.getElementById('dob').value;
-        if (!dobInput) {
-            alert('Vui lòng chọn ngày tháng năm sinh!');
+    // Bảng chữ cái Pythagorean
+    const pythagoreanMap = {
+        'A':1, 'B':2, 'C':3, 'D':4, 'E':5, 'F':6, 'G':7, 'H':8, 'I':9,
+        'J':1, 'K':2, 'L':3, 'M':4, 'N':5, 'O':6, 'P':7, 'Q':8, 'R':9,
+        'S':1, 'T':2, 'U':3, 'V':4, 'W':5, 'X':6, 'Y':7, 'Z':8
+    };
+    const vowels = ['A', 'E', 'I', 'O', 'U', 'Y'];
+
+    // Chuyển Tiếng Việt có dấu thành không dấu, viết hoa
+    function removeAccents(str) {
+        return str.normalize('NFD')
+                  .replace(/[\u0300-\u036f]/g, '')
+                  .replace(/đ/g, 'd').replace(/Đ/g, 'D')
+                  .toUpperCase()
+                  .replace(/[^A-Z ]/g, '')
+                  .trim();
+    }
+
+    // Rút gọn số (Mặc định giữ lại 11, 22, 33)
+    function reduceNum(num, keepMaster = true) {
+        if (!num) return 0;
+        let n = parseInt(num);
+        while (n > 9) {
+            if (keepMaster && (n === 11 || n === 22 || n === 33)) break;
+            n = n.toString().split('').reduce((sum, digit) => sum + parseInt(digit), 0);
+        }
+        return n;
+    }
+
+    function calculateNumerology() {
+        const rawName = document.getElementById('fullName').value;
+        const dob = document.getElementById('dob').value;
+        
+        if (!rawName || !dob) {
+            alert("Vui lòng nhập đầy đủ Họ Tên và Ngày Sinh!");
             return;
         }
 
-        // Lấy chuỗi số ngày sinh (VD: 1995-12-25 -> "19951225")
-        let cleanNumbers = dobInput.replace(/-/g, '');
+        const name = removeAccents(rawName);
+        const nameParts = name.split(/\s+/);
+        const firstName = nameParts[nameParts.length - 1]; // Tên chính (tên gọi)
         
-        // Tính tổng các chữ số
-        let sum = 0;
-        for (let char of cleanNumbers) {
-            sum += parseInt(char);
-        }
+        // Tách ngày tháng năm sinh
+        const [yyyy, mm, dd] = dob.split('-');
+        
+        // 1. Chỉ số Đường Đời: Cộng tổng tất cả các chữ số trong ngày tháng năm
+        const dobString = dob.replace(/-/g, '');
+        let sumDuongDoi = dobString.split('').reduce((sum, d) => sum + parseInt(d), 0);
+        const duongDoi = reduceNum(sumDuongDoi);
 
-        // Rút gọn tổng về 1 chữ số (hoặc giữ lại số đặc biệt 11, 22 nếu cần)
-        while (sum > 11 && sum !== 22) {
-            let tempSum = 0;
-            let sumStr = sum.toString();
-            for (let char of sumStr) {
-                tempSum += parseInt(char);
+        // 2. Tách Nguyên âm (Linh hồn) & Phụ âm (Nhân cách), và tổng toàn bộ (Sứ mệnh)
+        let sumLinhHon = 0, sumNhanCach = 0, sumSuMenh = 0;
+        let numFrequencies = {1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0};
+        let presentNumbers = new Set();
+        
+        const nameNoSpace = name.replace(/\s+/g, '');
+        for (let char of nameNoSpace) {
+            let val = pythagoreanMap[char];
+            if (val) {
+                sumSuMenh += val;
+                numFrequencies[val]++;
+                presentNumbers.add(val);
+                if (vowels.includes(char)) { sumLinhHon += val; } 
+                else { sumNhanCach += val; }
             }
-            sum = tempSum;
         }
+        const suMenh = reduceNum(sumSuMenh);
+        const linhHon = reduceNum(sumLinhHon);
+        const nhanCach = reduceNum(sumNhanCach);
 
-        // Hiển thị kết quả
-        document.getElementById('resultNumber').innerText = sum;
-        document.getElementById('resultBox').style.display = 'block';
+        // 3. Chỉ số Cân Bằng: Cộng chữ cái đầu tiên của mỗi từ
+        let sumCanBang = 0;
+        nameParts.forEach(word => {
+            if(word[0] && pythagoreanMap[word[0]]) sumCanBang += pythagoreanMap[word[0]];
+        });
+        const canBang = reduceNum(sumCanBang, false);
+
+        // 4. Các chỉ số Kết Nối & Trưởng Thành
+        const knDdSm = Math.abs(reduceNum(duongDoi, false) - reduceNum(suMenh, false));
+        const knLhNc = Math.abs(reduceNum(linhHon, false) - reduceNum(nhanCach, false));
+        const truongThanh = reduceNum(duongDoi + suMenh);
+        const ngaySinh = reduceNum(parseInt(dd));
+        
+        // 5. Tư duy lý trí: Tên chính + Ngày sinh
+        let sumTenChinh = firstName.split('').reduce((sum, char) => sum + (pythagoreanMap[char] || 0), 0);
+        const tuDuyLyTri = reduceNum(sumTenChinh + parseInt(dd));
+
+        // 6. Chỉ số Thiếu & Đam Mê & Sức Mạnh Tiềm Thức
+        let missingNums = [];
+        let maxFreq = 0;
+        for (let i = 1; i <= 9; i++) {
+            if (!presentNumbers.has(i)) missingNums.push(i);
+            if (numFrequencies[i] > maxFreq) maxFreq = numFrequencies[i];
+        }
+        const chiSoThieu = missingNums.length > 0 ? missingNums.join(', ') : "Không thiếu";
+        const tiemThuc = 9 - missingNums.length;
+        
+        let damMeArr = [];
+        for (let i = 1; i <= 9; i++) {
+            if (numFrequencies[i] === maxFreq && maxFreq > 0) damMeArr.push(i);
+        }
+        const damMe = damMeArr.join(', ');
+
+        // 7. Năm cá nhân & Tháng cá nhân (Lấy năm, tháng hiện tại của hệ thống)
+        const currentYear = new Date().getFullYear();
+        const currentMonth = new Date().getMonth() + 1;
+        const namCaNhan = reduceNum(parseInt(dd) + parseInt(mm) + currentYear, false);
+        const thangCaNhan = reduceNum(namCaNhan + currentMonth, false);
+
+        // 8. 4 Chặng (Pinnacles) & 4 Thách Thức (Challenges)
+        const rD = reduceNum(parseInt(dd), false);
+        const rM = reduceNum(parseInt(mm), false);
+        const rY = reduceNum(parseInt(yyyy), false);
+
+        const c1 = reduceNum(rM + rD);
+        const c2 = reduceNum(rD + rY);
+        const c3 = reduceNum(c1 + c2);
+        const c4 = reduceNum(rM + rY);
+
+        const t1 = Math.abs(rM - rD);
+        const t2 = Math.abs(rD - rY);
+        const t3 = Math.abs(t1 - t2);
+        const t4 = Math.abs(rM - rY);
+
+        // === ĐỔ DỮ LIỆU LÊN GIAO DIỆN ===
+        document.getElementById('displayInfo').innerText = `${name} • ${dd}/${mm}/${yyyy}`;
+        document.getElementById('r_duongDoi').innerText = duongDoi;
+        document.getElementById('r_suMenh').innerText = suMenh;
+        document.getElementById('r_linhHon').innerText = linhHon;
+        document.getElementById('r_nhanCach').innerText = nhanCach;
+        document.getElementById('r_ngaySinh').innerText = ngaySinh;
+        document.getElementById('r_truongThanh').innerText = truongThanh;
+        document.getElementById('r_canBang').innerText = canBang;
+        
+        document.getElementById('r_knDdSm').innerText = knDdSm;
+        document.getElementById('r_knLhNc').innerText = knLhNc;
+        document.getElementById('r_tuDuy').innerText = tuDuyLyTri;
+        document.getElementById('r_tiemThuc').innerText = tiemThuc;
+        document.getElementById('r_damMe').innerText = damMe;
+        document.getElementById('r_thieu').innerText = chiSoThieu;
+        
+        document.getElementById('r_namCaNhan').innerText = namCaNhan;
+        document.getElementById('r_thangCaNhan').innerText = thangCaNhan;
+
+        document.getElementById('c1').innerText = c1; document.getElementById('t1').innerText = t1;
+        document.getElementById('c2').innerText = c2; document.getElementById('t2').innerText = t2;
+        document.getElementById('c3').innerText = c3; document.getElementById('t3').innerText = t3;
+        document.getElementById('c4').innerText = c4; document.getElementById('t4').innerText = t4;
+
+        // Ẩn form, hiện kết quả
+        document.getElementById('inputSection').style.display = 'none';
+        document.getElementById('reportSection').style.display = 'block';
+        window.scrollTo(0, 0);
     }
 </script>
-
 </body>
 </html>
