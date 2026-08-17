@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Tra Cứu Thần Số Học </title>
+    <title>Tra Cứu Thần Số Học Pro</title>
     <style>
         :root {
             --primary: #5c257f;
@@ -14,7 +14,7 @@
             --text-light: #777777;
         }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-family: Arial, "Segoe UI", Roboto, Helvetica, sans-serif;
             background-color: var(--bg);
             margin: 0;
             padding: 15px;
@@ -48,6 +48,7 @@
         }
         input {
             width: 100%;
+            font-family: inherit;
             padding: 12px;
             border: 1px solid #ddd;
             border-radius: 8px;
@@ -56,6 +57,7 @@
         }
         button {
             width: 100%;
+            font-family: inherit;
             padding: 14px;
             background-color: var(--primary);
             color: white;
@@ -82,6 +84,12 @@
             padding: 15px;
             border-radius: 10px;
             text-align: center;
+            cursor: pointer; /* Thêm con trỏ click */
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .stat-box:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(92, 37, 127, 0.15);
         }
         .stat-box h4 {
             margin: 0;
@@ -115,6 +123,15 @@
             padding: 10px;
             border: 1px solid #ddd;
         }
+        td { cursor: pointer; transition: background 0.2s; }
+        td:hover { background: #fbf5ff; }
+        .stage-label {
+            font-weight: 700;
+            color: var(--primary);
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .stage-label:hover { background: #fbf5ff; }
         th {
             background-color: var(--primary);
             color: white;
@@ -128,6 +145,63 @@
             margin-top: 25px;
             margin-bottom: 15px;
         }
+
+        /* Modal / Popup Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            align-items: center; justify-content: center;
+            z-index: 9999;
+            padding: 15px;
+            box-sizing: border-box;
+            backdrop-filter: blur(3px);
+        }
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            max-width: 500px;
+            width: 100%;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            max-height: 85vh;
+            overflow-y: auto;
+            animation: popIn 0.3s ease-out;
+            line-height: 1.6;
+        }
+        @keyframes popIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .modal-close {
+            position: absolute;
+            top: 15px; right: 15px;
+            background: #f1f1f1;
+            border: none;
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            color: #555;
+        }
+        .modal-close:hover { background: #ddd; }
+        .modal-title {
+            color: var(--primary);
+            margin-top: 0;
+            border-bottom: 2px solid #eedbf7;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+        .modal-body strong { color: var(--secondary); }
+        .modal-body .meaning-box {
+            background: #fbf5ff; padding: 10px 15px;
+            border-radius: 8px; margin-bottom: 15px;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
@@ -137,7 +211,7 @@
     <div class="card" id="inputSection">
         <h2>Tra cứu thần số học</h2>
         <div class="form-group">
-            <label>Họ và tên :</label>
+            <label>Họ và tên:</label>
             <input type="text" id="fullName" placeholder="VD: NGUYEN VAN A">
         </div>
         <div class="form-group">
@@ -151,35 +225,36 @@
     <div id="reportSection">
         <h2 class="text-center" style="margin-bottom: 5px;">BÁO CÁO CỦA BẠN</h2>
         <p class="text-center" id="displayInfo" style="margin-top:0; font-weight:bold; color:#777;"></p>
+        <p class="text-center" style="font-size: 13px; color: #888; font-style: italic;">* Nhấp vào từng ô để xem luận giải chi tiết</p>
 
         <!-- Nhóm Chỉ Số Cốt Lõi -->
         <div class="card">
             <div class="grid-2">
-                <div class="stat-box stat-box-large">
+                <div class="stat-box stat-box-large" onclick="showDetail('duongDoi', 'r_duongDoi')">
                     <h4>Đường Đời</h4>
                     <div class="num" id="r_duongDoi">--</div>
                 </div>
-                <div class="stat-box">
+                <div class="stat-box" onclick="showDetail('suMenh', 'r_suMenh')">
                     <h4>Sứ Mệnh</h4>
                     <div class="num" id="r_suMenh">--</div>
                 </div>
-                <div class="stat-box">
+                <div class="stat-box" onclick="showDetail('linhHon', 'r_linhHon')">
                     <h4>Linh Hồn</h4>
                     <div class="num" id="r_linhHon">--</div>
                 </div>
-                <div class="stat-box">
+                <div class="stat-box" onclick="showDetail('nhanCach', 'r_nhanCach')">
                     <h4>Nhân Cách</h4>
                     <div class="num" id="r_nhanCach">--</div>
                 </div>
-                <div class="stat-box">
+                <div class="stat-box" onclick="showDetail('ngaySinh', 'r_ngaySinh')">
                     <h4>Ngày Sinh</h4>
                     <div class="num" id="r_ngaySinh">--</div>
                 </div>
-                <div class="stat-box">
+                <div class="stat-box" onclick="showDetail('truongThanh', 'r_truongThanh')">
                     <h4>Trưởng Thành</h4>
                     <div class="num" id="r_truongThanh">--</div>
                 </div>
-                <div class="stat-box">
+                <div class="stat-box" onclick="showDetail('canBang', 'r_canBang')">
                     <h4>Cân Bằng</h4>
                     <div class="num" id="r_canBang">--</div>
                 </div>
@@ -190,27 +265,27 @@
         <div class="card">
             <div class="section-title">Chỉ Số Kết Nối & Tiềm Thức</div>
             <div class="grid-2">
-                <div class="stat-box">
+                <div class="stat-box" onclick="showDetail('knDdSm', 'r_knDdSm')">
                     <h4>KN Đường Đời - Sứ Mệnh</h4>
                     <div class="num" id="r_knDdSm">--</div>
                 </div>
-                <div class="stat-box">
+                <div class="stat-box" onclick="showDetail('knLhNc', 'r_knLhNc')">
                     <h4>KN Linh Hồn - Nhân Cách</h4>
                     <div class="num" id="r_knLhNc">--</div>
                 </div>
-                <div class="stat-box">
+                <div class="stat-box" onclick="showDetail('tuDuy', 'r_tuDuy')">
                     <h4>Tư Duy Lý Trí</h4>
                     <div class="num" id="r_tuDuy">--</div>
                 </div>
-                <div class="stat-box">
+                <div class="stat-box" onclick="showDetail('tiemThuc', 'r_tiemThuc')">
                     <h4>Sức Mạnh Tiềm Thức</h4>
                     <div class="num" id="r_tiemThuc">--</div>
                 </div>
-                <div class="stat-box stat-box-large">
+                <div class="stat-box stat-box-large" onclick="showDetail('damMe', 'r_damMe')">
                     <h4>Chỉ Số Đam Mê</h4>
                     <div class="num" id="r_damMe" style="font-size: 24px;">--</div>
                 </div>
-                <div class="stat-box stat-box-large" style="background: #fff0f0; border-color: #ffd6d6;">
+                <div class="stat-box stat-box-large" style="background: #fff0f0; border-color: #ffd6d6;" onclick="showDetail('thieu', 'r_thieu')">
                     <h4 style="color:#d9534f;">Chỉ Số Thiếu</h4>
                     <div class="num" id="r_thieu" style="color:#d9534f; font-size: 24px;">--</div>
                 </div>
@@ -221,11 +296,11 @@
         <div class="card">
             <div class="section-title">Dự Báo & Chặng Đường</div>
             <div class="grid-2">
-                <div class="stat-box">
+                <div class="stat-box" onclick="showDetail('namCaNhan', 'r_namCaNhan')">
                     <h4>Năm Cá Nhân</h4>
                     <div class="num" id="r_namCaNhan">--</div>
                 </div>
-                <div class="stat-box">
+                <div class="stat-box" onclick="showDetail('thangCaNhan', 'r_thangCaNhan')">
                     <h4>Tháng Cá Nhân</h4>
                     <div class="num" id="r_thangCaNhan">--</div>
                 </div>
@@ -240,15 +315,42 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr><td>Chặng 1</td><td id="c1"></td><td id="t1"></td></tr>
-                    <tr><td>Chặng 2</td><td id="c2"></td><td id="t2"></td></tr>
-                    <tr><td>Chặng 3</td><td id="c3"></td><td id="t3"></td></tr>
-                    <tr><td>Chặng 4</td><td id="c4"></td><td id="t4"></td></tr>
+                    <tr>
+                        <td class="stage-label" onclick="showStageAgeRange(1)">Chặng 1</td>
+                        <td id="c1" onclick="showDetail('chang', 'c1')"></td>
+                        <td id="t1" onclick="showDetail('thachThuc', 't1')"></td>
+                    </tr>
+                    <tr>
+                        <td class="stage-label" onclick="showStageAgeRange(2)">Chặng 2</td>
+                        <td id="c2" onclick="showDetail('chang', 'c2')"></td>
+                        <td id="t2" onclick="showDetail('thachThuc', 't2')"></td>
+                    </tr>
+                    <tr>
+                        <td class="stage-label" onclick="showStageAgeRange(3)">Chặng 3</td>
+                        <td id="c3" onclick="showDetail('chang', 'c3')"></td>
+                        <td id="t3" onclick="showDetail('thachThuc', 't3')"></td>
+                    </tr>
+                    <tr>
+                        <td class="stage-label" onclick="showStageAgeRange(4)">Chặng 4</td>
+                        <td id="c4" onclick="showDetail('chang', 'c4')"></td>
+                        <td id="t4" onclick="showDetail('thachThuc', 't4')"></td>
+                    </tr>
                 </tbody>
             </table>
         </div>
         
         <button onclick="location.reload()" style="background-color: #666;">Tra cứu người khác</button>
+    </div>
+</div>
+
+<!-- Modal Hiển Thị Luận Giải -->
+<div class="modal-overlay" id="detailModal" onclick="closeModal(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <button class="modal-close" onclick="closeModal(true)">&times;</button>
+        <h3 class="modal-title" id="modalTitle">Tiêu đề</h3>
+        <div class="modal-body" id="modalContent">
+            Nội dung luận giải...
+        </div>
     </div>
 </div>
 
@@ -260,6 +362,251 @@
         'S':1, 'T':2, 'U':3, 'V':4, 'W':5, 'X':6, 'Y':7, 'Z':8
     };
     const vowels = ['A', 'E', 'I', 'O', 'U', 'Y'];
+
+    // Dữ liệu luận giải chi tiết theo yêu cầu
+    const dictData = {
+        duongDoi: {
+            title: "Chỉ số Đường đời (Life Path Number)",
+            meaning: "Con đường phát triển chính, bài học lớn nhất và môi trường cốt lõi giúp bạn trưởng thành.",
+            "1": "Học cách đứng trên đôi chân mình, tự chủ, tiên phong và dẫn dắt.",
+            "2": "Học cách lắng nghe, thấu hiểu, hợp tác và làm nhà ngoại giao hòa giải.",
+            "3": "Học cách biểu đạt bản thân, sáng tạo nghệ thuật và truyền cảm hứng.",
+            "4": "Học cách xây dựng hệ thống, làm việc kỷ luật, thực tế và bền vững.",
+            "5": "Học cách bứt phá giới hạn, thích nghi linh hoạt và khám phá tự do.",
+            "6": "Học cách gánh vác trách nhiệm, chăm sóc gia đình và phụng sự tình yêu thương.",
+            "7": "Học cách đào sâu trí tuệ, chiêm nghiệm bản chất và phát triển đời sống tinh thần.",
+            "8": "Học cách quản lý tài chính, vận hành nguồn lực và làm chủ sự thịnh vượng.",
+            "9": "Học cách bao dung, cống hiến vì cộng đồng và hoàn thành sứ mệnh nhân đạo.",
+            "11": "Trở thành bậc thầy trực giác, kết nối tâm linh và khai sáng nhận thức.",
+            "22": "Trở thành bậc thầy kiến tạo, thực thi các dự án vĩ đại có giá trị trường tồn.",
+            "33": "Trở thành bậc thầy chữa lành, lan tỏa tình yêu thương vô điều kiện."
+        },
+        canBang: {
+            title: "Chỉ số Cân bằng (Balance Number)",
+            meaning: "Cách bạn phản ứng, giữ bình tĩnh và lấy lại sự cân bằng khi gặp áp lực hay biến cố.",
+            "1": "Cần độc lập giải quyết vấn đề, tin vào bản thân thay vì phụ thuộc.",
+            "2": "Cần giữ thái độ nhẹ nhàng, lắng nghe và tìm kiếm giải pháp hòa giải.",
+            "3": "Cần bộc lộ cảm xúc, chia sẻ và dùng góc nhìn lạc quan để giải tỏa.",
+            "4": "Cần bình tĩnh quay về thực tế, lập kế hoạch và xử lý theo quy trình.",
+            "5": "Cần thả lỏng tâm trí, nhìn nhận đa chiều và thay đổi không gian sống/làm việc.",
+            "6": "Cần cân bằng giữa việc chăm sóc người khác và bảo vệ năng lượng bản thân.",
+            "7": "Cần rút lui tĩnh lặng, phân tích nguyên nhân tận gốc một cách độc lập.",
+            "8": "Cần kiểm soát cảm xúc, tập trung vào giải pháp thực tế và làm chủ tình thế.",
+            "9": "Cần nhìn bức tranh toàn cảnh, buông bỏ cái tôi và hướng tới lợi ích chung.",
+            "11": "Lắng nghe trực giác, thiền định để khôi phục sự tĩnh lặng nội tâm.",
+            "22": "Giữ cái đầu lạnh, tái cấu trúc lại kế hoạch và kiên trì với tầm nhìn lớn.",
+            "33": "Dùng lòng vị tha và tình yêu thương để xoa dịu những tổn thương."
+        },
+        suMenh: {
+            title: "Chỉ số Sứ mệnh (Destiny / Expression Number)",
+            meaning: "Năng lực tiềm ẩn, sức mạnh bẩm sinh và công việc/vai trò bạn đến để hoàn thành.",
+            "1": "Trở thành người đi đầu, người lãnh đạo bứt phá và mở đường.",
+            "2": "Trở thành cầu nối hòa bình, nhà ngoại giao và người đồng hành tin cậy.",
+            "3": "Trở thành người diễn thuyết, người sáng tạo nội dung và truyền cảm hứng tích cực.",
+            "4": "Trở thành chuyên gia, người xây dựng nền móng vững chắc và chuẩn mực.",
+            "5": "Trở thành người khai phóng, truyền bá sự đổi mới và tự do sáng tạo.",
+            "6": "Trở thành người chữa lành, bảo vệ gia đình và kiến tạo môi trường sống yêu thương.",
+            "7": "Trở thành nhà nghiên cứu, nhà triết học, người đi tìm và chia sẻ chân lý.",
+            "8": "Trở thành nhà điều hành tài chính, quản lý dự án lớn và tạo ra giá trị kinh tế.",
+            "9": "Trở thành nhà nhân đạo, cống hiến cho sự phát triển của cộng đồng.",
+            "11": "Nâng cao nhận thức cộng đồng, dẫn dắt tinh thần và truyền cảm hứng lớn.",
+            "22": "Xây dựng những công trình, tổ chức tầm cỡ để lại di sản cho đời.",
+            "33": "Phục vụ xã hội bằng tình yêu thương và sự nâng tầm đời sống tinh thần."
+        },
+        knDdSm: {
+            title: "Chỉ số Kết nối Đường đời - Sứ mệnh (Bridge Number)",
+            meaning: "Cầu nối giúp dung hòa con người hiện tại (Đường đời) và mục tiêu lý tưởng (Sứ mệnh).",
+            "0": "Đường đời và Sứ mệnh đã có sự đồng điệu tự nhiên; hãy sống đúng với chính mình.",
+            "1": "Cần quyết đoán hơn, tự tin đứng ra làm chủ và tin vào định hướng cá nhân.",
+            "2": "Cần hạ cái tôi, lắng nghe nhiều hơn và gia tăng sự tinh tế trong giao tiếp.",
+            "3": "Cần học cách tự do bộc lộ suy nghĩ, giao tiếp cởi mở và lạc quan hơn.",
+            "4": "Cần rèn luyện tính kỷ luật, sự kiên trì và làm việc có hệ thống rõ ràng.",
+            "5": "Cần linh hoạt, dám bước ra khỏi vùng an toàn và mở lòng đón nhận cái mới.",
+            "6": "Cần gia tăng trách nhiệm, biết yêu thương và chăm sóc bản thân lẫn người quanh mình.",
+            "7": "Cần dành thời gian học hỏi, phân tích chiều sâu và tin tưởng vào trí tuệ nội tâm.",
+            "8": "Cần tập trung vào thực tế, học cách quản lý nguồn lực và hành động vì mục tiêu.",
+            "9": "Cần mở rộng lòng bao dung, sống hướng thiện và biết hy sinh vì mục tiêu lớn hơn."
+        },
+        linhHon: {
+            title: "Chỉ số Linh hồn (Soul Urge Number)",
+            meaning: "Khát khao sâu thẳm trong tâm hồn, động lực ẩn sau mọi quyết định và điều làm bạn thực sự hạnh phúc.",
+            "1": "Khao khát sự độc lập, tự chủ khẳng định bản thân và chinh phục đỉnh cao.",
+            "2": "Khao khát yêu và được yêu, sự hòa hợp, bình yên và mối quan hệ gắn kết.",
+            "3": "Khao khát được thể hiện cảm xúc, sáng tạo và nhận được sự công nhận.",
+            "4": "Khao khát sự an toàn, ổn định, ngăn nắp và rõ ràng trong cuộc sống.",
+            "5": "Khao khát sự tự do, trải nghiệm mới lạ, khám phá và không bị gò bó.",
+            "6": "Khao khát mái ấm gia đình, sự chăm sóc và chở che người thân yêu.",
+            "7": "Khao khát tri thức sâu sắc, sự thật và không gian riêng tư tĩnh lặng.",
+            "8": "Khao khát thành công vật chất, quyền lực, vị thế và tự chủ tài chính.",
+            "9": "Khao khát cống hiến, giúp đỡ cộng đồng và hướng tới thế giới tốt đẹp.",
+            "11": "Khao khát sự thức tỉnh tâm linh, kết nối sâu sắc và giác ngộ lý tưởng.",
+            "22": "Khao khát tạo ra ảnh hưởng tầm cỡ, xây dựng các giá trị trường tồn.",
+            "33": "Khao khát yêu thương vô điều kiện, xoa dịu nỗi đau và phụng sự xã hội."
+        },
+        ngaySinh: {
+            title: "Chỉ số Ngày sinh (Birthday Number)",
+            meaning: "Tài năng thiên bẩm, công cụ tự nhiên hỗ trợ bạn trên hành trình cuộc sống.",
+            "1": "Tính tự lập cao, cá tính mạnh mẽ, ra quyết định nhanh chóng.",
+            "2": "Trực giác nhạy bén, khả năng đồng cảm và xoa dịu người khác.",
+            "3": "Khả năng ngôn ngữ, tính hài hước và sự sáng tạo phong phú.",
+            "4": "Tư duy ngăn nắp, cẩn thận, óc thực tế và sự đáng tin cậy.",
+            "5": "Sự linh hoạt, khả năng thích nghi nhanh và sức hút tự nhiên.",
+            "6": "Khiếu thẩm mỹ, sự chu đáo và năng lực chăm sóc chu toàn.",
+            "7": "Óc quan sát sắc bén, tư duy logic, khả năng nghiên cứu độc lập.",
+            "8": "Nhạy bén với cơ hội kinh doanh, tài chính và năng lực tổ chức.",
+            "9": "Tầm nhìn rộng, lòng trắc ẩn và sức hút nhân văn tự nhiên.",
+            "11": "Trực giác đặc biệt nhạy bén và chiều sâu cảm nhận tâm linh.",
+            "22": "Tầm nhìn vĩ mô kết hợp năng lực thực thi công việc quy mô lớn."
+        },
+        nhanCach: {
+            title: "Chỉ số Nhân cách (Personality Number)",
+            meaning: "Diện mạo bên ngoài, vỏ bọc xã hội và ấn tượng đầu tiên người khác cảm nhận về bạn.",
+            "1": "Hiện lên là người mạnh mẽ, tự tin, quyết đoán và có khí chất.",
+            "2": "Hiện lên là người nhẹ nhàng, lịch thiệp, dễ gần và biết lắng nghe.",
+            "3": "Hiện lên là người vui vẻ, năng động, cuốn hút và giao tiếp duyên dáng.",
+            "4": "Hiện lên là người chỉn chu, nghiêm túc, đáng tin cậy và thực tế.",
+            "5": "Hiện lên là người hiện đại, cá tính, phóng khoáng và tràn đầy năng lượng.",
+            "6": "Hiện lên là người ấm áp, chu đáo, có trách nhiệm và hay giúp đỡ.",
+            "7": "Hiện lên là người kín đáo, trầm tính, có chiều sâu và bí ẩn.",
+            "8": "Hiện lên là người chuyên nghiệp, có tác phong sang trọng và uy quyền.",
+            "9": "Hiện lên là người rộng lượng, thân thiện, tử tế và dễ mến.",
+            "11": "Hiện lên là người tinh tế, có sức hút tâm linh và thần thái đặc biệt.",
+            "22": "Hiện lên là người bản lĩnh, tầm vóc và vững chắc như núi đá."
+        },
+        knLhNc: {
+            title: "Chỉ số Kết nối Linh hồn - Nhân cách",
+            meaning: "Phương pháp để đồng bộ giữa mong muốn bên trong (Linh hồn) và biểu hiện bên ngoài (Nhân cách).",
+            "0": "Sống đúng với bản chất; suy nghĩ bên trong và thể hiện bên ngoài hoàn toàn thống nhất.",
+            "1": "Cần dũng cảm sống thật với mong muốn cá nhân, không cần mang vỏ bọc gượng ép.",
+            "2": "Cần bộc lộ sự mềm mỏng, nhạy cảm bên trong thay vì cố gồng mình mạnh mẽ.",
+            "3": "Cần thể hiện cảm xúc chân thật thông qua lời nói và hành động cởi mở.",
+            "4": "Cần nhất quán giữa lời nói và việc làm bằng sự chân thành, thực tế.",
+            "5": "Cần giải phóng bản thân khỏi các quy chuẩn gò bó để sống tự do hơn.",
+            "6": "Cần thể hiện sự quan tâm một cách tự nhiên mà không sợ bị đánh giá.",
+            "7": "Cần mở lòng chia sẻ thế giới nội tâm thay vì khép kín quá mức.",
+            "8": "Cần thể hiện năng lực thực tế và sự chuyên nghiệp ra bên ngoài.",
+            "9": "Cần đem lòng tốt và lý tưởng nội tâm thể hiện bằng những hành động thiết thực."
+        },
+        truongThanh: {
+            title: "Chỉ số Trưởng thành (Maturity Number)",
+            meaning: "Năng lượng định hướng phát triển mạnh nhất từ giai đoạn trung niên (từ 35–40 tuổi trở đi).",
+            "1": "Đạt đến sự tự chủ hoàn toàn, trở thành người dẫn dắt độc lập.",
+            "2": "Đạt được sự bình an trong tâm hồn, giỏi xây dựng mối quan hệ bền chặt.",
+            "3": "Đạt đỉnh cao về sáng tạo, truyền thông điệp và cống hiến niềm vui.",
+            "4": "Xây dựng nền móng sự nghiệp và tài sản vững chắc, trường tồn.",
+            "5": "Tận hưởng đời sống phong phú, tự do, trải nghiệm và đổi mới không ngừng.",
+            "6": "Đạt được sự viên mãn gia đình, cống hiến tình yêu thương cho cộng đồng.",
+            "7": "Đạt đến chiều sâu trí tuệ, sự giác ngộ và thấu hiểu chân lý.",
+            "8": "Đạt thành tựu lớn về tài chính, quyền lực và vị thế xã hội.",
+            "9": "Sống vì lý tưởng cao đẹp, để lại di sản nhân văn cho đời.",
+            "11": "Trở thành ngọn hải đăng tâm linh, người truyền cảm hứng mạnh mẽ.",
+            "22": "Hiện thực hóa các công trình, tổ chức tầm cỡ vĩ mô.",
+            "33": "Trở thành biểu tượng của tình yêu thương và sự chữa lành cộng đồng."
+        },
+        thieu: {
+            title: "Chỉ số Thiếu (Karmic Lesson Number)",
+            meaning: "Những năng lượng, kỹ năng còn thiếu sót mà bạn cần chủ động rèn luyện trong cuộc sống.",
+            "1": "Rèn luyện tính tự lập, quyết đoán, vượt qua sự phụ thuộc và sợ hãi.",
+            "2": "Rèn luyện sự kiên nhẫn, tinh tế, biết lắng nghe và kiềm chế cái tôi.",
+            "3": "Rèn luyện khả năng giao tiếp, cởi mở cảm xúc và sự tự tin phát ngôn.",
+            "4": "Rèn luyện sự kỷ luật, tính ngăn nắp, kiên trì và thực tế.",
+            "5": "Rèn luyện sự linh hoạt, dám bước ra khỏi vùng an toàn và chấp nhận thay đổi.",
+            "6": "Rèn luyện trách nhiệm gia đình, biết yêu thương và chăm sóc người khác.",
+            "7": "Rèn luyện sự tập trung học hỏi, đào sâu nghiên cứu và phát triển đời sống nội tâm.",
+            "8": "Rèn luyện tư duy tài chính, quản lý tiền bạc và chủ động hành động.",
+            "9": "Rèn luyện lòng bao dung, vị tha và sự quan tâm đến cộng đồng."
+        },
+        tuDuy: {
+            title: "Chỉ số Tư duy Lý trí (Rational Thought)",
+            meaning: "Phong cách suy nghĩ, phân tích thông tin và thói quen ra quyết định hàng ngày.",
+            "1": "Suy nghĩ nhanh, độc lập, tập trung vào mục tiêu và đi thẳng vào vấn đề.",
+            "2": "Suy nghĩ đắn đo, cân nhắc nhiều chiều, chú trọng cảm xúc của người khác.",
+            "3": "Suy nghĩ sáng tạo, linh hoạt, lạc quan và giàu hình ảnh.",
+            "4": "Suy nghĩ logic, chi tiết, thực tế, dựa trên căn cứ và quy trình rõ ràng.",
+            "5": "Suy nghĩ bứt phá, không đi theo lối mòn, thích các giải pháp mới lạ.",
+            "6": "Suy nghĩ hướng về sự an toàn của người thân, ưu tiên giải pháp chu toàn.",
+            "7": "Suy nghĩ phân tích sâu, mang tính triết lý, hoài nghi và đòi hỏi sự kiểm chứng.",
+            "8": "Suy nghĩ thực dụng, tính toán hiệu quả, chi phí - lợi ích rõ ràng.",
+            "9": "Suy nghĩ tầm vóc, hướng đến lợi ích chung và giá trị dài hạn.",
+            "11": "Suy nghĩ vượt qua logic thông thường, dựa vào trực giác nhạy bén.",
+            "22": "Tư duy chiến lược xuất sắc, kết hợp tầm nhìn vĩ mô và chi tiết vi mô."
+        },
+        tiemThuc: {
+            title: "Sức mạnh Tiềm thức (Subconscious Self)",
+            meaning: "Khả năng phản xạ bản năng, niềm tin vào bản thân khi đối mặt với khủng hoảng.",
+            "1-3": "Khi gặp biến cố dễ bị hoang mang, cần thời gian lấy lại bình tĩnh và niềm tin.",
+            "4-6": "Bản năng ứng biến tốt, nền tảng tâm lý vững vàng và giải quyết việc thực tế.",
+            "7-8": "Sức mạnh tiềm thức lớn, điềm tĩnh và chủ động làm chủ tình thế khó khăn.",
+            "9": "Phục hồi tâm lý tuyệt vời, có niềm tin tuyệt đối vào năng lực bản thân."
+        },
+        damMe: {
+            title: "Chỉ số Đam mê (Passion Number)",
+            meaning: "Sở thích tự nhiên, ngọn lửa thúc đẩy sự hưng phấn và mang lại niềm vui lớn nhất.",
+            "1": "Thích cạnh tranh, chiến thắng, làm người dẫn đầu và kiểm soát.",
+            "2": "Thích sự hòa bình, tâm sự, hợp tác và môi trường nhẹ nhàng.",
+            "3": "Thích nghệ thuật, sân khấu, trò chuyện, tạo niềm vui và thu hút sự chú ý.",
+            "4": "Thích sự ngăn nắp, làm việc cẩn thận, sắp xếp và tích lũy.",
+            "5": "Thích du lịch, trải nghiệm, sự mới lạ và không khí sôi động.",
+            "6": "Thích chăm sóc nhà cửa, trang trí, giúp đỡ người thân và làm đẹp.",
+            "7": "Thích đọc sách, nghiên cứu, tìm hiểu bí ẩn và không gian riêng tư.",
+            "8": "Thích kinh doanh, tài chính, đồ hiệu, quyền lực và sự thành đạt.",
+            "9": "Thích tham gia hoạt động xã hội, từ thiện, giúp đỡ người nghèo khó."
+        },
+        namCaNhan: {
+            title: "Chỉ số Năm cá nhân (Personal Year)",
+            meaning: "Năng lượng dịch chuyển theo chu kỳ 9 năm, định hướng trọng tâm công việc và bài học mỗi năm.",
+            "1": "Năm gieo hạt, bắt đầu dự án mới, tự lập và hành động bứt phá.",
+            "2": "Năm lắng đọng, xây dựng mối quan hệ, kiên nhẫn và nuôi dưỡng.",
+            "3": "Năm mở rộng, học tập, giao lưu, sáng tạo và thể hiện bản thân.",
+            "4": "Năm củng cố, làm việc chăm chỉ, hoàn thiện quy trình và giữ gìn sức khỏe.",
+            "5": "Năm thay đổi, bứt phá, du lịch, tự do và nắm bắt cơ hội mới.",
+            "6": "Năm của gia đình, trách nhiệm, yêu thương và xây dựng tổ ấm.",
+            "7": "Năm quay vào bên trong, nâng cao trình độ, chiêm nghiệm đời sống.",
+            "8": "Năm gặt hái, thành tựu tài chính, tập trung công danh và quyền lực.",
+            "9": "Năm buông bỏ, dọn dẹp cái cũ, hoàn thành chu kỳ để chuẩn bị cho giai đoạn mới."
+        },
+        thangCaNhan: {
+            title: "Chỉ số Tháng cá nhân (Personal Month)",
+            meaning: "Nhịp điệu năng lượng tác động theo từng tháng để điều chỉnh kế hoạch ngắn hạn.",
+            "1": "Đột phá, khởi động công việc mới, chủ động quyết định.",
+            "2": "Chậm lại, tập trung vào lắng nghe, hợp tác và tình cảm.",
+            "3": "Sôi nổi, gặp gỡ giao lưu, thể hiện ý tưởng sáng tạo.",
+            "4": "Tập trung cao độ vào công việc, củng cố kế hoạch và tài chính.",
+            "5": "Nhiều sự chuyển biến, di chuyển, thay đổi nhịp sinh hoạt.",
+            "6": "Dành thời gian cho gia đình, giải quyết việc nội bộ, tình cảm.",
+            "7": "Dành thời gian suy ngẫm, học tập, hạn chế đầu tư rủi ro.",
+            "8": "Đẩy mạnh hoạt động kinh doanh, thu hồi vốn, gặt hái kết quả.",
+            "9": "Rà soát, kết thúc những việc tồn đọng, chuẩn bị cho năng lượng mới."
+        },
+        chang: {
+            title: "Chỉ số Đỉnh Cao Chặng (Pinnacle Cycles)",
+            meaning: "Giai đoạn đỉnh cao trong cuộc đời, thể hiện cơ hội và môi trường phát triển chính.",
+            "1": "Cơ hội phát triển tính tự lập, độc lập xây dựng sự nghiệp riêng.",
+            "2": "Cơ hội phát triển sự hợp tác, ngoại giao, trực giác và tình cảm.",
+            "3": "Cơ hội phát triển nghệ thuật, truyền thông, sáng tạo và thu hút đám đông.",
+            "4": "Giai đoạn tích lũy tài sản, xây dựng nền tảng sự nghiệp vững chắc.",
+            "5": "Giai đoạn mở rộng sự tự do, trải nghiệm, đổi mới và thách thức giới hạn.",
+            "6": "Giai đoạn cống hiến cho gia đình, cộng đồng, xây dựng mái ấm và trách nhiệm.",
+            "7": "Giai đoạn nâng cao trí tuệ, nghiên cứu, phát triển đời sống tâm linh.",
+            "8": "Giai đoạn đỉnh cao về tài chính, điều hành tổ chức và gặt hái quyền lực.",
+            "9": "Giai đoạn phụng sự nhân loại, từ thiện và lan tỏa các giá trị nhân văn.",
+            "11": "Giai đoạn thức tỉnh tâm linh, truyền cảm hứng và khai sáng.",
+            "22": "Giai đoạn kiến tạo những công trình hay sự nghiệp tầm vóc vĩ mô."
+        },
+        thachThuc: {
+            title: "Chỉ số Thách Thức (Challenge Numbers)",
+            meaning: "Bài học chướng ngại vật cần vượt qua trong từng chặng cuộc đời.",
+            "0": "Bài học tổng hợp hoặc không có rào cản lớn; cần tự giác hoàn thiện bản thân.",
+            "1": "Cần vượt qua sự tự ti, tính phụ thuộc hoặc sự độc đoán quá mức.",
+            "2": "Cần vượt qua sự quá nhạy cảm, sợ mâu thuẫn hay phụ thuộc cảm xúc.",
+            "3": "Cần vượt qua sự phân tán tập trung, giao tiếp nông nổi hoặc lãng phí năng lượng.",
+            "4": "Cần vượt qua tính bảo thủ, lười biếng hoặc sự cứng nhắc.",
+            "5": "Cần vượt qua sự thèm muốn tự do thái quá, thiếu kiên nhẫn hoặc sa đà tiêu cực.",
+            "6": "Cần vượt qua tính kiểm soát người khác quá mức hoặc hy sinh quên mình.",
+            "7": "Cần vượt qua sự hoài nghi thái quá, cô lập bản thân hoặc thiếu niềm tin.",
+            "8": "Cần vượt qua sự dính mắc quá đà vào tiền bạc/quyền lực hoặc sợ hãi thất bại tài chính."
+        }
+    };
 
     // Chuyển Tiếng Việt có dấu thành không dấu, viết hoa
     function removeAccents(str) {
@@ -293,17 +640,16 @@
 
         const name = removeAccents(rawName);
         const nameParts = name.split(/\s+/);
-        const firstName = nameParts[nameParts.length - 1]; // Tên chính (tên gọi)
+        const firstName = nameParts[nameParts.length - 1];
         
-        // Tách ngày tháng năm sinh
         const [yyyy, mm, dd] = dob.split('-');
         
-        // 1. Chỉ số Đường Đời: Cộng tổng tất cả các chữ số trong ngày tháng năm
+        // 1. Đường Đời
         const dobString = dob.replace(/-/g, '');
         let sumDuongDoi = dobString.split('').reduce((sum, d) => sum + parseInt(d), 0);
         const duongDoi = reduceNum(sumDuongDoi);
 
-        // 2. Tách Nguyên âm (Linh hồn) & Phụ âm (Nhân cách), và tổng toàn bộ (Sứ mệnh)
+        // 2. Linh hồn, Nhân cách, Sứ mệnh
         let sumLinhHon = 0, sumNhanCach = 0, sumSuMenh = 0;
         let numFrequencies = {1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0};
         let presentNumbers = new Set();
@@ -323,24 +669,24 @@
         const linhHon = reduceNum(sumLinhHon);
         const nhanCach = reduceNum(sumNhanCach);
 
-        // 3. Chỉ số Cân Bằng: Cộng chữ cái đầu tiên của mỗi từ
+        // 3. Cân Bằng
         let sumCanBang = 0;
         nameParts.forEach(word => {
             if(word[0] && pythagoreanMap[word[0]]) sumCanBang += pythagoreanMap[word[0]];
         });
         const canBang = reduceNum(sumCanBang, false);
 
-        // 4. Các chỉ số Kết Nối & Trưởng Thành
+        // 4. Kết Nối & Trưởng Thành & Ngày Sinh
         const knDdSm = Math.abs(reduceNum(duongDoi, false) - reduceNum(suMenh, false));
         const knLhNc = Math.abs(reduceNum(linhHon, false) - reduceNum(nhanCach, false));
         const truongThanh = reduceNum(duongDoi + suMenh);
         const ngaySinh = reduceNum(parseInt(dd));
         
-        // 5. Tư duy lý trí: Tên chính + Ngày sinh
+        // 5. Tư duy lý trí
         let sumTenChinh = firstName.split('').reduce((sum, char) => sum + (pythagoreanMap[char] || 0), 0);
         const tuDuyLyTri = reduceNum(sumTenChinh + parseInt(dd));
 
-        // 6. Chỉ số Thiếu & Đam Mê & Sức Mạnh Tiềm Thức
+        // 6. Thiếu, Đam Mê, Tiềm Thức
         let missingNums = [];
         let maxFreq = 0;
         for (let i = 1; i <= 9; i++) {
@@ -356,13 +702,13 @@
         }
         const damMe = damMeArr.join(', ');
 
-        // 7. Năm cá nhân & Tháng cá nhân (Lấy năm, tháng hiện tại của hệ thống)
+        // 7. Năm/Tháng cá nhân
         const currentYear = new Date().getFullYear();
         const currentMonth = new Date().getMonth() + 1;
         const namCaNhan = reduceNum(parseInt(dd) + parseInt(mm) + currentYear, false);
         const thangCaNhan = reduceNum(namCaNhan + currentMonth, false);
 
-        // 8. 4 Chặng (Pinnacles) & 4 Thách Thức (Challenges)
+        // 8. Chặng & Thách Thức
         const rD = reduceNum(parseInt(dd), false);
         const rM = reduceNum(parseInt(mm), false);
         const rY = reduceNum(parseInt(yyyy), false);
@@ -377,7 +723,7 @@
         const t3 = Math.abs(t1 - t2);
         const t4 = Math.abs(rM - rY);
 
-        // === ĐỔ DỮ LIỆU LÊN GIAO DIỆN ===
+        // === ĐỔ DỮ LIỆU ===
         document.getElementById('displayInfo').innerText = `${name} • ${dd}/${mm}/${yyyy}`;
         document.getElementById('r_duongDoi').innerText = duongDoi;
         document.getElementById('r_suMenh').innerText = suMenh;
@@ -402,10 +748,117 @@
         document.getElementById('c3').innerText = c3; document.getElementById('t3').innerText = t3;
         document.getElementById('c4').innerText = c4; document.getElementById('t4').innerText = t4;
 
-        // Ẩn form, hiện kết quả
         document.getElementById('inputSection').style.display = 'none';
         document.getElementById('reportSection').style.display = 'block';
         window.scrollTo(0, 0);
+    }
+
+    // === HÀM XỬ LÝ MODAL LUẬN GIẢI ===
+    function showDetail(type, elementId) {
+        let valText = document.getElementById(elementId).innerText;
+        if (!valText || valText === '--') return;
+
+        let data = dictData[type];
+        if (!data) return;
+
+        let contentHTML = `<div class="meaning-box"><strong>Ý nghĩa:</strong> ${data.meaning}</div>`;
+
+        // Xử lý các trường hợp đặc biệt (Thiếu, Đam mê có thể có nhiều số)
+        if (type === 'thieu' || type === 'damMe') {
+            if (valText === 'Không thiếu' || valText === '') {
+                 contentHTML += `<p>Bạn đang ở trạng thái cân bằng, không bị thiếu chỉ số nào.</p>`;
+            } else {
+                let nums = valText.split(',').map(n => n.trim());
+                nums.forEach(n => {
+                    if (data[n]) {
+                        contentHTML += `<p><strong>Số ${n}:</strong> ${data[n]}</p>`;
+                    }
+                });
+            }
+        } 
+        // Xử lý Sức mạnh tiềm thức (theo thang điểm)
+        else if (type === 'tiemThuc') {
+            let n = parseInt(valText);
+            let key = '';
+            if (n >= 1 && n <= 3) key = '1-3';
+            else if (n >= 4 && n <= 6) key = '4-6';
+            else if (n >= 7 && n <= 8) key = '7-8';
+            else if (n === 9) key = '9';
+
+            if (key && data[key]) {
+                contentHTML += `<p><strong>Thang điểm ${valText}:</strong> ${data[key]}</p>`;
+            }
+        } 
+        // Các chỉ số bình thường
+        else {
+            if (data[valText]) {
+                contentHTML += `<p><strong>Số ${valText}:</strong> ${data[valText]}</p>`;
+            } else {
+                contentHTML += `<p>Chưa có dữ liệu luận giải cho số ${valText}.</p>`;
+            }
+        }
+
+        document.getElementById('modalTitle').innerText = data.title;
+        document.getElementById('modalContent').innerHTML = contentHTML;
+        document.getElementById('detailModal').style.display = 'flex';
+    }
+
+    // === HIỂN THỊ KHOẢNG TUỔI CỦA TỪNG CHẶNG ===
+    // Dùng đúng công thức trong yêu cầu, không thay đổi thuật toán tính các chỉ số.
+    function showStageAgeRange(stage) {
+        const mainNumberText = document.getElementById('r_duongDoi').innerText;
+        if (!mainNumberText || mainNumberText === '--') return;
+
+        const mainNumber = parseInt(mainNumberText, 10);
+        if (Number.isNaN(mainNumber)) return;
+
+        // Chặng 1: từ khi sinh ra -> (36 - Con số chủ đạo) tuổi
+        const endStage1 = 36 - mainNumber;
+        const startStage2 = endStage1 + 1;
+        const endStage2 = endStage1 + 9;
+        const startStage3 = endStage2 + 1;
+        const endStage3 = endStage2 + 9;
+        const startStage4 = endStage3 + 1;
+
+        const ranges = {
+            1: {
+                title: 'Khoảng tuổi Chặng 1',
+                range: `Từ khi sinh ra → ${endStage1} tuổi`,
+                formula: `(36 - ${mainNumber}) = ${endStage1} tuổi`
+            },
+            2: {
+                title: 'Khoảng tuổi Chặng 2',
+                range: `Từ ${startStage2} → ${endStage2} tuổi`,
+                formula: `(${endStage1} + 1) → (${endStage1} + 9)`
+            },
+            3: {
+                title: 'Khoảng tuổi Chặng 3',
+                range: `Từ ${startStage3} → ${endStage3} tuổi`,
+                formula: `(${endStage2} + 1) → (${endStage2} + 9)`
+            },
+            4: {
+                title: 'Khoảng tuổi Chặng 4',
+                range: `Từ ${startStage4} tuổi trở đi`,
+                formula: `Từ (${endStage3} + 1) tuổi trở đi`
+            }
+        };
+
+        const item = ranges[stage];
+        if (!item) return;
+
+        document.getElementById('modalTitle').innerText = item.title;
+        document.getElementById('modalContent').innerHTML = `
+            <div class="meaning-box"><strong>Con số chủ đạo:</strong> ${mainNumber}</div>
+            <p style="font-size:18px; font-weight:700; color:var(--primary); text-align:center;">${item.range}</p>
+        `;
+        document.getElementById('detailModal').style.display = 'flex';
+    }
+
+    function closeModal(event) {
+        // Đóng khi click vào nút (truyền true) hoặc click ra ngoài lớp phủ
+        if (event === true || event.target.id === 'detailModal') {
+            document.getElementById('detailModal').style.display = 'none';
+        }
     }
 </script>
 </body>
