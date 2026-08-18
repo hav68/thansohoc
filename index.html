@@ -289,6 +289,42 @@
             .grid-2 { grid-template-columns: 1fr; }
             .stat-box-large { grid-column: span 1; }
         }
+
+        /* === NÂNG CẤP PHÂN TÍCH & LƯU ẢNH === */
+        .strategy-card { margin-top: 12px; }
+        .strategy-intro { color:#666; font-size:13px; line-height:1.55; margin:0 0 12px; }
+        .advanced-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+        .advanced-btn { min-height:86px; background:#fff; border:1px solid #e9d8f2; color:var(--text-main); border-radius:12px; padding:11px; text-align:left; display:flex; flex-direction:column; align-items:flex-start; justify-content:center; gap:3px; cursor:pointer; box-shadow:0 2px 8px rgba(92,37,127,.05); }
+        .advanced-btn span { font-size:20px; line-height:1; }
+        .advanced-btn strong { color:var(--primary); font-size:14px; }
+        .advanced-btn small { color:#777; font-size:11px; line-height:1.35; }
+        .advanced-btn:hover { background:#fbf5ff; transform:translateY(-1px); }
+        .save-btn { margin-top:12px; background:linear-gradient(135deg,#3b2b64,#7d3fb2); }
+        .logic-highlight { background:#fbf5ff; border:1px solid #eedbf7; border-radius:10px; padding:11px 13px; margin:10px 0; }
+        .logic-warning { background:#fff6e9; border-left:4px solid #d79b2f; border-radius:8px; padding:10px 12px; margin:10px 0; }
+        .logic-danger { background:#fff0f0; border-left:4px solid #d9534f; border-radius:8px; padding:10px 12px; margin:10px 0; }
+        .logic-list { margin:8px 0 0; padding-left:20px; }
+        .logic-list li { margin:5px 0; }
+        .month-list { display:grid; gap:8px; }
+        .month-item { border:1px solid #eee2f5; border-radius:9px; padding:9px 10px; background:#fff; }
+        .month-item strong { color:var(--primary); }
+        .save-options { display:grid; grid-template-columns:1fr; gap:7px; max-height:42vh; overflow:auto; margin:12px 0; }
+        .save-option { display:flex; align-items:center; gap:10px; padding:9px 10px; background:#faf8fc; border:1px solid #eee2f5; border-radius:9px; }
+        .save-option input { width:20px; height:20px; min-height:20px; padding:0; flex:0 0 auto; accent-color:var(--primary); }
+        .save-option span { font-size:13px; line-height:1.3; }
+        .save-mode-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+        .save-mode { min-height:92px; text-align:center; align-items:center; }
+        .save-modal { max-width:600px; }
+        .generated-note { font-size:12px; color:#777; margin-top:8px; }
+        @media(max-width:520px){
+            .advanced-grid{grid-template-columns:1fr 1fr;gap:8px;}
+            .advanced-btn{min-height:82px;padding:10px 9px;}
+            .advanced-btn strong{font-size:13px;}
+            .save-mode-grid{grid-template-columns:1fr;}
+            .save-modal{max-height:88vh;}
+        }
+        @media(max-width:360px){ .advanced-grid{grid-template-columns:1fr;} }
+
     </style>
 </head>
 <body>
@@ -347,6 +383,10 @@
                 <div class="stat-box" onclick="showDetail('canBang', 'r_canBang')">
                     <h4>Cân Bằng</h4>
                     <div class="num" id="r_canBang">--</div>
+                </div>
+                <div class="stat-box" onclick="showDetail('thaiDo', 'r_thaiDo')">
+                    <h4>Thái Độ</h4>
+                    <div class="num" id="r_thaiDo">--</div>
                 </div>
             </div>
         </div>
@@ -430,6 +470,23 @@
             </table>
         </div>
         
+
+            <div class="card strategy-card" id="advancedAnalysis">
+                <div class="section-title">Phân Tích Sâu Theo Logic Mới</div>
+                <p class="strategy-intro">Bấm từng mục để xem lời khuyên được ghép từ Năm cá nhân, Đường đời, Linh hồn, Thái độ, Chỉ số Thiếu và Nợ nghiệp.</p>
+                <div class="advanced-grid">
+                    <button class="advanced-btn" onclick="showAdvanced('lifeStrategy')"><span>🧭</span><strong>Đường đời</strong><small>Điểm mạnh & điểm mù</small></button>
+                    <button class="advanced-btn" onclick="showAdvanced('currentYear')"><span>📅</span><strong>Chiến lược năm hiện tại</strong><small>Góc khuất + cạm bẫy</small></button>
+                    <button class="advanced-btn" onclick="showAdvanced('soulYear')"><span>💜</span><strong>Giao thoa Linh hồn</strong><small>Linh hồn × Năm cá nhân</small></button>
+                    <button class="advanced-btn" onclick="showAdvanced('yearAdvice')"><span>🎯</span><strong>Lời khuyên cho năm nay</strong><small>Thái độ × Năm cá nhân</small></button>
+                    <button class="advanced-btn" onclick="showAdvanced('weakness')"><span>🛠️</span><strong>Khắc phục điểm yếu</strong><small>Chỉ số Thiếu × Năm</small></button>
+                    <button class="advanced-btn" onclick="showAdvanced('karma')"><span>⚠️</span><strong>Nợ nghiệp</strong><small>Kiểm tra + chuyển hóa</small></button>
+                    <button class="advanced-btn" onclick="showAdvanced('career')"><span>💼</span><strong>Định hướng nghề nghiệp</strong><small>Theo Đường đời</small></button>
+                    <button class="advanced-btn" onclick="showAdvanced('monthly')"><span>🗓️</span><strong>Chiến lược 9 tháng</strong><small>Tháng hiện tại + toàn năm</small></button>
+                </div>
+                <button class="save-btn" onclick="openSaveModal()">💾 Lưu kết quả thành ảnh</button>
+            </div>
+
         <button onclick="location.reload()" style="background-color: #666;">Tra cứu người khác</button>
     </div>
 </div>
@@ -444,6 +501,22 @@
         </div>
     </div>
 </div>
+
+<!-- Modal lưu ảnh -->
+<div class="modal-overlay" id="saveModal" onclick="closeSaveModal(event)">
+    <div class="modal-content save-modal" onclick="event.stopPropagation()">
+        <button class="modal-close" onclick="closeSaveModal(true)">&times;</button>
+        <h3 class="modal-title">Lưu kết quả thành ảnh</h3>
+        <div class="meaning-box"><strong>Bước 1:</strong> Chọn các chỉ số/phần muốn xuất. Ảnh sẽ tự căn giữa, tự xuống dòng và tối ưu cỡ chữ.</div>
+        <div id="saveOptions" class="save-options"></div>
+        <div class="save-mode-grid">
+            <button class="advanced-btn save-mode" onclick="saveSelectedAsImage(1)"><span>🖼️</span><strong>Ảnh 1</strong><small>Tên + chỉ số đã chọn</small></button>
+            <button class="advanced-btn save-mode" onclick="saveSelectedAsImage(2)"><span>🧠</span><strong>Ảnh 2</strong><small>Chỉ số + lời khuyên logic</small></button>
+        </div>
+        <p class="input-hint">Ảnh 1 phù hợp để lưu nhanh các con số. Ảnh 2 phù hợp để lưu bản phân tích cá nhân.</p>
+    </div>
+</div>
+
 
 <script>
     // Bảng chữ cái Pythagorean
@@ -487,6 +560,19 @@
             "11": ["Dùng trực giác và cái nhìn bao quát.", "Thiền định, bình tĩnh quản lý năng lượng."],
             "22": ["Dùng trực giác và cái nhìn bao quát.", "Thiền định, bình tĩnh quản lý năng lượng."],
             "33": ["Dùng trực giác và cái nhìn bao quát.", "Thiền định, bình tĩnh quản lý năng lượng."]
+        },
+        thaiDo: {
+            title: "Chỉ số Thái độ",
+            meaning: "Cách bạn tiếp cận và phản ứng với cuộc sống, theo phần giao thoa của ngày và tháng sinh.",
+            "1": ["Chủ động, trực tiếp, thích tự quyết.", "Tránh nóng vội và áp đặt."],
+            "2": ["Mềm mỏng, hợp tác, nhạy cảm.", "Giữ ranh giới và đừng phụ thuộc vào ý kiến người khác."],
+            "3": ["Lạc quan, biểu đạt, dễ tạo không khí tích cực.", "Tập trung và kiểm soát lời nói."],
+            "4": ["Thực tế, có cấu trúc, coi trọng quy tắc.", "Tránh cứng nhắc và quá tải."],
+            "5": ["Linh hoạt, thích trải nghiệm và thay đổi.", "Giữ cam kết và kỷ luật."],
+            "6": ["Trách nhiệm, quan tâm gia đình và tập thể.", "Đừng ôm đồm hay kiểm soát quá mức."],
+            "7": ["Quan sát, nghiên cứu, hướng nội.", "Tránh cô lập và hoài nghi quá mức."],
+            "8": ["Mục tiêu, quản trị, kết quả.", "Cân bằng quyền lực với sự khiêm nhường."],
+            "9": ["Bao dung, lý tưởng, hướng tới lợi ích chung.", "Giữ tính thực tế và ranh giới cá nhân."]
         },
         suMenh: {
             title: "Chỉ số Sứ mệnh",
@@ -858,6 +944,8 @@
         const knLhNc = Math.abs(reduceNum(linhHon, false) - reduceNum(nhanCach, false));
         const truongThanh = reduceNum(duongDoi + suMenh);
         const ngaySinh = reduceNum(parseInt(dd));
+        // Chỉ số Thái độ: ngày + tháng, rút gọn về 1-9.
+        const thaiDo = reduceNum(parseInt(dd) + parseInt(mm), false);
         
         // 5. Tư duy lý trí
         let sumTenChinh = firstName.split('').reduce((sum, char) => sum + (pythagoreanMap[char] || 0), 0);
@@ -900,6 +988,20 @@
         const t3 = Math.abs(t1 - t2);
         const t4 = Math.abs(rM - rY);
 
+        // Nhận diện nợ nghiệp trên các tổng lõi trước khi rút gọn.
+        const karmicDebts = detectKarmicDebts({
+            'Đường đời': sumDuongDoi,
+            'Sứ mệnh': sumSuMenh,
+            'Linh hồn': sumLinhHon,
+            'Nhân cách': sumNhanCach
+        });
+
+        analysisState = {
+            fullName: rawName, dateDisplay: `${dd}/${mm}/${yyyy}`,
+            duongDoi, suMenh, linhHon, nhanCach, ngaySinh, truongThanh, canBang,
+            knDdSm, knLhNc, tuDuy: tuDuyLyTri, tiemThuc, damMe, chiSoThieu, namCaNhan, thangCaNhan, thaiDo, karmicDebts
+        };
+
         // === ĐỔ DỮ LIỆU ===
         document.getElementById('displayInfo').innerText = `${name} • ${dd}/${mm}/${yyyy}`;
         document.getElementById('r_duongDoi').innerText = duongDoi;
@@ -909,6 +1011,7 @@
         document.getElementById('r_ngaySinh').innerText = ngaySinh;
         document.getElementById('r_truongThanh').innerText = truongThanh;
         document.getElementById('r_canBang').innerText = canBang;
+        document.getElementById('r_thaiDo').innerText = thaiDo;
         
         document.getElementById('r_knDdSm').innerText = knDdSm;
         document.getElementById('r_knLhNc').innerText = knLhNc;
@@ -1072,6 +1175,213 @@
             calculateNumerology();
         }
     });
+
+
+    // ================= NÂNG CẤP LOGIC THEO TÀI LIỆU NGUỒN =================
+    const YEAR_SHADOW = {"1":{"title":"Khởi đầu","shadow":"Sự cô độc và áp lực vô hình","difficulty":"Năng lượng số 1 thôi thúc sự độc lập, dễ khiến bạn cảm thấy thiếu người hỗ trợ và phải tự mình gánh vác mọi thứ. Khi bắt đầu dự án mới, bạn dễ nôn nóng muốn thấy kết quả ngay và dễ đưa ra quyết định bốc đồng khi thiếu kinh nghiệm thực tế.","trap":"Cái tôi vươn lên quá cao khiến bạn bỏ ngoài tai lời khuyên của người đi trước."},"2":{"title":"Kết nối","shadow":"Cảm xúc trồi sụt và sự phụ thuộc","difficulty":"Nhịp độ chậm lại so với năm 1 dễ tạo cảm giác tù túng, dậm chân tại chỗ. Đây là năm nhạy cảm về cảm xúc; dễ bị tổn thương và overthinking.","trap":"Do dự, cả nể dẫn đến đánh mất cơ hội hoặc nhượng bộ quá mức trong hợp tác."},"3":{"title":"Tỏa sáng","shadow":"Phân tán năng lượng và “vạ miệng”","difficulty":"Năng lượng lan tỏa mạnh khiến bạn muốn làm quá nhiều thứ cùng lúc; thiếu tập trung làm kế hoạch dang dở. Giao tiếp thiếu kiểm soát có thể gây hiểu lầm hoặc thị phi.","trap":"Tiêu xài hoang phí cho thú vui bốc đồng, đánh giá đối tác hời hợt."},"4":{"title":"Củng cố","shadow":"Gò bó, kiệt sức và áp lực khuôn khổ","difficulty":"Mọi thứ đòi hỏi chi tiết: quy trình vận hành, công việc, giấy tờ, bằng cấp và pháp lý. Cảm giác ngột ngạt dễ tăng, thể lực có thể cạn kiệt nếu làm quá sức.","trap":"Bảo thủ, cứng nhắc, chán nản muốn bỏ cuộc khi tài chính chưa đến nhanh."},"5":{"title":"Thay đổi","shadow":"Hỗn loạn và rủi ro mất kiểm soát","difficulty":"Biến động liên tục dễ làm bạn mất phương hướng giữa quá nhiều ngã rẽ. Khao khát tự do mạnh khiến bạn dễ trở nên vô kỷ luật.","trap":"Cả thèm chóng chán, quyết định tài chính mạo hiểm phi lý trí hoặc sa đà vào cuộc vui thiếu lành mạnh."},"6":{"title":"Trách nhiệm","shadow":"Ôm đồm và mắc kẹt trong các mối quan hệ","difficulty":"Bạn dễ bị kéo vào vấn đề của gia đình, đối tác và bạn bè. Áp lực làm hài lòng người khác khiến bạn kiệt quệ và bỏ bê chính mình.","trap":"Lòng tốt đặt sai chỗ, tự biến mình thành “người giải cứu” trong quan hệ độc hại."},"7":{"title":"Quay vào trong","shadow":"Khủng hoảng niềm tin và thử thách vật chất","difficulty":"Đây là năm “cắt tỉa”. Cố chạy theo mở rộng kinh doanh hoặc đầu tư lướt sóng có thể tăng rủi ro mất mát tài sản. Bạn bị đẩy vào việc tự vấn niềm tin và định hướng cốt lõi.","trap":"Xa lánh xã hội hoặc vướng vấn đề pháp lý nếu nền tảng làm ăn trước đó không minh bạch."},"8":{"title":"Thu hoạch","shadow":"Áp lực dòng tiền và lòng tham","difficulty":"Cường độ làm việc cao. Nếu 7 năm trước làm việc hời hợt, bạn có thể đối mặt nợ hoặc đình trệ tài chính; nếu thành công, quản lý tiền, người và quy mô lớn sẽ vắt kiệt thời gian.","trap":"Kiêu ngạo, tham lam mù quáng, đánh đổi sức khỏe và gia đình để chạy theo vật chất và quyền lực."},"9":{"title":"Kết thúc","shadow":"Đau đớn khi buông bỏ và sự trống rỗng","difficulty":"Phải chứng kiến sự rời đi của quan hệ, dự án hoặc công việc đã gắn bó lâu dài. Cảm giác chông chênh xuất hiện khi cái cũ đã qua nhưng cái mới chưa rõ ràng.","trap":"Níu kéo điều không còn phục vụ phát triển, sống trong nuối tiếc và từ chối dọn dẹp không gian sống cả vật chất lẫn tinh thần."}};
+    const MONTH_GUIDANCE = {"1":{"title":"Hạt Giống & Khởi Đầu Mới","energy":"Năng lượng chủ đạo: Tiên phong, độc lập, gieo mầm cho chu kỳ 9 năm tiếp theo.","months":[{"month":1,"text":"(Khởi đầu kép) Thời điểm vàng để hành động quyết liệt. Hãy tự tin bắt tay vào các dự án hoặc thói quen mới mà không chần chừ."},{"month":2,"text":"Chậm lại một nhịp. Sự nhẫn nại và tinh thần hợp tác sẽ giúp bạn nuôi dưỡng \"hạt giống\" vừa gieo."},{"month":3,"text":"Tỏa sáng và kết nối. Hãy mạnh dạn nói lên ý tưởng của mình; năng lượng sáng tạo đang ở đỉnh cao."},{"month":4,"text":"Kỷ luật và thực tế. Đây là tháng để bạn xây dựng móng nền vững chắc (lập kế hoạch, quản lý tài chính) cho những khởi đầu mới."},{"month":5,"text":"Linh hoạt đón nhận cơ hội. Sẽ có những ngã rẽ bất ngờ, hãy dũng cảm bước ra khỏi vùng an toàn."},{"month":6,"text":"Cân bằng giữa khát vọng cá nhân và trách nhiệm gia đình. Yêu thương sẽ là bệ phóng cho sự nghiệp."},{"month":7,"text":"Hướng nội và phân tích. Đừng vội vàng tiến lên, hãy rà soát lại chiến lược và lắng nghe trực giác của bạn."},{"month":8,"text":"Thu hoạch bước đầu. Năng lượng quyền lực lên cao, thích hợp để chốt hạ các thỏa thuận tài chính hoặc kinh doanh."},{"month":9,"text":"Dọn dẹp tàn dư. Bỏ lại những thói quen, mối quan hệ không còn phục vụ cho hành trình mới của bạn."}]},"2":{"title":"Kết Nối, Lắng Nghe & Chờ Đợi","energy":"Năng lượng chủ đạo: Hòa bình, kiên nhẫn, vun đắp các mối quan hệ.","months":[{"month":1,"text":"Đừng ngại đứng lên bảo vệ quan điểm của mình, nhưng hãy làm điều đó với sự mềm mỏng của số 2."},{"month":2,"text":"(Kết nối kép) Trực giác vô cùng nhạy bén. Hãy dành thời gian để chữa lành bản thân và thấu cảm với người xung quanh."},{"month":3,"text":"Cảm xúc có thể dao động mạnh. Hãy bộc lộ những gì bạn giấu kín thông qua nghệ thuật, viết lách hoặc trò chuyện."},{"month":4,"text":"Đặt ra ranh giới rõ ràng. Bạn dễ bị lợi dụng lòng tốt trong tháng này, hãy học cách nói \"không\" khi cần."},{"month":5,"text":"Sự thay đổi gõ cửa. Dù năm 2 khuyên bạn tĩnh lặng, tháng 5 đòi hỏi bạn phải linh hoạt thích nghi với hoàn cảnh."},{"month":6,"text":"Tình yêu thăng hoa. Một tháng tuyệt vời để hâm nóng tình cảm gia đình hoặc hàn gắn những rạn nứt."},{"month":7,"text":"Tách mình khỏi đám đông. Bạn cần không gian riêng để thiền định và tìm lại sự bình yên trong tâm hồn."},{"month":8,"text":"Cơ hội tài chính đến từ các đối tác hoặc người thân. Sự khéo léo trong giao tiếp sẽ mang lại dòng tiền."},{"month":9,"text":"Học cách tha thứ. Tha thứ cho người khác chính là cởi trói cho chính năng lượng của bạn."}]},"3":{"title":"Sáng Tạo, Thể Hiện & Tỏa Sáng","energy":"Năng lượng chủ đạo: Niềm vui, nghệ thuật, giao tiếp và sự lạc quan.","months":[{"month":1,"text":"Những ý tưởng mới mẻ bùng nổ. Hãy chủ động \"chào hàng\" bản năng sáng tạo của bạn ra thế giới."},{"month":2,"text":"Lắng nghe nhiều hơn nói. Dùng sự tinh tế của bạn để hỗ trợ đồng đội hoặc đối tác thay vì chỉ tỏa sáng một mình."},{"month":3,"text":"(Sáng tạo kép) Đỉnh cao của niềm vui và nghệ thuật. Dành thời gian tận hưởng cuộc sống, du lịch và truyền cảm hứng."},{"month":4,"text":"Kéo trí tưởng tượng xuống mặt đất. Bạn cần kỷ luật hóa các ý tưởng của mình thành sản phẩm cụ thể."},{"month":5,"text":"Khám phá tự do. Cơ hội giao lưu, mở rộng mạng lưới xã hội rất lớn; hãy nắm bắt và trải nghiệm."},{"month":6,"text":"Mang niềm vui về nhà. Trang hoàng lại không gian sống hoặc tổ chức những buổi tiệc ấm cúng bên người thân."},{"month":7,"text":"Sự sáng tạo cần chiều sâu. Hãy đọc sách, nghiên cứu sâu hơn về lĩnh vực chuyên môn của bạn."},{"month":8,"text":"Đầu tư vào thương hiệu cá nhân. Năng lực giao tiếp của bạn sẽ tạo ra lợi nhuận tài chính thực tế trong tháng này."},{"month":9,"text":"Lan tỏa giá trị cộng đồng. Dùng tiếng nói và niềm vui của bạn để giúp đỡ những người đang gặp bế tắc."}]},"4":{"title":"Kỷ Luật, Xây Dựng & Nền Tảng","energy":"Năng lượng chủ đạo: Chăm chỉ, quy trình, tổ chức và sự ổn định.","months":[{"month":1,"text":"Đặt những viên gạch đầu tiên cho một kế hoạch dài hạn. Sự cam kết ngay từ đầu tháng là tối quan trọng."},{"month":2,"text":"Bạn sẽ cần sự giúp đỡ. Đừng làm mọi thứ một mình, hãy chia sẻ gánh nặng công việc với đối tác đáng tin cậy."},{"month":3,"text":"Giải tỏa căng thẳng. Năm số 4 rất áp lực, tháng 3 nhắc bạn phải tìm thấy niềm vui ngay trong lúc làm việc."},{"month":4,"text":"(Kỷ luật kép) Tập trung cao độ. Đây là lúc làm việc không ngừng nghỉ, dọn dẹp sổ sách, sắp xếp lại toàn bộ quy trình cuộc sống."},{"month":5,"text":"Cải tiến hệ thống. Chấp nhận thay đổi một vài phương pháp làm việc cũ để tăng năng suất."},{"month":6,"text":"Ổn định tài chính gia đình. Đảm bảo mọi nền tảng trong nhà (bảo hiểm, quỹ dự phòng, sức khỏe) được vững chắc."},{"month":7,"text":"Đánh giá lại mục tiêu. Dừng lại để kiểm tra xem bạn có đang đi đúng hướng hay chỉ đang làm việc như một cái máy."},{"month":8,"text":"Nỗ lực đơm hoa kết trái. Những giọt mồ hôi của bạn bắt đầu chuyển hóa thành tài sản và quyền lực vững chắc."},{"month":9,"text":"Hoàn thiện và đóng gói. Giải quyết triệt để những công việc tồn đọng để chuẩn bị cho một sự dịch chuyển mới."}]},"5":{"title":"Đột Phá, Tự Do & Thay Đổi","energy":"Năng lượng chủ đạo: Dịch chuyển, rủi ro, phá vỡ lối mòn và mở rộng.","months":[{"month":1,"text":"Mạnh dạn bước vào những cánh cửa chưa từng mở. Chấp nhận rủi ro một cách có tính toán."},{"month":2,"text":"Dù muốn bay nhảy, tháng này bạn cần sự hòa hoãn. Hãy dùng sự linh hoạt của mình để giải quyết xung đột."},{"month":3,"text":"Giao tiếp bùng nổ. Năng lượng từ tính của bạn thu hút rất nhiều người mới; hãy thể hiện bản thân."},{"month":4,"text":"\"Tự do trong khuôn khổ\". Cần kiểm soát tài chính cẩn thận vì tháng này bạn dễ vung tay quá trán cho những thú vui."},{"month":5,"text":"(Đột phá kép) Thời điểm của sự kiện bất ngờ. Du lịch, chuyển việc, dọn nhà – hãy để dòng chảy cuộc đời cuốn bạn đi."},{"month":6,"text":"Trách nhiệm réo gọi. Bạn cần cân bằng giữa khao khát tự do cá nhân và sự chăm sóc dành cho người bạn đời/gia đình."},{"month":7,"text":"Tìm kiếm \"chân lý\". Hãy trải nghiệm những vùng đất mới hoặc triết lý học thuật mới để mở mang tâm thức."},{"month":8,"text":"Cơ hội kinh doanh lớn xuất hiện từ những mối quan hệ xã giao. Đòi hỏi bạn phải chớp thời cơ thật nhanh."},{"month":9,"text":"Buông bỏ sự bám chấp. Chấp nhận kết thúc một thứ gì đó đã cũ để hoàn toàn tự do bước tiếp."}]},"6":{"title":"Tình Yêu, Gia Đình & Trách Nhiệm","energy":"Năng lượng chủ đạo: Nuôi dưỡng, phụng sự, sắc đẹp và sự chữa lành.","months":[{"month":1,"text":"Bắt tay vào việc tổ chức lại cuộc sống gia đình hoặc định hướng mới cho những người thân yêu."},{"month":2,"text":"Năng lượng thấu cảm tuyệt vời. Bạn trở thành \"nhà tâm lý học\" chữa lành vết thương cho những người xung quanh."},{"month":3,"text":"Làm đẹp không gian sống hoặc làm đẹp cho chính mình. Năng lượng thẩm mỹ sẽ giúp tâm trạng thăng hoa."},{"month":4,"text":"Xây dựng quy tắc trong gia đình. Cần sự rõ ràng về mặt tài chính hoặc phân chia công việc để tránh gánh nặng một mình."},{"month":5,"text":"Bơm luồng gió mới vào những mối quan hệ cũ. Một chuyến du lịch cùng gia đình sẽ tạo ra phép màu."},{"month":6,"text":"(Gia đình kép) Tình yêu thương ngập tràn. Bạn là trung tâm của sự nuôi dưỡng; trân trọng từng phút giây bên tổ ấm."},{"month":7,"text":"Dành thời gian chăm sóc sức khỏe tinh thần và thể chất của *chính mình* trước khi kiệt sức vì chăm lo cho người khác."},{"month":8,"text":"Tiền bạc chảy vào thông qua các công việc liên quan đến dịch vụ, cộng đồng, y tế hoặc làm đẹp."},{"month":9,"text":"Học cách cho đi không mong cầu nhận lại. Đôi khi, trách nhiệm lớn nhất là biết cách buông tay để người khác tự trưởng thành."}]},"7":{"title":"Trí Tuệ, Tâm Linh & Hướng Nội","energy":"Năng lượng chủ đạo: Phân tích, chiêm nghiệm, học hỏi và phát triển nội tâm.","months":[{"month":1,"text":"Bắt đầu một khóa học mới, một quyển sách mới hoặc một pháp tu mới. Trí tuệ là hạt giống của tháng này."},{"month":2,"text":"Dùng trực giác để thấu hiểu các mối quan hệ thay vì dùng lý trí phán xét. Tĩnh lặng và quan sát."},{"month":3,"text":"Sáng tạo từ sâu thẳm tâm hồn. Những ý tưởng xuất hiện trong lúc thiền định hoặc tĩnh tâm sẽ rất xuất sắc."},{"month":4,"text":"Đóng cửa để nghiên cứu. Đây là lúc cực kỳ hợp lý để củng cố nền tảng kiến thức hoặc hoàn thành các bài luận, dự án khó."},{"month":5,"text":"Tâm trí khao khát được giải phóng. Bạn có thể tìm thấy lời giải đáp cho vấn đề của mình thông qua một chuyến đi xa."},{"month":6,"text":"Dùng trí tuệ của mình để tư vấn, hướng dẫn người thân vượt qua khủng hoảng."},{"month":7,"text":"(Tâm linh kép) Đỉnh cao của sự thức tỉnh. Thời gian tuyệt đối dành cho tĩnh lặng, thiền định. Hạn chế các quyết định kinh doanh lớn trong tháng này."},{"month":8,"text":"Luật nhân quả hiển hiện. Những kiến thức và sự tĩnh tu của bạn biến thành những phần thưởng vật chất đầy bất ngờ."},{"month":9,"text":"Thanh tẩy tâm trí. Dọn dẹp những ảo tưởng, niềm tin sai lệch để đón nhận một tầm nhìn trong trẻo hơn."}]},"8":{"title":"Quyền Lực, Tài Chính & Thành Tựu","energy":"Năng lượng chủ đạo: Dòng tiền, sự nghiệp, kinh doanh và sự tự chủ.","months":[{"month":1,"text":"Khởi động các dự án kiếm tiền. Năng lượng thúc đẩy bạn nắm lấy quyền lãnh đạo và tự chủ tài chính."},{"month":2,"text":"Nghệ thuật đàm phán. Khéo léo và kiên nhẫn sẽ mang lại cho bạn những bản hợp đồng giá trị nhất."},{"month":3,"text":"Tiếp thị và quảng bá. Hãy cho thế giới thấy năng lực và các sản phẩm của bạn. Đừng giấu mình."},{"month":4,"text":"Quản trị dòng tiền. Xem xét kỹ lưỡng sổ sách, hợp đồng và các điều khoản pháp lý; không được để xảy ra sai sót."},{"month":5,"text":"Cơ hội mở rộng quy mô. Có thể đầu tư mạo hiểm hoặc đẩy mạnh kinh doanh sang những thị trường mới."},{"month":6,"text":"Cân bằng giữa \"tiền bạc\" và \"tình cảm\". Đừng vì chạy theo tham vọng mà bỏ quên bữa cơm gia đình."},{"month":7,"text":"Tư duy chiến lược. Dừng lại một bước, phân tích thị trường trước khi đưa ra các quyết định đầu tư lớn hơn."},{"month":8,"text":"(Thành tựu kép) Cực điểm của năm. Mọi nỗ lực hội tụ tạo ra phần thưởng lớn về vật chất và sự thăng tiến chức vụ."},{"month":9,"text":"Chia sẻ sự trù phú. Trích một phần lợi nhuận để làm từ thiện hoặc tri ân những người đã giúp đỡ bạn; điều này kích hoạt dòng chảy tài chính vô tận."}]},"9":{"title":"Chuyển Giao, Kết Thúc & Lòng Trắc Ẩn","energy":"Năng lượng chủ đạo: Buông bỏ, hoàn thành, tha thứ và nhân đạo.","months":[{"month":1,"text":"Lên kế hoạch cho sự kết thúc. Bạn đang bắt đầu đếm ngược để khép lại chu kỳ, hãy dồn lực hoàn thành các mục tiêu dang dở."},{"month":2,"text":"Gỡ bỏ các vướng mắc trong mối quan hệ. Bất kỳ rạn nứt nào cũng cần được hàn gắn bằng sự thứ tha."},{"month":3,"text":"Lan tỏa ánh sáng. Truyền đạt kinh nghiệm sống của bạn để cổ vũ và nâng đỡ tinh thần người khác."},{"month":4,"text":"Hoàn tất nghĩa vụ thực tế. Thanh toán nợ nần, hoàn thành hợp đồng, dọn dẹp sạch sẽ kho bãi hoặc hồ sơ giấy tờ."},{"month":5,"text":"Chuyển dịch mạnh mẽ. Một sự thay đổi đột ngột đến để ép bạn phải bước ra khỏi những thói quen cũ kỹ."},{"month":6,"text":"Chăm sóc và bao dung cho cả những người không cùng huyết thống. Năng lượng từ bi bao trùm không gian của bạn."},{"month":7,"text":"Suy ngẫm về chu kỳ 9 năm qua. Bạn đã học được gì? Đã sẵn sàng rũ bỏ những điều gì để nhẹ gánh hơn?"},{"month":8,"text":"Tài chính tuôn chảy nhờ sự cho đi trước đó. Đừng cố chấp kiểm soát; những gì thuộc về bạn sẽ tự khắc quay về."},{"month":9,"text":"(Kết thúc kép) Sự thanh tẩy tối thượng. Khép lại trọn vẹn mọi nỗi đau, công việc cũ, mối quan hệ độc hại. Hãy hít một hơi thật sâu để chuẩn bị đón nhận Năm cá nhân số 1 bừng sáng."}]}};
+    const ATTITUDE_ADVICE = {"1":{"title":"Khởi đầu & Độc lập","groups":[{"group":"1, 8, 9","text":"Bứt phá tối đa, dễ gặt hái thành công lớn; cần tiết chế sự áp đặt và độc đoán."},{"group":"2, 3, 5","text":"Mở rộng kết nối mới; cần kỷ luật bản thân để không bỏ dở mục tiêu giữa chừng."},{"group":"4, 6, 7","text":"Tiến chậm nhưng chắc chắn; tránh suy nghĩ quá nhiều làm lỡ thời cơ vàng."}]},"2":{"title":"Kết nối, Kiên nhẫn & Cân bằng","groups":[{"group":"1, 8, 9","text":"Học cách lắng nghe, hạ cái tôi xuống và hợp tác thay vì tự mình gánh vác."},{"group":"2, 3, 5","text":"Phát huy tối đa sự khéo léo và ngoại giao; cần quản lý cảm xúc tránh bị ảnh hưởng bởi người khác."},{"group":"4, 6, 7","text":"Xây dựng lòng tin bền vững; tránh thu mình quá mức gây rạn nứt mối quan hệ."}]},"3":{"title":"Sáng tạo, Biểu đạt & Tỏa sáng","groups":[{"group":"1, 8, 9","text":"Thổi bùng năng lượng lãnh đạo và truyền cảm hứng; cẩn trọng lời nói lúc nóng giận."},{"group":"2, 3, 5","text":"Tỏa sáng rực rỡ nhất trong chu kỳ; tập trung năng lượng vào mục tiêu chính để tránh phân tán."},{"group":"4, 6, 7","text":"Bước ra khỏi vùng an toàn; học cách thể hiện bản thân một cách tự nhiên hơn."}]},"4":{"title":"Củng cố, Kỷ luật & Thực tế","groups":[{"group":"1, 8, 9","text":"Tập trung xây dựng hệ thống quy chuẩn; không nên nóng vội đòi hỏi kết quả ngay."},{"group":"2, 3, 5","text":"Rèn luyện tính kiên nhẫn; tiết chế sự ngẫu hứng để hoàn thành các cam kết."},{"group":"4, 6, 7","text":"Đúng điểm tựa năng lượng; tối ưu hóa công việc, quản lý tài chính và sức khỏe."}]},"5":{"title":"Bứt phá, Thay đổi & Tự do","groups":[{"group":"1, 8, 9","text":"Dũng cảm nắm bắt cơ hội chuyển dịch; cẩn trọng quản lý rủi ro tài chính."},{"group":"2, 3, 5","text":"Trải nghiệm phong phú, mở rộng thế giới quan; giữ tâm trí vững vàng trước cám dỗ."},{"group":"4, 6, 7","text":"Dễ gặp áp lực trước sự biến động; hãy coi sự thay đổi là cơ hội nâng cấp tư duy."}]},"6":{"title":"Gia đình, Trách nhiệm & Yêu thương","groups":[{"group":"1, 8, 9","text":"Gánh vác và bảo vệ người thân; tránh áp đặt tiêu chuẩn cá nhân lên tập thể."},{"group":"2, 3, 5","text":"Chữa lành các mối quan hệ; trao đi yêu thương nhưng cần thiết lập ranh giới rõ ràng."},{"group":"4, 6, 7","text":"Chăm sóc không gian sống, làm chỗ dựa tinh thần vững chắc cho gia đình."}]},"7":{"title":"Chiêm nghiệm, Học tập & Phát triển trí tuệ","groups":[{"group":"1, 8, 9","text":"Lùi một bước để nhìn lại chiến lược; đầu tư vào tri thức thay vì lao ra ngoài chinh phục."},{"group":"2, 3, 5","text":"Chậm lại để quay vào bên trong; tránh cảm giác bất an khi mọi việc tiến triển chậm."},{"group":"4, 6, 7","text":"Phát huy tối đa khả năng nghiên cứu, đúc kết bài học và nâng cao chuyên môn."}]},"8":{"title":"Gặt hái, Tài chính & Quyền lực","groups":[{"group":"1, 8, 9","text":"Đạt đỉnh cao về danh tiếng và tài chính nếu đã gieo nhân tốt; giữ sự khiêm nhường."},{"group":"2, 3, 5","text":"Hiện thực hóa ý tưởng thành giá trị vật chất; cần quản lý dòng tiền chặt chẽ."},{"group":"4, 6, 7","text":"Thu hoạch thành quả từ sự kiên trì; cân bằng giữa đời sống vật chất và tinh thần."}]},"9":{"title":"Buông bỏ, Dọn dẹp & Hoàn thành chu kỳ","groups":[{"group":"1, 8, 9","text":"Dũng cảm khép lại dự án hoặc mối quan hệ cũ không còn phù hợp để đón chu kỳ mới."},{"group":"2, 3, 5","text":"Học cách tha thứ, giải tỏa cảm xúc tiêu cực và tham gia các hoạt động cộng đồng."},{"group":"4, 6, 7","text":"Hoàn thiện công việc tồn đọng, làm sạch không gian sống và chuẩn bị nền tảng cho Năm 1."}]}};
+    const MISSING_YEAR_ADVICE = {"1":{"title":"Bài học Tự lập & Quyết đoán","years":{"1":"*Trọng tâm kích hoạt.* Bạn bắt buộc phải bước ra khỏi vùng an toàn. Đừng chờ đợi ai quyết định thay. Hãy tự khởi xướng dự án hoặc hướng đi mới.","2":"Tự lập trong sự hợp tác. Đừng biến sự lắng nghe thành sự lệ thuộc vào ý kiến người khác.","3":"Dùng sự chủ động để giao tiếp. Hãy tự tin nói lên quan điểm cá nhân trước đám đông thay vì e ngại.","4":"Lập kỷ luật riêng cho bản thân. Tự thiết lập quy chuẩn công việc mà không cần ai giám sát.","5":"Dũng cảm bước vào sự thay đổi. Đột phá cá nhân đến từ việc bạn tự mình lựa chọn con đường mới.","6":"Đứng ra gánh vác trách nhiệm gia đình/tập thể với vị thế người dẫn dắt, không trốn tránh.","7":"Tự nghiên cứu và hình thành thế giới quan độc lập, không chạy theo số đông.","8":"Tự mình quản lý tài chính và ra quyết định đầu tư/sự nghiệp lớn. Khẳng định giá trị bản thân.","9":"Dũng cảm cắt bỏ những mối quan hệ/công việc toxic bằng chính sự quyết đoán của bạn."}},"2":{"title":"Bài học Tấu cảm & Hợp tác","years":{"1":"Khởi đầu dự án mới nhưng phải rèn cách lắng nghe đồng đội, tránh cái tôi quá lớn.","2":"*Trọng tâm kích hoạt.* Môi trường thử thách sự kiên nhẫn. Bạn phải học cách hạ cái tôi, lắng nghe và giải quyết xung đột bằng sự hòa nhã.","3":"Học cách lắng nghe trước khi phát biểu. Kết nối cảm xúc qua lời nói chân thành.","4":"Hợp tác dựa trên các nguyên tắc và hợp đồng rõ ràng. Rèn sự tỉ mỉ trong giao tiếp.","5":"Mở lòng kết nối với những nhóm người mới. Linh hoạt ứng xử trong các môi trường đa dạng.","6":"Lắng nghe nhu cầu của người thân và đối tác. Chữa lành các vết thương trong mối quan hệ.","7":"Thấu hiểu chính mình thông qua quan sát cảm xúc ẩn sâu, lắng nghe trực giác.","8":"Hợp tác kinh doanh để cùng tạo ra tài chính. Cân bằng quyền lợi giữa các bên.","9":"Tha thứ và buông bỏ những khúc mắc cũ trong quá khứ để đón nhận năng lượng mới."}},"3":{"title":"Bài học Tự do Biểu đạt & Sáng tạo","years":{"1":"Bắt đầu chia sẻ câu chuyện, ý tưởng của bạn ra bên ngoài. Đừng giữ sự sáng tạo trong đầu.","2":"Bày tỏ cảm xúc chân thành với người đồng hành. Dùng lời nói để hàn gắn.","3":"*Trọng tâm kích hoạt.* Thời điểm buộc bạn phải giao tiếp, xuất hiện trước công chúng hoặc theo đuổi nghệ thuật/sáng tạo.","4":"Đưa sự sáng tạo vào khuôn khổ thực tế. Viết lách, đóng gói tri thức thành quy trình.","5":"Thể hiện sự hài hước, năng lượng tích cực qua các chuyến đi hoặc trải nghiệm mới.","6":"Dùng lời nói ấm áp để động viên người thân. Biểu đạt tình yêu thương bằng hành động cụ thể.","7":"Học cách diễn đạt những tư tưởng sâu sắc hoặc tri thức phức tạp một cách dễ hiểu.","8":"Dùng kỹ năng giao tiếp và đàm phán để gia tăng giá trị thương hiệu và tài chính.","9":"Truyền cảm hứng cho cộng đồng bằng những thông điệp nhân văn và năng lượng tích cực."}},"4":{"title":"Bài học Kỷ luật & Nền tảng","years":{"1":"Bắt đầu thói quen mới bằng tính kỷ luật. Lập kế hoạch chi tiết cho mục tiêu 9 năm tới.","2":"Xây dựng quy chuẩn rõ ràng cho các mối quan hệ và sự hợp tác để tránh mơ hồ.","3":"Đưa những ý tưởng bay bổng vào kế hoạch thực thi cụ thể có mốc thời gian rõ ràng.","4":"*Trọng tâm kích hoạt.* Bắt buộc phải sắp xếp lại cuộc sống: tài chính, sức khỏe, công việc. Làm việc có quy trình và sự kiên trì.","5":"Tạo lập \"khung xương kỷ luật\" để duy trì sự tự do bền vững, tránh sa đà vào hỗn loạn.","6":"Thiết lập trật tự, sự ổn định và an toàn tài chính cho gia đình.","7":"Đọc sách, nghiên cứu có hệ thống và tính ứng dụng cao thay vì học hời hợt.","8":"Quản lý dòng tiền chặt chẽ. Xây dựng nền tảng vững chắc trước khi mở rộng quy mô.","9":"Dọn dẹp đồ đạc, thanh lý công việc tồn đọng để tạo sự gọn gàng về cả vật chất lẫn tinh thần."}},"5":{"title":"Bài học Linh hoạt & Bứt phá","years":{"1":"Đổi mới tư duy hoàn toàn. Thử nghiệm một phương pháp làm việc hoàn toàn mới.","2":"Thích nghi linh hoạt với các thay đổi từ phía đối tác hoặc môi trường xung quanh.","3":"Mở rộng vốn sống qua giao tiếp, du lịch, trải nghiệm để nuôi dưỡng sự sáng tạo.","4":"Linh hoạt cải tiến những quy trình cũ kỹ, loại bỏ tính rập khuôn máy móc.","5":"*Trọng tâm kích hoạt.* Môi trường biến động mạnh. Bạn buộc phải bước ra khỏi vùng an toàn, chấp nhận rủi ro có tính toán.","6":"Đổi mới cách chăm sóc gia đình. Cho phép bản thân và người thân có khoảng không tự do.","7":"Trải nghiệm các phương pháp tư duy mới, trải nghiệm thực tế để kiểm chứng lý thuyết.","8":"Táo bạo nắm bắt cơ hội kinh doanh mới hoặc chuyển hướng chiến lược tài chính.","9":"Sẵn sàng buông bỏ thói quen cũ để đón nhận những thay đổi lớn sắp tới."}},"6":{"title":"Bài học Trách nhiệm & Yêu thương","years":{"1":"Tự chịu trách nhiệm 100% cho cuộc đời mình và bắt đầu xây dựng tổ ấm/không gian sống riêng.","2":"Học cách yêu thương có ranh giới. Chăm sóc người khác nhưng không quên bản thân.","3":"Mang niềm vui và sự ấm áp về cho gia đình hoặc không gian làm việc.","4":"Quản lý chỉ chu nhà cửa, tài chính gia đình và cam kết với các nghĩa vụ dài hạn.","5":"Cân bằng giữa sự tự do cá nhân và trách nhiệm đối với người thân yêu.","6":"*Trọng tâm kích hoạt.* Dành thời gian chữa lành các mối quan hệ ruột thịt, gánh vác trách nhiệm gia đình và học cách yêu thương chính mình.","7":"Chiêm nghiệm về cách cho đi và nhận lại. Quan tâm đến sức khỏe tinh thần của người thân.","8":"Tạo dựng sự an toàn tài chính vững chắc để bảo vệ và chăm sóc gia đình.","9":"Mở rộng tình yêu thương từ gia đình nhỏ ra cộng đồng, tham gia các hoạt động thiện nguyện."}},"7":{"title":"Bài học Tri thức & Chiêm nghiệm","years":{"1":"Trước khi bắt đầu dự án mới, hãy dành thời gian nghiên cứu sâu và nâng cao chuyên môn.","2":"Lắng nghe trực giác và phân tích kỹ lưỡng trước khi đặt niềm tin vào ai đó.","3":"Dùng tri thức đã đúc kết để chia sẻ, dạy lại hoặc truyền cảm hứng cho người khác.","4":"Đọc sách, học tập có chuyên môn cao để củng cố tay nghề và vị thế công việc.","5":"Trải nghiệm thực tế để rút ra bài học sâu sắc, biến lý thuyết thành trí tuệ thực chứng.","6":"Tìm hiểu về tâm lý học hoặc chữa lành để hiểu sâu hơn về bản thân và gia đình.","7":"*Trọng tâm kích hoạt.* Năm dành cho sự tĩnh lặng, quay vào bên trong, đi học nâng cao, đọc sách và định hình lại giá trị sống.","8":"Phân tích dữ liệu, đánh giá rủi ro cẩn thận trước khi đưa ra quyết định đầu tư lớn.","9":"Đúc kết toàn bộ bài học trong 9 năm qua để chuẩn bị cho bước tiến mới."}},"8":{"title":"Bài học Quản trị & Quyền lực","years":{"1":"Đặt mục tiêu tài chính rõ ràng ngay từ đầu chu kỳ. Rèn luyện bản lĩnh của người làm chủ.","2":"Rèn luyện sự chuyên nghiệp trong các thỏa thuận kinh doanh và phân chia lợi ích.","3":"Khẳng định giá trị bản thân, đàm phán mức thu nhập tương xứng với năng lực.","4":"Xây dựng hệ thống quản lý tài chính dòng tiền rõ ràng, minh bạch và chặt chẽ.","5":"Nắm bắt cơ hội đầu tư tạo dòng tiền mới, thoát khỏi lối tư duy an toàn về tiền bạc.","6":"Sử dụng tài chính như một công cụ để tạo dựng cuộc sống chất lượng cho gia đình.","7":"Nghiên cứu kỹ về quy luật giá trị, tiền bạc và các mô hình quản trị hiệu quả.","8":"*Trọng tâm kích hoạt.* Thời điểm gặt hái hoặc đối mặt với bài học tiền bạc. Học cách quản lý dòng tiền lớn, khẳng định quyền lực cá nhân.","9":"Dùng nguồn lực tài chính để phụng sự xã hội, cho đi đúng cách để dòng chảy tiền bạc lưu thông."}},"9":{"title":"Bài học Buông bỏ & Phụng sự","years":{"1":"Khởi đầu hành trình mới với mục tiêu mang lại giá trị rộng lớn cho cộng đồng, không chỉ cho riêng mình.","2":"Học cách bao dung, tha thứ cho những lầm lỗi của đối tác hoặc người thân.","3":"Dùng ngôn từ truyền tải thông điệp nhân văn, nâng cao tinh thần cho người nghe.","4":"Hoàn thành trọn vẹn các cam kết cũ trước khi bắt đầu công việc mới.","5":"Giải phóng bản thân khỏi những góc nhìn hẹp hòi, mở rộng tầm nhìn ra thế giới.","6":"Yêu thương vô điều kiện, học cách buông bỏ sự kiểm soát đối với người thân.","7":"Chiêm nghiệm về ý nghĩa cuộc sống, sống vị nghệ thuật và vị nhân sinh.","8":"Xây dựng doanh nghiệp hoặc dự án tạo ra công ăn việc làm và giá trị bền vững cho xã hội.","9":"*Trọng tâm kích hoạt.* Xả bỏ hoàn toàn những thứ không còn phục vụ cho sự phát triển (mối quan hệ, công việc, tư duy cũ), thực hiện các dự án cộng đồng."}}};
+    const SOUL_YEAR_INTERACTION = {"base":[{"groups":[1,8,22],"text":"Quyết đoán mở đường mới nhưng cần học cách hợp tác."},{"groups":[2,6,9,11,33],"text":"Lắng nghe trực giác, xây dựng đồng minh bền vững."},{"groups":[3,5],"text":"Thử nghiệm ý tưởng mới nhưng giữ cam kết dài hạn."},{"groups":[4,7],"text":"Lập kế hoạch chi tiết trước khi gieo hạt."}],"35":[{"groups":[1,3,5],"text":"Tối đa hóa khả năng giao tiếp, truyền cảm hứng và đổi mới."},{"groups":[4,7],"text":"Dũng cảm bước ra khỏi vùng an toàn, chấp nhận sự linh hoạt."},{"groups":[2,6,8],"text":"Mở rộng kết nối xã hội để phục vụ mục tiêu lớn hơn."}],"46":[{"groups":[4,7,8],"text":"Xây dựng hệ thống vững chắc, tập trung hiệu suất và quản trị."},{"groups":[2,6,9,33],"text":"Dành thời gian hàn gắn mối quan hệ, sống có trách nhiệm."},{"groups":[3,5],"text":"Đưa kỷ luật vào sự sáng tạo, tránh bay bổng mất định hướng."}],"79":[{"groups":[7,9,11],"text":"Nâng cao nhận thức, thiền định, chia sẻ giá trị cho cộng đồng."},{"groups":[1,8],"text":"Học cách chậm lại, tổng kết bài học thay vì lao ra ngoài tham vọng."},{"groups":[2,3,5,6],"text":"Thanh lọc năng lượng tiêu cực, dọn dẹp không gian sống và tâm trí."}],"8":[{"groups":[1,8,22],"text":"Tập trung tối đa vào mục tiêu sự nghiệp và tài chính."},{"groups":[2,6,9],"text":"Cân bằng giữa giá trị vật chất và giá trị nhân văn."},{"groups":[3,5,7],"text":"Biến tri thức và ý tưởng thành giá trị thực tế có thể đo lường."}]};
+    const KARMA_CORE = {"13/4":{"title":"Nợ của sự Lười biếng & Kỷ luật","cause":"Tiền kiếp từng đùn đẩy trách nhiệm, né tránh khó khăn, lợi dụng công sức của người khác hoặc sống thiếu kỷ luật, chọn con đường tắt.","challenges":["Cảm giác công việc lúc nào cũng nặng nề, làm nhiều nhưng kết quả đến chậm.","Thường xuyên gặp rào cản, dễ rơi vào trạng thái kiệt sức, nản lòng hoặc bế tắc."],"lessons":["Rèn luyện tính kiên trì, sự chi tiết và tinh thần làm việc chăm chỉ không ngừng nghỉ.","Chịu trách nhiệm 100% cho cuộc sống của mình, tuyệt đối không đổ lỗi cho hoàn cảnh hay người khác."]},"14/5":{"title":"Nợ của sự Buông thả & Lạm dụng Tự do","cause":"Tiền kiếp lạm dụng quyền tự do cá nhân, nuông chiều các giác quan (nghiện ngập, thói quen tiêu cực) hoặc xâm phạm tự do của người khác.","challenges":["Cuộc sống dễ gặp biến cố bất ngờ, thay đổi xoành xoạch khó lường.","Dễ bị cám dỗ bởi các thói quen xấu, khó duy trì sự cam kết lâu dài trong công việc lẫn tình cảm."],"lessons":["Học sự tự giác và kiểm soát bản thân (Self-control).","Hiểu rằng tự do chân chính chỉ xuất hiện khi bạn biết đặt ra những giới hạn lành mạnh cho chính mình."]},"16/7":{"title":"Nợ của Cái tôi & Sự Đổ vỡ Tình cảm","cause":"Tiền kiếp có cái tôi quá lớn, sống thiếu trung thực, coi thường giá trị tâm linh hoặc gây ra tổn thương tinh thần/tình cảm sâu sắc cho người khác.","challenges":["Trải qua những sự kiện \"sụp đổ đột ngột\" (mối quan hệ tan vỡ, thất bại tài chính) để đập tan sự kiêu ngạo.","Cảm giác cô đơn sâu sắc, khó tin tưởng người khác và luôn phải tự đứng lên từ đống đổ nát."],"lessons":["Thức tỉnh tâm linh, thực hành sự khiêm nhường và buông bỏ tâm lý muốn kiểm soát mọi thứ.","Học cách yêu thương chân thật, sẵn sàng đối diện với sự thật và lắng nghe tiếng nói nội tâm."]},"19/1":{"title":"Nợ của Quyền lực & Sự Ích kỷ","cause":"Tiền kiếp lạm dụng sức mạnh, vị thế hoặc quyền lực để thao túng, bắt buộc người khác phục vụ mục đích cá nhân.","challenges":["Luôn cảm thấy phải gánh vác mọi thứ một mình, khó nhận được sự trợ giúp từ xung quanh.","Dễ rơi vào trạng thái cực đoan: hoặc quá bảo thủ, ngoan cố, hoặc thiếu tự tin, phụ thuộc."],"lessons":["Học cách lắng nghe, hợp tác và đón nhận sự hỗ trợ từ người khác một cách cởi mở.","Sử dụng năng lượng lãnh đạo để nâng đỡ cộng đồng thay vì áp đặt cá nhân."]}};
+    const KARMA_MATRIX = {"13/4":{"1":{"problem":"Khởi đầu bằng sự bốc đồng, thiếu tính toán rồi dễ dàng bỏ dở giữa chừng.","advice":"Thiết lập kỷ luật và kế hoạch rõ ràng ngay từ ngày đầu tiên."},"2":{"problem":"Thói quen trì hoãn, lười biếng gây ảnh hưởng tiêu cực đến tiến độ chung của tập thể.","advice":"Học cách làm việc nhóm chăm chỉ, chủ động gánh vác trách nhiệm cùng đồng đội."},"3":{"problem":"Tình trạng \"nói nhiều làm ít\", chỉ thích những công việc bề nổi, vui vẻ ngắn hạn.","advice":"Biến mọi ý tưởng sáng tạo thành hành động thực tế mang tính bền vững."},"4":{"problem":"Áp lực công việc đè nặng; sự trì hoãn sẽ dẫn đến thất bại ngay lập tức.","advice":"Rèn luyện sự ngăn nắp, làm việc kiên trì và bền bỉ để xây dựng nền tảng vững chắc."},"5":{"problem":"Dùng sự linh hoạt làm cớ để trốn chạy trách nhiệm và nghĩa vụ hiện tại.","advice":"Mọi sự thay đổi hay bứt phá đều phải đi kèm với lộ trình thực thi cụ thể."},"6":{"problem":"Thói quen ỷ lại, né tránh các nhiệm vụ và nghĩa vụ đối với người thân.","advice":"Tự tay chăm sóc, gánh vác nghĩa vụ gia đình và công việc bằng sự tận tụy."},"7":{"problem":"Lối suy nghĩ lối mòn, lười suy nghĩ sâu sắc hoặc bỏ dở việc học hỏi giữa chừng.","advice":"Rèn luyện sự kiên trì trong nghiên cứu, quay vào bên trong để phát triển trí tuệ."},"8":{"problem":"Muốn đi tắt đón đầu, tìm kiếm lối đi tắt dẫn đến tổn thất lớn về tài chính.","advice":"Làm việc nghiêm túc, minh bạch; thành quả tài chính chỉ đến từ lao động chân chính."},"9":{"problem":"Đồn ứ các dự án dang dở do sự lười biếng kéo dài từ những năm trước.","advice":"Tập trung dọn dẹp, hoàn thành trọn vẹn các công việc cũ để bước sang chu kỳ mới."}},"14/5":{"1":{"problem":"Sa đà vào quá nhiều khởi đầu ngẫu hứng, phân tán năng lượng không mục đích.","advice":"Định hướng năng lượng vào mục tiêu cốt lõi có sự cam kết dài hạn."},"2":{"problem":"Dễ vội vàng chấm dứt một mối quan hệ chỉ vì thèm muốn cảm giác mới lạ.","advice":"Học cách kiên nhẫn, duy trì sự cam kết và sâu sắc trong các mối quan hệ."},"3":{"problem":"Sa đà vào các thú vui ngắn hạn, hành vi nghiện ngập hoặc tiêu xài hoang phí.","advice":"Dùng sự sáng tạo đúng chỗ, thực hành tiết chế các ham muốn tức thời."},"4":{"problem":"Cảm giác gò bó, ngột ngạt khi bị đưa vào khuôn khổ và quy tắc.","advice":"Chấp nhận sự kỷ luật như một chiếc khung bảo vệ bạn không bị văng khỏi quỹ đạo."},"5":{"problem":"Cạm bẫy cám dỗ lớn; năng lượng tự do dâng cao dễ gây ra hành động bốc đồng mất kiểm soát.","advice":"Thực hành \"tự do trong tự giác\", lường trước hậu quả dài hạn của mọi quyết định."},"6":{"problem":"Tránh né lời hứa, thiếu cam kết với trách nhiệm chăm sóc gia đình.","advice":"Giữ trọn lời hứa, tìm kiếm sự bình yên và tự do ngay trong những điều quen thuộc."},"7":{"problem":"Tâm trí bất an, liên tục lao ra bên ngoài tìm kiếm cảm giác mạnh để khỏa lấp khoảng trống.","advice":"Quản lý tâm trí, tìm kiếm sự tự do nội tại thông qua thiền định và tri thức sâu sắc."},"8":{"problem":"Ham muốn rủi ro cao, dễ sa vào đầu tư lướt sóng, cờ bạc dẫn đến thất thoát tiền bạc.","advice":"Kiểm soát dòng tiền nghiêm ngặt, chỉ chấp nhận rủi ro khi đã tính toán kỹ lưỡng."},"9":{"problem":"Sự bám chấp vào thói quen xấu, sự phụ thuộc hoặc các ham muốn vô bổ.","advice":"Kiên quyết buông bỏ những xềnh xàng, thói quen tiêu cực đã kéo ghì bạn suốt 8 năm."}},"16/7":{"1":{"problem":"Xây dựng kế hoạch mới dựa trên cái tôi lớn, sự kiêu ngạo hoặc ảo tưởng cá nhân.","advice":"Bắt đầu lại với thái độ khiêm nhường, học cách lắng nghe thực tế."},"2":{"problem":"Thái độ xa cách, lạnh lùng, coi thường cảm xúc hoặc sự đóng góp của người khác.","advice":"Mở rộng trái tim, lắng nghe và tôn trọng thế giới cảm xúc xung quanh."},"3":{"problem":"Dùng sự thông thái để hạ thấp người khác hoặc tạo ra vỏ bọc hào nhoáng giả tạo.","advice":"Sử dụng lời nói chân thành, trung thực và mang năng lượng chữa lành."},"4":{"problem":"Đối mặt với sự cố đột ngột đánh sập các cấu trúc vốn thiếu vững chắc.","advice":"Chấp nhận sự thật, dũng cảm đập bỏ ảo tưởng để tái thiết từ giá trị cốt lõi."},"5":{"problem":"Cố gắng kiểm soát những thay đổi bất ngờ ngoài tầm tay dẫn đến khủng hoảng.","advice":"Học cách linh hoạt, buông bỏ nhu cầu kiểm soát mang tính cái tôi."},"6":{"problem":"Mối quan hệ gia đình rạn nứt do cái tôi quá cao hoặc sự áp đặt ngầm.","advice":"Hạ cái tôi xuống, đối thoại chân thành để chữa lành các tổn thương trong gia đình."},"7":{"problem":"Dễ gặp những biến động hoặc cú sốc tinh thần lớn làm sụp đổ niềm tin cũ.","advice":"Tĩnh lặng quay vào bên trong, nghiên cứu tâm linh/triết học để thức tỉnh bản thể thật."},"8":{"problem":"Gắn giá trị bản thân vào quyền lực, địa vị hoặc của cải vật chất.","advice":"Coi tiền bạc và quyền lực là công cụ phụng sự thay vì phương tiện khẳng định cái tôi."},"9":{"problem":"Bám chấp vào hệ giá trị cũ kỹ, nhận thức sai lệch đã không còn phù hợp.","advice":"Buông bỏ hoàn toàn các ảo tưởng quá khứ để tâm hồn được tái sinh trọn vẹn."}},"19/1":{"1":{"problem":"Hành động độc đoán, chèn ép hoặc lợi dụng người khác để đạt mục tiêu cá nhân.","advice":"Học cách đứng trên đôi chân mình, dẫn dắt bằng sự yêu thương thay vì áp đặt."},"2":{"problem":"Cố chấp giữ lập trường cá nhân, từ chối sự hợp tác hoặc thỏa hiệp.","advice":"Luyện tập kỹ năng lắng nghe chủ động và hợp tác bình đẳng với đối phương."},"3":{"problem":"Biến mình thành trung tâm của sự chú ý, tranh giành ánh hào quang với tập thể.","advice":"Chia sẻ sân khấu, ghi nhận đóng góp và cùng sáng tạo với mọi người."},"4":{"problem":"Hành động độc đoán, coi thường luật lệ hoặc quy trình chung của tổ chức.","advice":"Tôn trọng kỷ luật chung, tuân thủ quy trình và đóng góp vào sức mạnh tập thể."},"5":{"problem":"Sự độc đoán khiến bản thân bị cô lập hoàn toàn trước những thay đổi của thời cuộc.","advice":"Mở rộng tầm nhìn bằng cách tiếp thu đa chiều các ý kiến đóng góp từ xung quanh."},"6":{"problem":"Phụng sự người thân với thái độ ban ơn, đòi hỏi sự đền đáp hoặc quyền kiểm soát.","advice":"Chăm sóc gia đình không điều kiện, buông bỏ nhu cầu thao túng người khác."},"7":{"problem":"Dùng quyền lực thô cứng hoặc vị thế để áp đặt suy nghĩ lên người khác.","advice":"Dùng trí tuệ và sự thấu hiểu để dẫn dắt, chiêm nghiệm lại cách sử dụng sức ảnh hưởng."},"8":{"problem":"Lạm dụng vị trí, quyền hạn để tư lợi cá nhân hoặc trục lợi riêng.","advice":"Tìm kiếm thành công dựa trên sự công bằng, minh bạch và nâng đỡ cộng sự."},"9":{"problem":"Nhu cầu chứng tỏ bản thân quá lớn làm rào cản cho sự phát triển chung.","advice":"Dịch chuyển tâm thức từ \"cái tôi\" (1) sang \"chúng ta\" (9), cống hiến vì lợi ích cộng đồng."}}};
+    const CAREER_GUIDANCE = {"1":{"fit":"Khởi nghiệp (Startup), CEO, quản lý cấp cao, kinh doanh độc lập, chính trị gia, hoặc các ngành nghề đòi hỏi sự cạnh tranh cao.","advice":"Học cách “lắng nghe thấu cảm”. Kỹ năng làm việc nhóm và ủy quyền là chìa khóa đưa bạn từ một “người giỏi” thành một “lãnh đạo vĩ đại”."},"2":{"fit":"Nhân sự, tư vấn tâm lý, trợ lý cấp cao, ngoại giao, chăm sóc khách hàng, dịch vụ nhà hàng/khách sạn (Hospitality).","advice":"Học cách thiết lập “ranh giới cá nhân” và nói “KHÔNG” khi cần thiết. Đừng để cảm xúc của người khác điều khiển cuộc đời mình."},"3":{"fit":"Truyền thông, Marketing, MC, diễn viên, nghệ thuật, viết lách, sale, thiết kế.","advice":"“Kỷ luật” là bài học lớn nhất. Cần học cách quản lý tài chính và tập trung hoàn thành một việc đến cùng thay vì bỏ dở."},"4":{"fit":"Tài chính kế toán, kỹ sư, quản lý vận hành, lập trình viên (IT), luật sư, thanh tra.","advice":"Học cách linh hoạt và mở lòng chấp nhận rủi ro ở mức độ vừa phải. Bớt xét nét với người khác và cho phép bản thân được thư giãn."},"5":{"fit":"Du lịch, bán hàng thị trường, tổ chức sự kiện, nhiếp ảnh gia, tiếp viên hàng không, chuyên gia review.","advice":"“Tự do thực sự đến từ tính kỷ luật”. Rèn khả năng cam kết với các mối quan hệ và công việc để không bị trượt dài vô định."},"6":{"fit":"Giáo dục, y tế, dịch vụ ẩm thực (F&B - ví dụ mở quán ăn gia đình, bánh cuốn, nhà hàng), thiết kế nội thất, chăm sóc sắc đẹp.","advice":"Học cách “buông bỏ” và để người khác tự trưởng thành thay vì làm hộ họ mọi thứ. Yêu thương bản thân trước khi chăm sóc thế giới."},"7":{"fit":"Nghiên cứu khoa học, phân tích dữ liệu, tâm lý học, cố vấn chiến lược, triết gia, các ngành khoa học huyền bí.","advice":"Mở lòng chia sẻ kiến thức thay vì giữ khư khư. Hạ bớt sự hoài nghi và kết nối với thế giới thực tại nhiều hơn."},"8":{"fit":"Kinh doanh, ngân hàng, đầu tư bất động sản, chuỗi nhà hàng (nhượng quyền), giám đốc điều hành.","advice":"Bài học lớn nhất là cân bằng giữa Vật chất và Tinh thần. Kinh doanh dựa trên đạo đức, kiếm tiền để tạo giá trị cho xã hội."},"9":{"fit":"Tổ chức phi chính phủ (NGO), hoạt động xã hội, giáo dục, chữa lành, nghệ thuật phục vụ nhân sinh.","advice":"Học cách “thực tế hóa lý tưởng”. Cần sự cân bằng giữa cho và nhận."},"11":{"fit":"Tâm lý học, diễn giả truyền cảm hứng, Tarot/Chiêm tinh.","advice":"Rèn luyện sức khỏe thể chất (thiền, yoga) để đủ sức chứa mức năng lượng tâm linh cao độ."},"22":{"fit":"Chủ tập đoàn, kiến trúc sư trưởng, quy hoạch đô thị, người kiến tạo hệ thống.","advice":"Chia nhỏ mục tiêu, giữ đạo đức kinh doanh, tránh tham lam mù quáng."},"33":{"fit":"Bác sĩ tâm thần học, nhà lãnh đạo tôn giáo/giáo dục, nhà hoạt động xã hội quốc tế.","advice":"Ranh giới số 1 cần học là không thể rót nước từ một chiếc ly rỗng; hãy yêu bản thân trước."}};
+
+    // Lưu trạng thái tính toán để dùng cho phần phân tích sâu và ảnh.
+    let analysisState = null;
+
+    function escapeHTML(value) {
+        return String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[ch]));
+    }
+
+    function getSoulAdvice(soul, year) {
+        const y = Number(year);
+        if ([3,5].includes(y)) return findSoulGroupAdvice(soul, SOUL_YEAR_INTERACTION['35']);
+        if ([4,6].includes(y)) return findSoulGroupAdvice(soul, SOUL_YEAR_INTERACTION['46']);
+        if ([7,9].includes(y)) return findSoulGroupAdvice(soul, SOUL_YEAR_INTERACTION['79']);
+        if (y === 8) return findSoulGroupAdvice(soul, SOUL_YEAR_INTERACTION['8']);
+        return findSoulGroupAdvice(soul, SOUL_YEAR_INTERACTION.base);
+    }
+
+    function findSoulGroupAdvice(soul, groups) {
+        const s = Number(soul);
+        const found = groups.find(item => item.groups.includes(s));
+        return found ? found.text : 'Hãy quan sát sự cộng hưởng giữa nhu cầu nội tâm và năng lượng năm hiện tại.';
+    }
+
+    function getAttitudeAdvice(attitudeNumber, year) {
+        const list = ATTITUDE_ADVICE[Number(year)]?.groups || [];
+        return list.find(item => item.group.split(',').map(x => Number(x.trim())).includes(Number(attitudeNumber)))?.text || 'Giữ cân bằng giữa năng lượng cá nhân và yêu cầu của năm.';
+    }
+
+    function getMissingAdvice(numbers, year) {
+        const nums = String(numbers || '').split(',').map(x => Number(x.trim())).filter(Boolean);
+        if (!nums.length) return 'Không có chỉ số thiếu để ưu tiên khắc phục.';
+        return nums.map(n => {
+            const block = MISSING_YEAR_ADVICE[n];
+            return block?.years?.[Number(year)] || '';
+        }).filter(Boolean).join(' ');
+    }
+
+    function detectKarmicDebts(rawValues) {
+        const result = [];
+        Object.entries(rawValues).forEach(([label,total]) => {
+            const n = Number(total);
+            const debt = n === 13 ? '13/4' : n === 14 ? '14/5' : n === 16 ? '16/7' : n === 19 ? '19/1' : null;
+            if (debt && !result.some(x => x.debt === debt)) result.push({ debt, source: label, raw: n });
+        });
+        return result;
+    }
+
+    function buildCurrentYearStrategy() {
+        const s = analysisState;
+        const y = Number(s.namCaNhan);
+        const shadow = YEAR_SHADOW[y];
+        const careerInfo = CAREER_GUIDANCE[Number(s.duongDoi)] || CAREER_GUIDANCE[reduceNum(s.duongDoi,false)];
+        const soulAdvice = getSoulAdvice(s.linhHon, y);
+        const attitudeAdvice = getAttitudeAdvice(s.thaiDo, y);
+        const missingAdvice = getMissingAdvice(s.chiSoThieu, y);
+        const months = MONTH_GUIDANCE[y]?.months || [];
+        const karmaItems = s.karmicDebts.map(k => {
+            const item = KARMA_MATRIX[k.debt]?.[y];
+            return {...k, core:KARMA_CORE[k.debt], matrix:item};
+        });
+        return {y, shadow, careerInfo, soulAdvice, attitudeAdvice, missingAdvice, months, karmaItems};
+    }
+
+    function showAdvanced(type) {
+        if (!analysisState) return;
+        const s = analysisState;
+        const current = buildCurrentYearStrategy();
+        let title = 'Phân tích sâu';
+        let html = '';
+
+        if (type === 'lifeStrategy') {
+            title = 'Đường đời – chiến lược cốt lõi';
+            const d = dictData.duongDoi?.[String(s.duongDoi)];
+            const careerInfo = CAREER_GUIDANCE[Number(s.duongDoi)] || CAREER_GUIDANCE[reduceNum(s.duongDoi,false)];
+            html = `<div class="meaning-box"><strong>Đường đời ${escapeHTML(s.duongDoi)}:</strong> ${escapeHTML(d?.[0] || '')}</div><div class="logic-warning"><strong>Điểm mù:</strong> ${escapeHTML(d?.[1] || '')}</div><div class="logic-highlight"><strong>Định hướng nghề nghiệp:</strong><br>${escapeHTML(careerInfo?.fit || '')}</div><div class="advice-box"><strong>Chiến lược phát triển:</strong><br>${escapeHTML(careerInfo?.advice || '')}</div>`;
+        } else if (type === 'currentYear') {
+            title = `Chiến lược Năm cá nhân ${current.y}`;
+            html = `<div class="logic-highlight"><strong>${escapeHTML(current.shadow?.title || '')} – ${escapeHTML(current.shadow?.shadow || '')}</strong></div><p>${escapeHTML(current.shadow?.difficulty || '')}</p><div class="logic-danger"><strong>Cạm bẫy cần tránh:</strong><br>${escapeHTML(current.shadow?.trap || '')}</div><div class="advice-box"><strong>Năng lượng hành động:</strong><br>${escapeHTML(MONTH_GUIDANCE[current.y]?.energy || '')}</div>`;
+        } else if (type === 'soulYear') {
+            title = 'Giao thoa Linh hồn × Năm cá nhân';
+            html = `<div class="logic-highlight"><strong>Linh hồn ${escapeHTML(s.linhHon)} × Năm ${escapeHTML(s.namCaNhan)}</strong></div><p>${escapeHTML(current.soulAdvice)}</p><div class="advice-box"><strong>Khao khát nội tâm:</strong><br>${escapeHTML(dictData.linhHon?.[String(s.linhHon)]?.[0] || '')}</div>`;
+        } else if (type === 'yearAdvice') {
+            title = 'Lời khuyên cho năm nay';
+            html = `<div class="logic-highlight"><strong>Thái độ ${escapeHTML(s.thaiDo)} × Năm ${escapeHTML(s.namCaNhan)}</strong></div><p>${escapeHTML(current.attitudeAdvice)}</p>`;
+            if (s.namCaNhan === Number(s.duongDoi)) html += `<div class="advice-box"><strong>Cộng hưởng:</strong> Đường đời và Năm cá nhân cùng số, nên chủ động tận dụng năng lượng nhưng kiểm soát cái tôi và cảm xúc.</div>`;
+            if (Number(s.duongDoi) === 5 && s.namCaNhan === 4) html += `<div class="logic-warning"><strong>Xung đột nổi bật:</strong> Đường đời 5 gặp Năm 4. Kỷ luật hóa sự di chuyển thay vì ép bản thân ngồi yên.</div>`;
+        } else if (type === 'weakness') {
+            title = 'Khắc phục điểm yếu – Chỉ số Thiếu × Năm';
+            if (s.chiSoThieu === 'Không thiếu') html = `<div class="logic-highlight"><strong>Không thiếu chỉ số.</strong><br>Ưu tiên củng cố các chỉ số hiện có thay vì khắc phục một điểm khuyết cụ thể.</div>`;
+            else {
+                const nums = s.chiSoThieu.split(',').map(x=>Number(x.trim())).filter(Boolean);
+                html = nums.map(n => `<div class="logic-highlight"><strong>Thiếu ${n} – ${escapeHTML(MISSING_YEAR_ADVICE[n]?.title || '')}</strong><p>${escapeHTML(MISSING_YEAR_ADVICE[n]?.years?.[current.y] || '')}</p></div>`).join('');
+            }
+        } else if (type === 'karma') {
+            title = 'Nợ nghiệp – cảnh báo và chuyển hóa';
+            if (!current.karmaItems.length) html = `<div class="logic-highlight"><strong>Chưa phát hiện nợ nghiệp trong các tổng lõi được kiểm tra.</strong><br>Tài liệu nguồn không đưa ra công thức nhận diện tự động; phiên bản này kiểm tra các tổng trước rút gọn của các chỉ số lõi.</div>`;
+            else current.karmaItems.forEach(k => {
+                html += `<div class="logic-danger"><strong>${escapeHTML(k.debt)} – ${escapeHTML(k.core?.title || '')}</strong><p>${escapeHTML(k.core?.cause || '')}</p></div>`;
+                if (k.core?.challenges?.length) html += `<strong>Thử thách:</strong><ul class="logic-list">${k.core.challenges.map(x=>`<li>${escapeHTML(x)}</li>`).join('')}</ul>`;
+                if (k.matrix) html += `<div class="logic-highlight"><strong>Năm ${current.y}:</strong><br>${escapeHTML(k.matrix.problem)}</div><div class="advice-box"><strong>Chuyển hóa:</strong><br>${escapeHTML(k.matrix.advice)}</div>`;
+            });
+        } else if (type === 'career') {
+            title = 'Định hướng nghề nghiệp';
+            const c = CAREER_GUIDANCE[Number(s.duongDoi)] || CAREER_GUIDANCE[reduceNum(s.duongDoi,false)];
+            html = `<div class="logic-highlight"><strong>Đường đời ${escapeHTML(s.duongDoi)}</strong><br>${escapeHTML(c?.fit || 'Chưa có dữ liệu nghề nghiệp tương ứng trong tài liệu nguồn.')}</div><div class="advice-box"><strong>Thái độ phát triển:</strong><br>${escapeHTML(c?.advice || '')}</div>`;
+        } else if (type === 'monthly') {
+            title = `Lịch chiến lược – Năm cá nhân ${current.y}`;
+            const list = current.months.map(m => `<div class="month-item"><strong>Tháng ${m.month}:</strong> ${escapeHTML(m.text)}</div>`).join('');
+            html = `<div class="meaning-box"><strong>${escapeHTML(MONTH_GUIDANCE[current.y]?.energy || '')}</strong></div><div class="month-list">${list}</div>`;
+        }
+        document.getElementById('modalTitle').innerText = title;
+        document.getElementById('modalContent').innerHTML = html;
+        document.getElementById('detailModal').style.display='flex';
+    }
+
+    function buildSaveOptions() {
+        const core = [
+            ['duongDoi','Đường đời','r_duongDoi'],['suMenh','Sứ mệnh','r_suMenh'],['linhHon','Linh hồn','r_linhHon'],['nhanCach','Nhân cách','r_nhanCach'],['ngaySinh','Ngày sinh','r_ngaySinh'],['truongThanh','Trưởng thành','r_truongThanh'],['canBang','Cân bằng','r_canBang'],['thaiDo','Thái độ','r_thaiDo'],['knDdSm','KN Đường đời – Sứ mệnh','r_knDdSm'],['knLhNc','KN Linh hồn – Nhân cách','r_knLhNc'],['tuDuy','Tư duy lý trí','r_tuDuy'],['tiemThuc','Sức mạnh tiềm thức','r_tiemThuc'],['damMe','Đam mê','r_damMe'],['thieu','Chỉ số thiếu','r_thieu'],['namCaNhan','Năm cá nhân','r_namCaNhan'],['thangCaNhan','Tháng cá nhân','r_thangCaNhan']
+        ];
+        const extra = [
+            ['lifeStrategy','Chiến lược Đường đời'],['currentYear','Chiến lược năm hiện tại'],['soulYear','Giao thoa Linh hồn × Năm'],['yearAdvice','Lời khuyên cho năm nay'],['weakness','Khắc phục điểm yếu'],['karma','Nợ nghiệp'],['career','Định hướng nghề nghiệp'],['monthly','Chiến lược 9 tháng']
+        ];
+        return {core,extra};
+    }
+
+    function openSaveModal() {
+        if (!analysisState) return;
+        const {core,extra}=buildSaveOptions();
+        const box=document.getElementById('saveOptions');
+        box.innerHTML = core.map(([key,label,id]) => `<label class="save-option"><input type="checkbox" data-kind="core" data-key="${key}" data-id="${id}" checked><span>${escapeHTML(label)} <b>(${escapeHTML(document.getElementById(id)?.innerText || '')})</b></span></label>`).join('') + '<div class="section-title" style="margin:8px 0 0;font-size:14px">Phân tích logic</div>' + extra.map(([key,label]) => `<label class="save-option"><input type="checkbox" data-kind="extra" data-key="${key}" checked><span>${escapeHTML(label)}</span></label>`).join('');
+        document.getElementById('saveModal').style.display='flex';
+    }
+
+    function closeSaveModal(event) {
+        if (event===true || event?.target?.id==='saveModal') document.getElementById('saveModal').style.display='none';
+    }
+
+    function wrapCanvasText(ctx, text, maxWidth) {
+        const words=String(text).split(/\s+/); const lines=[]; let line='';
+        words.forEach(word=>{ const test=line?line+' '+word:word; if(ctx.measureText(test).width>maxWidth && line){lines.push(line);line=word;} else line=test; });
+        if(line)lines.push(line); return lines;
+    }
+
+    function drawWrapped(ctx, text, x, y, maxWidth, lineHeight, align='left', bold=false) {
+        ctx.font=(bold?'700 ':'400 ') + '36px Arial'; ctx.textAlign=align; ctx.textBaseline='top';
+        const lines=wrapCanvasText(ctx,text,maxWidth); lines.forEach((line,i)=>ctx.fillText(line,x,y+i*lineHeight)); return y+lines.length*lineHeight;
+    }
+
+    function buildImageSections(selected, mode) {
+        const s=analysisState, current=buildCurrentYearStrategy(); const out=[];
+        const labels={duongDoi:'Đường đời',suMenh:'Sứ mệnh',linhHon:'Linh hồn',nhanCach:'Nhân cách',ngaySinh:'Ngày sinh',truongThanh:'Trưởng thành',canBang:'Cân bằng',knDdSm:'KN Đường đời – Sứ mệnh',knLhNc:'KN Linh hồn – Nhân cách',tuDuy:'Tư duy lý trí',tiemThuc:'Sức mạnh tiềm thức',damMe:'Đam mê',thieu:'Chỉ số thiếu',namCaNhan:'Năm cá nhân',thangCaNhan:'Tháng cá nhân'};
+        selected.forEach(item=>{
+            // Ảnh 1 chỉ chứa tên + giá trị chỉ số; bỏ qua các mục logic chi tiết.
+            if(mode===1 && item.kind!=='core') return;
+            if(item.kind==='core'){
+                const val=document.getElementById(item.id)?.innerText || '--'; out.push({title:labels[item.key]||item.key, value:val});
+            } else if(item.key==='lifeStrategy'){ out.push({title:'Đường đời – chiến lược', text:`Đường đời ${s.duongDoi}. Điểm mạnh: ${dictData.duongDoi?.[String(s.duongDoi)]?.[0]||''}. Điểm mù: ${dictData.duongDoi?.[String(s.duongDoi)]?.[1]||''}.`}); out.push({title:'Nghề nghiệp',text:current.careerInfo?.fit||''}); }
+            else if(item.key==='currentYear'){ out.push({title:`Chiến lược năm ${current.y}`,text:`Góc khuất: ${current.shadow.shadow}. ${current.shadow.difficulty} Cạm bẫy: ${current.shadow.trap}`}); }
+            else if(item.key==='soulYear'){ out.push({title:'Giao thoa Linh hồn × Năm',text:current.soulAdvice}); }
+            else if(item.key==='yearAdvice'){ out.push({title:'Lời khuyên cho năm nay',text:current.attitudeAdvice}); }
+            else if(item.key==='weakness'){ out.push({title:'Khắc phục điểm yếu',text:current.missingAdvice}); }
+            else if(item.key==='karma'){ if(!current.karmaItems.length) out.push({title:'Nợ nghiệp',text:'Chưa phát hiện nợ nghiệp trong các tổng lõi được kiểm tra.'}); else current.karmaItems.forEach(k=>out.push({title:`Nợ nghiệp ${k.debt}`,text:`${k.core?.title||''}. Năm ${current.y}: ${k.matrix?.problem||''} Chuyển hóa: ${k.matrix?.advice||''}`})); }
+            else if(item.key==='career'){ out.push({title:'Định hướng nghề nghiệp',text:current.careerInfo?.fit||''}); out.push({title:'Thái độ phát triển nghề nghiệp',text:current.careerInfo?.advice||''}); }
+            else if(item.key==='monthly'){ current.months.forEach(m=>out.push({title:`Tháng ${m.month}`,text:m.text})); }
+        });
+        return out;
+    }
+
+    function saveSelectedAsImage(mode) {
+        const checked=[...document.querySelectorAll('#saveOptions input[type="checkbox"]:checked')].map(el=>({kind:el.dataset.kind,key:el.dataset.key,id:el.dataset.id}));
+        if(!checked.length) { alert('Hãy chọn ít nhất một mục để lưu.'); return; }
+        const sections=buildImageSections(checked,mode);
+        const width=1080, pad=80, maxW=width-pad*2, lineH=48, titleSize=52;
+        let height=260;
+        const measure=document.createElement('canvas'); const mc=measure.getContext('2d');
+        sections.forEach(sec=>{mc.font='400 36px Arial'; const text=mode===1?(sec.value||''):sec.text||sec.value||''; const lines=wrapCanvasText(mc,text,maxW); height += 120 + lines.length*lineH;});
+        height += 120;
+        const canvas=document.createElement('canvas'); canvas.width=width; canvas.height=Math.max(1200,height);
+        const ctx=canvas.getContext('2d');
+        ctx.fillStyle='#f6f3f8'; ctx.fillRect(0,0,width,canvas.height);
+        ctx.fillStyle='#5c257f'; ctx.fillRect(0,0,width,18);
+        ctx.fillStyle='#ffffff'; ctx.textAlign='center'; ctx.font=`700 ${titleSize}px Arial`; ctx.fillText('BÁO CÁO THẦN SỐ HỌC',width/2,70);
+        ctx.fillStyle='#777'; ctx.font='400 26px Arial'; ctx.fillText(`${s.fullName} • ${s.dateDisplay}`,width/2,145);
+        let y=210;
+        sections.forEach((sec,idx)=>{
+            ctx.fillStyle='#ffffff'; const lines=wrapCanvasText(ctx,mode===1?(sec.value||''):sec.text||sec.value||'',maxW-50); const h=78+lines.length*lineH+30;
+            ctx.beginPath(); ctx.roundRect(pad,y,width-pad*2,h,20); ctx.fill();
+            ctx.fillStyle='#5c257f'; ctx.textAlign='left'; ctx.font='700 34px Arial'; ctx.fillText(sec.title,pad+25,y+20);
+            ctx.fillStyle='#333'; ctx.font='400 32px Arial'; lines.forEach((line,i)=>ctx.fillText(line,pad+25,y+72+i*lineH));
+            y += h+22;
+        });
+        ctx.fillStyle='#888'; ctx.font='400 22px Arial'; ctx.textAlign='center'; ctx.fillText('Nội dung được tổng hợp theo tài liệu logic bạn cung cấp.',width/2,Math.min(y+40,canvas.height-40));
+        canvas.toBlob(blob=>{
+            if(!blob) return; const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=`than-so-hoc-${mode}-${Date.now()}.png`; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(url),1000);
+        },'image/png');
+    }
 
 </script>
 </body>
