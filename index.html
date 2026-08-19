@@ -482,7 +482,7 @@
                     <button class="advanced-btn" onclick="showAdvanced('weakness')"><span>🛠️</span><strong>Khắc phục điểm yếu</strong><small>Chỉ số Thiếu × Năm</small></button>
                     <button class="advanced-btn" onclick="showAdvanced('karma')"><span>⚠️</span><strong>Nợ nghiệp</strong><small>Kiểm tra + chuyển hóa</small></button>
                     <button class="advanced-btn" onclick="showAdvanced('career')"><span>💼</span><strong>Định hướng nghề nghiệp</strong><small>Theo Đường đời</small></button>
-                    <button class="advanced-btn" onclick="showAdvanced('monthly')"><span>🗓️</span><strong>Chiến lược 9 tháng</strong><small>Tháng hiện tại + toàn năm</small></button>
+                    <button class="advanced-btn" onclick="showAdvanced('monthly')"><span>🗓️</span><strong>Chiến lược tháng hiện tại</strong><small>Theo đúng Tháng cá nhân</small></button>
                 </div>
                 <button class="save-btn" onclick="openSaveModal()">💾 Lưu kết quả thành ảnh</button>
             </div>
@@ -1187,6 +1187,124 @@
     const KARMA_MATRIX = {"13/4":{"1":{"problem":"Khởi đầu bằng sự bốc đồng, thiếu tính toán rồi dễ dàng bỏ dở giữa chừng.","advice":"Thiết lập kỷ luật và kế hoạch rõ ràng ngay từ ngày đầu tiên."},"2":{"problem":"Thói quen trì hoãn, lười biếng gây ảnh hưởng tiêu cực đến tiến độ chung của tập thể.","advice":"Học cách làm việc nhóm chăm chỉ, chủ động gánh vác trách nhiệm cùng đồng đội."},"3":{"problem":"Tình trạng \"nói nhiều làm ít\", chỉ thích những công việc bề nổi, vui vẻ ngắn hạn.","advice":"Biến mọi ý tưởng sáng tạo thành hành động thực tế mang tính bền vững."},"4":{"problem":"Áp lực công việc đè nặng; sự trì hoãn sẽ dẫn đến thất bại ngay lập tức.","advice":"Rèn luyện sự ngăn nắp, làm việc kiên trì và bền bỉ để xây dựng nền tảng vững chắc."},"5":{"problem":"Dùng sự linh hoạt làm cớ để trốn chạy trách nhiệm và nghĩa vụ hiện tại.","advice":"Mọi sự thay đổi hay bứt phá đều phải đi kèm với lộ trình thực thi cụ thể."},"6":{"problem":"Thói quen ỷ lại, né tránh các nhiệm vụ và nghĩa vụ đối với người thân.","advice":"Tự tay chăm sóc, gánh vác nghĩa vụ gia đình và công việc bằng sự tận tụy."},"7":{"problem":"Lối suy nghĩ lối mòn, lười suy nghĩ sâu sắc hoặc bỏ dở việc học hỏi giữa chừng.","advice":"Rèn luyện sự kiên trì trong nghiên cứu, quay vào bên trong để phát triển trí tuệ."},"8":{"problem":"Muốn đi tắt đón đầu, tìm kiếm lối đi tắt dẫn đến tổn thất lớn về tài chính.","advice":"Làm việc nghiêm túc, minh bạch; thành quả tài chính chỉ đến từ lao động chân chính."},"9":{"problem":"Đồn ứ các dự án dang dở do sự lười biếng kéo dài từ những năm trước.","advice":"Tập trung dọn dẹp, hoàn thành trọn vẹn các công việc cũ để bước sang chu kỳ mới."}},"14/5":{"1":{"problem":"Sa đà vào quá nhiều khởi đầu ngẫu hứng, phân tán năng lượng không mục đích.","advice":"Định hướng năng lượng vào mục tiêu cốt lõi có sự cam kết dài hạn."},"2":{"problem":"Dễ vội vàng chấm dứt một mối quan hệ chỉ vì thèm muốn cảm giác mới lạ.","advice":"Học cách kiên nhẫn, duy trì sự cam kết và sâu sắc trong các mối quan hệ."},"3":{"problem":"Sa đà vào các thú vui ngắn hạn, hành vi nghiện ngập hoặc tiêu xài hoang phí.","advice":"Dùng sự sáng tạo đúng chỗ, thực hành tiết chế các ham muốn tức thời."},"4":{"problem":"Cảm giác gò bó, ngột ngạt khi bị đưa vào khuôn khổ và quy tắc.","advice":"Chấp nhận sự kỷ luật như một chiếc khung bảo vệ bạn không bị văng khỏi quỹ đạo."},"5":{"problem":"Cạm bẫy cám dỗ lớn; năng lượng tự do dâng cao dễ gây ra hành động bốc đồng mất kiểm soát.","advice":"Thực hành \"tự do trong tự giác\", lường trước hậu quả dài hạn của mọi quyết định."},"6":{"problem":"Tránh né lời hứa, thiếu cam kết với trách nhiệm chăm sóc gia đình.","advice":"Giữ trọn lời hứa, tìm kiếm sự bình yên và tự do ngay trong những điều quen thuộc."},"7":{"problem":"Tâm trí bất an, liên tục lao ra bên ngoài tìm kiếm cảm giác mạnh để khỏa lấp khoảng trống.","advice":"Quản lý tâm trí, tìm kiếm sự tự do nội tại thông qua thiền định và tri thức sâu sắc."},"8":{"problem":"Ham muốn rủi ro cao, dễ sa vào đầu tư lướt sóng, cờ bạc dẫn đến thất thoát tiền bạc.","advice":"Kiểm soát dòng tiền nghiêm ngặt, chỉ chấp nhận rủi ro khi đã tính toán kỹ lưỡng."},"9":{"problem":"Sự bám chấp vào thói quen xấu, sự phụ thuộc hoặc các ham muốn vô bổ.","advice":"Kiên quyết buông bỏ những xềnh xàng, thói quen tiêu cực đã kéo ghì bạn suốt 8 năm."}},"16/7":{"1":{"problem":"Xây dựng kế hoạch mới dựa trên cái tôi lớn, sự kiêu ngạo hoặc ảo tưởng cá nhân.","advice":"Bắt đầu lại với thái độ khiêm nhường, học cách lắng nghe thực tế."},"2":{"problem":"Thái độ xa cách, lạnh lùng, coi thường cảm xúc hoặc sự đóng góp của người khác.","advice":"Mở rộng trái tim, lắng nghe và tôn trọng thế giới cảm xúc xung quanh."},"3":{"problem":"Dùng sự thông thái để hạ thấp người khác hoặc tạo ra vỏ bọc hào nhoáng giả tạo.","advice":"Sử dụng lời nói chân thành, trung thực và mang năng lượng chữa lành."},"4":{"problem":"Đối mặt với sự cố đột ngột đánh sập các cấu trúc vốn thiếu vững chắc.","advice":"Chấp nhận sự thật, dũng cảm đập bỏ ảo tưởng để tái thiết từ giá trị cốt lõi."},"5":{"problem":"Cố gắng kiểm soát những thay đổi bất ngờ ngoài tầm tay dẫn đến khủng hoảng.","advice":"Học cách linh hoạt, buông bỏ nhu cầu kiểm soát mang tính cái tôi."},"6":{"problem":"Mối quan hệ gia đình rạn nứt do cái tôi quá cao hoặc sự áp đặt ngầm.","advice":"Hạ cái tôi xuống, đối thoại chân thành để chữa lành các tổn thương trong gia đình."},"7":{"problem":"Dễ gặp những biến động hoặc cú sốc tinh thần lớn làm sụp đổ niềm tin cũ.","advice":"Tĩnh lặng quay vào bên trong, nghiên cứu tâm linh/triết học để thức tỉnh bản thể thật."},"8":{"problem":"Gắn giá trị bản thân vào quyền lực, địa vị hoặc của cải vật chất.","advice":"Coi tiền bạc và quyền lực là công cụ phụng sự thay vì phương tiện khẳng định cái tôi."},"9":{"problem":"Bám chấp vào hệ giá trị cũ kỹ, nhận thức sai lệch đã không còn phù hợp.","advice":"Buông bỏ hoàn toàn các ảo tưởng quá khứ để tâm hồn được tái sinh trọn vẹn."}},"19/1":{"1":{"problem":"Hành động độc đoán, chèn ép hoặc lợi dụng người khác để đạt mục tiêu cá nhân.","advice":"Học cách đứng trên đôi chân mình, dẫn dắt bằng sự yêu thương thay vì áp đặt."},"2":{"problem":"Cố chấp giữ lập trường cá nhân, từ chối sự hợp tác hoặc thỏa hiệp.","advice":"Luyện tập kỹ năng lắng nghe chủ động và hợp tác bình đẳng với đối phương."},"3":{"problem":"Biến mình thành trung tâm của sự chú ý, tranh giành ánh hào quang với tập thể.","advice":"Chia sẻ sân khấu, ghi nhận đóng góp và cùng sáng tạo với mọi người."},"4":{"problem":"Hành động độc đoán, coi thường luật lệ hoặc quy trình chung của tổ chức.","advice":"Tôn trọng kỷ luật chung, tuân thủ quy trình và đóng góp vào sức mạnh tập thể."},"5":{"problem":"Sự độc đoán khiến bản thân bị cô lập hoàn toàn trước những thay đổi của thời cuộc.","advice":"Mở rộng tầm nhìn bằng cách tiếp thu đa chiều các ý kiến đóng góp từ xung quanh."},"6":{"problem":"Phụng sự người thân với thái độ ban ơn, đòi hỏi sự đền đáp hoặc quyền kiểm soát.","advice":"Chăm sóc gia đình không điều kiện, buông bỏ nhu cầu thao túng người khác."},"7":{"problem":"Dùng quyền lực thô cứng hoặc vị thế để áp đặt suy nghĩ lên người khác.","advice":"Dùng trí tuệ và sự thấu hiểu để dẫn dắt, chiêm nghiệm lại cách sử dụng sức ảnh hưởng."},"8":{"problem":"Lạm dụng vị trí, quyền hạn để tư lợi cá nhân hoặc trục lợi riêng.","advice":"Tìm kiếm thành công dựa trên sự công bằng, minh bạch và nâng đỡ cộng sự."},"9":{"problem":"Nhu cầu chứng tỏ bản thân quá lớn làm rào cản cho sự phát triển chung.","advice":"Dịch chuyển tâm thức từ \"cái tôi\" (1) sang \"chúng ta\" (9), cống hiến vì lợi ích cộng đồng."}}};
     const CAREER_GUIDANCE = {"1":{"fit":"Khởi nghiệp (Startup), CEO, quản lý cấp cao, kinh doanh độc lập, chính trị gia, hoặc các ngành nghề đòi hỏi sự cạnh tranh cao.","advice":"Học cách “lắng nghe thấu cảm”. Kỹ năng làm việc nhóm và ủy quyền là chìa khóa đưa bạn từ một “người giỏi” thành một “lãnh đạo vĩ đại”."},"2":{"fit":"Nhân sự, tư vấn tâm lý, trợ lý cấp cao, ngoại giao, chăm sóc khách hàng, dịch vụ nhà hàng/khách sạn (Hospitality).","advice":"Học cách thiết lập “ranh giới cá nhân” và nói “KHÔNG” khi cần thiết. Đừng để cảm xúc của người khác điều khiển cuộc đời mình."},"3":{"fit":"Truyền thông, Marketing, MC, diễn viên, nghệ thuật, viết lách, sale, thiết kế.","advice":"“Kỷ luật” là bài học lớn nhất. Cần học cách quản lý tài chính và tập trung hoàn thành một việc đến cùng thay vì bỏ dở."},"4":{"fit":"Tài chính kế toán, kỹ sư, quản lý vận hành, lập trình viên (IT), luật sư, thanh tra.","advice":"Học cách linh hoạt và mở lòng chấp nhận rủi ro ở mức độ vừa phải. Bớt xét nét với người khác và cho phép bản thân được thư giãn."},"5":{"fit":"Du lịch, bán hàng thị trường, tổ chức sự kiện, nhiếp ảnh gia, tiếp viên hàng không, chuyên gia review.","advice":"“Tự do thực sự đến từ tính kỷ luật”. Rèn khả năng cam kết với các mối quan hệ và công việc để không bị trượt dài vô định."},"6":{"fit":"Giáo dục, y tế, dịch vụ ẩm thực (F&B - ví dụ mở quán ăn gia đình, bánh cuốn, nhà hàng), thiết kế nội thất, chăm sóc sắc đẹp.","advice":"Học cách “buông bỏ” và để người khác tự trưởng thành thay vì làm hộ họ mọi thứ. Yêu thương bản thân trước khi chăm sóc thế giới."},"7":{"fit":"Nghiên cứu khoa học, phân tích dữ liệu, tâm lý học, cố vấn chiến lược, triết gia, các ngành khoa học huyền bí.","advice":"Mở lòng chia sẻ kiến thức thay vì giữ khư khư. Hạ bớt sự hoài nghi và kết nối với thế giới thực tại nhiều hơn."},"8":{"fit":"Kinh doanh, ngân hàng, đầu tư bất động sản, chuỗi nhà hàng (nhượng quyền), giám đốc điều hành.","advice":"Bài học lớn nhất là cân bằng giữa Vật chất và Tinh thần. Kinh doanh dựa trên đạo đức, kiếm tiền để tạo giá trị cho xã hội."},"9":{"fit":"Tổ chức phi chính phủ (NGO), hoạt động xã hội, giáo dục, chữa lành, nghệ thuật phục vụ nhân sinh.","advice":"Học cách “thực tế hóa lý tưởng”. Cần sự cân bằng giữa cho và nhận."},"11":{"fit":"Tâm lý học, diễn giả truyền cảm hứng, Tarot/Chiêm tinh.","advice":"Rèn luyện sức khỏe thể chất (thiền, yoga) để đủ sức chứa mức năng lượng tâm linh cao độ."},"22":{"fit":"Chủ tập đoàn, kiến trúc sư trưởng, quy hoạch đô thị, người kiến tạo hệ thống.","advice":"Chia nhỏ mục tiêu, giữ đạo đức kinh doanh, tránh tham lam mù quáng."},"33":{"fit":"Bác sĩ tâm thần học, nhà lãnh đạo tôn giáo/giáo dục, nhà hoạt động xã hội quốc tế.","advice":"Ranh giới số 1 cần học là không thể rót nước từ một chiếc ly rỗng; hãy yêu bản thân trước."}};
 
+    // === MA TRẬN ĐỊNH HƯỚNG NGHỀ NGHIỆP 12 x 12 x 12 ===
+    // ĐĐ = môi trường/bối cảnh; SM = công cụ làm việc; LH = điều kiện thỏa mãn nội tâm.
+    const CAREER_MATRIX = {
+        1:{env:'Môi trường tiên phong & độc lập: cạnh tranh, tự chủ, khởi nghiệp, mở đường hoặc làm chủ.',groups:[
+            {sm:[1],tool:'Công cụ Lãnh đạo',jobs:{'1,8':'Lãnh đạo doanh nghiệp, Startup Founder, Giám đốc điều hành độc lập.','2,6,9':'Lãnh đạo các tổ chức phụng sự, Giám đốc Nhân sự, Quản lý dự án cộng đồng.','3,5':'Diễn giả truyền cảm hứng, Giám đốc sáng tạo, Nhà sáng lập thương hiệu cá nhân.','4,7':'Giám đốc Kỹ thuật (CTO), Quản lý Quỹ đầu tư, Chuyên gia chiến lược dữ liệu.','11,22,33':'Lãnh đạo tầm nhìn vĩ mô, Nhà kiến tạo mô hình kinh doanh mới.'}},
+            {sm:[2,6,9],tool:'Công cụ Kết nối & Phụng sự',jobs:{'1,8':'Điều hành doanh nghiệp xã hội, Quản lý Bệnh viện/Trường tư thục.','2,6,9':'Trị liệu tâm lý độc lập, Chuyên gia tư vấn khai vấn (Life Coach) tự do.','3,5':'Đạo diễn phim tư liệu nhân văn, Chuyên gia truyền thông cộng đồng.','4,7':'Chuyên gia nghiên cứu tâm lý hành vi, Luật sư nhân quyền độc lập.','11,22,33':'Chuyên gia chữa lành năng lượng, Nhà sáng lập phong trào tỉnh thức.'}},
+            {sm:[3,5],tool:'Công cụ Truyền thông & Sáng tạo',jobs:{'1,8':'Chủ agency truyền thông, Nhà sản xuất nội dung độc lập, Showrunner.','2,6,9':'Nhà viết sách tâm lý, Biên kịch tự do, Chuyên gia trị liệu nghệ thuật.','3,5':'Content Creator đỉnh cao, Travel Blogger tự do, MC/Diễn giả cá nhân.','4,7':'Nhà báo điều tra độc lập, Chuyên gia chiến lược Marketing dữ liệu.','11,22,33':'Nhà truyền cảm hứng nghệ thuật quy mô lớn, Thiết kế trải nghiệm.'}},
+            {sm:[4,7],tool:'Công cụ Kỹ thuật & Logic',jobs:{'1,8':'Chủ công ty công nghệ, Kiến trúc sư trưởng, Giám đốc vận hành (COO).','2,6,9':'Chuyên gia thiết kế môi trường làm việc, Tư vấn an toàn lao động.','3,5':'Thiết kế game tự do, Lập trình viên trải nghiệm người dùng (UX/UI).','4,7':'Kỹ sư phần mềm độc lập, Chuyên gia an ninh mạng, Chuyên gia phân tích tài chính.','11,22,33':'Nhà phát minh công nghệ xanh, Kiến trúc sư hệ thống phức hợp.'}},
+            {sm:[8],tool:'Công cụ Điều hành Tài chính',all:'Nhà đầu tư mạo hiểm, Chủ quỹ tài chính, Chuyên gia tái cấu trúc doanh nghiệp độc lập.'},
+            {sm:[11,22,33],tool:'Công cụ Bậc thầy',all:'Nhà tiên phong trong các lĩnh vực mới (AI, Năng lượng tái tạo, Tâm linh hiện đại), Lãnh đạo các tổ chức mang tính cách mạng.'}
+        ]},
+        2:{env:'Môi trường hòa bình & kết nối: ngoại giao, hợp tác, lắng nghe, tinh tế và làm việc nhóm.',groups:[
+            {sm:[1,8],tool:'Công cụ Lãnh đạo/Thực tế',all:'Chuyên gia đàm phán thương mại, Giám đốc Quan hệ Công chúng (PR Director), Trưởng bộ phận Hòa giải Doanh nghiệp.'},
+            {sm:[2,6,9],tool:'Công cụ Phụng sự/Chăm sóc',all:'Nhà tư vấn hôn nhân gia đình, Chuyên viên tâm lý học đường, Y sĩ chăm sóc sức khỏe cộng đồng, Chuyên gia chăm sóc khách hàng cao cấp.'},
+            {sm:[3,5],tool:'Công cụ Biểu đạt/Tự do',all:'Điều phối viên sự kiện văn hóa, Nhà ngoại giao văn hóa, MC mảng giao lưu quốc tế, Chuyên gia kết nối thương hiệu.'},
+            {sm:[4,7],tool:'Công cụ Hệ thống/Tri thức',all:'Chuyên gia lưu trữ dữ liệu ngoại giao, Thư ký pháp lý, Chuyên gia phân tích hành vi đối tác.'},
+            {sm:[11,22,33],tool:'Công cụ Bậc thầy',all:'Sứ giả hòa bình, Nhà tư vấn chiến lược hợp tác quốc tế, Chuyên gia kết nối năng lượng cộng đồng.'}
+        ]},
+        3:{env:'Môi trường sáng tạo & biểu đạt: sân khấu, truyền thông, nghệ thuật, linh hoạt và lan tỏa.',groups:[
+            {sm:[1,8],tool:'Công cụ Lãnh đạo/Kinh doanh',all:'Giám đốc Thương mại ngành Giải trí, Nhà sản xuất Phim/Âm nhạc, Quản lý Nghệ sĩ.'},
+            {sm:[2,6,9],tool:'Công cụ Phụng sự/Cảm xúc',all:'Giáo viên dạy kỹ năng giao tiếp, Giáo viên mầm non nghệ thuật, Nhà trị liệu bằng âm nhạc/hội họa.'},
+            {sm:[3,5],tool:'Công cụ Sáng tạo đỉnh cao',all:'Diễn viên, Ca sĩ, Designer, Copywriter, Nhà thiết kế thời trang, Content Creator chuyên nghiệp.'},
+            {sm:[4,7],tool:'Công cụ Kỷ luật/Phân tích',all:'Nhà phê bình nghệ thuật, Kế toán mảng truyền thông, Chuyên gia tối ưu hóa nội dung SEO/Data.'},
+            {sm:[11,22,33],tool:'Công cụ Bậc thầy',all:'Tác giả truyền cảm hứng toàn cầu, Nghệ sĩ trình diễn tâm linh, Nhà kiến tạo xu hướng nghệ thuật.'}
+        ]},
+        4:{env:'Môi trường quy trình & kỷ luật: hệ thống, quy chuẩn, an toàn, con số và tính chính xác.',groups:[
+            {sm:[1,8],tool:'Công cụ Lãnh đạo/Tài chính',all:'Giám đốc Vận hành (COO), Giám đốc Tài chính (CFO), Kiểm toán trưởng, Quản lý dự án xây dựng.'},
+            {sm:[2,6,9],tool:'Công cụ Phụng sự/Con người',all:'Quản lý hành chính Bệnh viện/Trường học, Chuyên gia an toàn lao động, Quản lý chất lượng (QA/QC) mảng y tế.'},
+            {sm:[3,5],tool:'Công cụ Sáng tạo/Linh hoạt',all:'Quản lý quy trình sản xuất truyền thông, Thiết kế hệ thống tự động hóa cho Agency Sáng tạo.'},
+            {sm:[4,7],tool:'Công cụ Chuyên môn thuần túy',all:'Kế toán viên, Kỹ sư kết cấu, Lập trình viên Backend, Chuyên gia thẩm định giá, Chuyên gia phân tích rủi ro.'},
+            {sm:[11,22,33],tool:'Công cụ Bậc thầy',all:'Tổng kiến trúc sư công trình quốc gia, Nhà quy hoạch đô thị, Chuyên gia xây dựng thể chế.'}
+        ]},
+        5:{env:'Môi trường tự do & bứt phá: biến động, du lịch, thương mại, đổi mới liên tục.',groups:[
+            {sm:[1,8],tool:'Công cụ Điều hành/Mở rộng',all:'Chuyên gia phát triển thị trường quốc tế, Nhà đầu tư chuỗi du lịch/ẩm thực, Giám đốc Kinh doanh thương mại điện tử.'},
+            {sm:[2,6,9],tool:'Công cụ Kết nối/Nhân văn',all:'Hướng dẫn viên du lịch từ thiện, Chuyên gia tư vấn đổi mới trải nghiệm khách hàng, Hoạt động xã hội lưu động.'},
+            {sm:[3,5],tool:'Công cụ Sáng tạo/Trải nghiệm',all:'Travel Blogger, Nhiếp ảnh gia hiện trường, Nhà báo du lịch, Chuyên gia sáng tạo tour du lịch trải nghiệm.'},
+            {sm:[4,7],tool:'Công cụ Logic/Quy trình',all:'Quản trị chuỗi cung ứng logistics, Chuyên gia phân tích xu hướng thị trường mới, Kỹ sư vận hành hệ thống lưu động.'},
+            {sm:[11,22,33],tool:'Công cụ Bậc thầy',all:'Nhà kiến tạo phong cách sống mới, Diễn giả toàn cầu về sự tự do tâm thức.'}
+        ]},
+        6:{env:'Môi trường chăm sóc & trách nhiệm: khách sạn, nhà hàng, gia đình, y tế, giáo dục, không gian ấm áp.',groups:[
+            {sm:[1,8],tool:'Công cụ Lãnh đạo/Thực tế',all:'Giám đốc Chuỗi Khách sạn/Nhà hàng, Quản lý Trung tâm Dưỡng lão/Y tế cao cấp, Chủ thương hiệu dịch vụ gia đình.'},
+            {sm:[2,6,9],tool:'Công cụ Phụng sự thuần túy',all:'Bác sĩ gia đình, Chuyên gia dinh dưỡng, Giáo viên mầm non, Trưởng nhóm từ thiện chăm sóc trẻ em.'},
+            {sm:[3,5],tool:'Công cụ Biểu đạt/Nghệ thuật',all:'Nhà thiết kế nội thất, Kiến trúc sư không gian sống gia đình, Chuyên gia trang trí sự kiện/tiệc cưới.'},
+            {sm:[4,7],tool:'Công cụ Hệ thống/Nghiên cứu',all:'Bác sĩ nội khoa nghiên cứu, Chuyên gia quản lý an toàn thực phẩm, Nhà nghiên cứu tâm lý trẻ em.'},
+            {sm:[11,22,33],tool:'Công cụ Bậc thầy',all:'Nhà sáng lập làng trẻ em, Người đứng đầu các cộng đồng chữa lành sinh thái.'}
+        ]},
+        7:{env:'Môi trường tri thức & nguyên lý: nghiên cứu, phòng thí nghiệm, trường đại học, không gian yên tĩnh, tâm linh.',groups:[
+            {sm:[1,8],tool:'Công cụ Quản trị/Điều hành',all:'Viện trưởng Viện nghiên cứu, Giám đốc R&D, Cố vấn pháp lý cấp cao, Chủ tịch quỹ nghiên cứu khoa học.'},
+            {sm:[2,6,9],tool:'Công cụ Cảm xúc/Kết nối',all:'Bác sĩ tâm thần học, Chuyên gia trị liệu tâm lý chuyên sâu, Nhà nghiên cứu tâm linh nhân văn.'},
+            {sm:[3,5],tool:'Công cụ Sáng tạo/Truyền đạt',all:'Giảng viên Đại học, Tác giả sách chuyên khảo, Nhà báo điều tra, Chuyên gia đúc kết tri thức.'},
+            {sm:[4,7],tool:'Công cụ Chuyên gia độc lập',all:'Data Scientist, Lập trình viên AI, Nhà triết học, Nhà triết học chiêm tinh/Thần số học chuyên sâu, Nhà khảo cổ.'},
+            {sm:[11,22,33],tool:'Công cụ Bậc thầy',all:'Nhà triết học tầm vóc thế giới, Chuyên gia thức tỉnh tâm thức, Nhà khoa học lý thuyết vĩ mô.'}
+        ]},
+        8:{env:'Môi trường thương mại & quyền lực: tài chính, bất động sản, kinh doanh quy mô lớn, áp lực cao.',groups:[
+            {sm:[1,8],tool:'Công cụ Lãnh đạo tối thượng',all:'CEO Tập đoàn, Quản lý Quỹ đầu tư mạo hiểm, Trùm Bất động sản, Giám đốc Ngân hàng.'},
+            {sm:[2,6,9],tool:'Công cụ Nhân văn/Cộng đồng',all:'Giám đốc Doanh nghiệp Xã hội, Người quản lý quỹ tài trợ y tế/giáo dục quy mô lớn.'},
+            {sm:[3,5],tool:'Công cụ Truyền thông/Đổi mới',all:'Giám đốc Thương mại ngành Giải trí/Thời trang, Nhà đầu tư chuỗi F&B, M&A ngành truyền thông.'},
+            {sm:[4,7],tool:'Công cụ Cấu trúc/Kỹ thuật',all:'Giám đốc Kiểm toán toàn cầu, Chuyên gia thẩm định tài chính công nghệ, Kỹ sư quản trị hệ thống tài chính.'},
+            {sm:[11,22,33],tool:'Công cụ Bậc thầy',all:'Nhà tài phiệt kiến tạo cộng đồng, Kiến trúc sư nền kinh tế xanh tuần hoàn.'}
+        ]},
+        9:{env:'Môi trường cống hiến & tầm vóc cộng đồng: NGO, giáo dục cộng đồng, nghệ thuật vị nhân sinh, ngoại giao.',groups:[
+            {sm:[1,8],tool:'Công cụ Điều hành vĩ mô',all:'Chủ tịch Tổ chức Phi chính phủ, Lãnh đạo các chiến dịch nhân đạo toàn cầu, Giám đốc Quỹ từ thiện.'},
+            {sm:[2,6,9],tool:'Công cụ Phụng sự tuyệt đối',all:'Nhà hoạt động hòa bình, Chuyên gia tâm lý chữa lành tổn thương cộng đồng, Hoạt động cứu trợ quốc tế.'},
+            {sm:[3,5],tool:'Công cụ Sáng tạo lan tỏa',all:'Nhiếp ảnh gia chiến tranh/nhân đạo, Đạo diễn phim tài liệu xã hội, Tác giả sách truyền cảm hứng nhân văn.'},
+            {sm:[4,7],tool:'Công cụ Cấu trúc/Tri thức',all:'Nhà nghiên cứu chính sách xã hội, Luật sư bảo vệ môi trường toàn cầu, Chuyên gia phát triển bền vững (ESG).'},
+            {sm:[11,22,33],tool:'Công cụ Bậc thầy',all:'Lãnh đạo tinh thần cộng đồng, Sứ giả hòa bình thế giới.'}
+        ]},
+        11:{env:'Môi trường trực giác & thức tỉnh: nhận thức cao, cảm hứng tinh thần, trực giác và phát triển tiềm năng con người.',groups:[
+            {sm:[1,8,22],tool:'Công cụ Lãnh đạo/Kiến tạo',all:'Lãnh đạo các trung tâm phát triển tiềm năng con người, Chủ doanh nghiệp công nghệ vị nhân sinh.'},
+            {sm:[2,6,9,33],tool:'Công cụ Chữa lành/Phụng sự',all:'Chuyên gia trị liệu năng lượng, Trị liệu tâm trí sâu, Khai vấn cuộc sống (Life Coach).'},
+            {sm:[3,5],tool:'Công cụ Sáng tạo/Truyền tải',all:'Tác giả sách tâm linh, Nghệ sĩ truyền tải thông điệp thức tỉnh.'},
+            {sm:[4,7],tool:'Công cụ Nghiên cứu/Phân tích',all:'Nhà nghiên cứu tiềm năng con người, Chuyên gia phân tích năng lượng khoa học.'}
+        ]},
+        22:{env:'Môi trường kiến tạo vĩ đại: hạ tầng lớn, công trình để lại cho tương lai, hệ thống quy mô quốc tế.',groups:[
+            {sm:[1,8,11],tool:'Công cụ Lãnh đạo/Siêu dự án',all:'Tổng đạo diễn các siêu dự án công nghệ/kỹ thuật, Nhà sáng lập đế chế kinh doanh xanh.'},
+            {sm:[2,6,9,33],tool:'Công cụ Kết nối/Tái thiết',all:'Nhà quy hoạch đô thị sinh thái, Lãnh đạo các tổ chức tái thiết cộng đồng.'},
+            {sm:[3,5],tool:'Công cụ Văn hóa/Truyền thông',all:'Nhà thiết kế các công trình văn hóa biểu tượng, Sáng lập các nền tảng truyền thông toàn cầu.'},
+            {sm:[4,7],tool:'Công cụ Hệ thống/Pháp lý',all:'Kiến trúc sư trưởng hạ tầng dữ liệu quốc gia, Chuyên gia xây dựng hệ thống pháp luật mới.'}
+        ]},
+        33:{env:'Môi trường chữa lành bậc thầy: tình yêu thương vô điều kiện, chữa lành diện rộng, nâng cao tần số con người.',groups:[
+            {sm:[1,8,22],tool:'Công cụ Lãnh đạo/Y tế - Chữa lành',all:'Điều hành hệ thống y tế/chữa lành toàn cầu, Nhà sáng lập viện dưỡng lão sinh thái quy mô lớn.'},
+            {sm:[2,6,9,11],tool:'Công cụ Chữa lành/Phụng sự',all:'Chuyên gia chữa lành tâm thức, Bác sĩ y học cổ truyền/năng lượng, Nhà giáo dục nhân văn.'},
+            {sm:[3,5],tool:'Công cụ Nghệ thuật chữa lành',all:'Nghệ sĩ dùng âm thanh/màu sắc chữa lành, Tác giả truyền cảm hứng tình yêu thương.'},
+            {sm:[4,7],tool:'Công cụ Nghiên cứu chữa lành',all:'Nhà nghiên cứu cơ chế chữa lành tự nhiên của cơ thể và tâm trí.'}
+        ]}
+    };
+
+    const SOUL_CAREER_RULES = [
+        {nums:[1,8], text:'Phải có quyền tự quyết, có vị thế, thu nhập cao và sự ghi nhận thực tế.'},
+        {nums:[2,6], text:'Phải thấy công việc mang lại giá trị cảm xúc, sự hòa hợp và chăm sóc người khác.'},
+        {nums:[3,5], text:'Phải được tự do sáng tạo, không bị gông cùm, có môi trường vui vẻ, trải nghiệm mới.'},
+        {nums:[4,7], text:'Phải rõ ràng, minh bạch, có không gian riêng để suy ngẫm và đào sâu chuyên môn.'},
+        {nums:[9,11,22,33], text:'Phải thấy công việc có ý nghĩa nhân văn, đóng góp cho cộng đồng hoặc sự tiến hóa tâm thức.'}
+    ];
+
+    function getCareerMatrixGroup(dd, sm) {
+        const matrix = CAREER_MATRIX[Number(dd)];
+        if (!matrix) return null;
+        return matrix.groups.find(group => group.sm.includes(Number(sm))) || null;
+    }
+
+    function getSoulCareerRule(lh) {
+        return SOUL_CAREER_RULES.find(rule => rule.nums.includes(Number(lh))) || SOUL_CAREER_RULES[0];
+    }
+
+    function getCareerMatrixInfo(state) {
+        const dd = Number(state.duongDoi), sm = Number(state.suMenh), lh = Number(state.linhHon);
+        const matrix = CAREER_MATRIX[dd] || CAREER_MATRIX[reduceNum(dd,false)];
+        const group = getCareerMatrixGroup(dd, sm);
+        const soulRule = getSoulCareerRule(lh);
+        if (!matrix || !group) {
+            return {environment:'Chưa có dữ liệu ma trận nghề nghiệp tương ứng trong tài liệu nguồn.', tool:'', jobs:'', soulCondition:soulRule.text, summary:'Không đủ dữ liệu ma trận để ghép nghề nghiệp.'};
+        }
+        const jobs = group.all || Object.entries(group.jobs || {}).find(([key]) => key.split(',').map(Number).includes(lh))?.[1] || '';
+        const summary = `${jobs} Điều kiện để duy trì nhiệt huyết: ${soulRule.text}`;
+        return {environment:matrix.env, tool:group.tool, jobs, soulCondition:soulRule.text, summary};
+    }
+
     // Lưu trạng thái tính toán để dùng cho phần phân tích sâu và ảnh.
     let analysisState = null;
 
@@ -1238,15 +1356,18 @@
         const y = Number(s.namCaNhan);
         const shadow = YEAR_SHADOW[y];
         const careerInfo = CAREER_GUIDANCE[Number(s.duongDoi)] || CAREER_GUIDANCE[reduceNum(s.duongDoi,false)];
+        const careerMatrixInfo = getCareerMatrixInfo(s);
         const soulAdvice = getSoulAdvice(s.linhHon, y);
         const attitudeAdvice = getAttitudeAdvice(s.thaiDo, y);
         const missingAdvice = getMissingAdvice(s.chiSoThieu, y);
-        const months = MONTH_GUIDANCE[y]?.months || [];
+        const personalMonth = Number(s.thangCaNhan);
+        const monthAdvice = (MONTH_GUIDANCE[y]?.months || []).find(m => Number(m.month) === personalMonth) || null;
+        const months = monthAdvice ? [monthAdvice] : [];
         const karmaItems = s.karmicDebts.map(k => {
             const item = KARMA_MATRIX[k.debt]?.[y];
             return {...k, core:KARMA_CORE[k.debt], matrix:item};
         });
-        return {y, shadow, careerInfo, soulAdvice, attitudeAdvice, missingAdvice, months, karmaItems};
+        return {y, careerInfo, careerMatrixInfo, shadow, soulAdvice, attitudeAdvice, missingAdvice, months, monthAdvice, karmaItems};
     }
 
     function showAdvanced(type) {
@@ -1281,20 +1402,21 @@
             }
         } else if (type === 'karma') {
             title = 'Nợ nghiệp – cảnh báo và chuyển hóa';
-            if (!current.karmaItems.length) html = `<div class="logic-highlight"><strong>Chưa phát hiện nợ nghiệp trong các tổng lõi được kiểm tra.</strong><br>Tài liệu nguồn không đưa ra công thức nhận diện tự động; phiên bản này kiểm tra các tổng trước rút gọn của các chỉ số lõi.</div>`;
+            if (!current.karmaItems.length) html = `<div class="logic-highlight"><strong>không nợ nghiệp</strong></div>`;
             else current.karmaItems.forEach(k => {
                 html += `<div class="logic-danger"><strong>${escapeHTML(k.debt)} – ${escapeHTML(k.core?.title || '')}</strong><p>${escapeHTML(k.core?.cause || '')}</p></div>`;
                 if (k.core?.challenges?.length) html += `<strong>Thử thách:</strong><ul class="logic-list">${k.core.challenges.map(x=>`<li>${escapeHTML(x)}</li>`).join('')}</ul>`;
                 if (k.matrix) html += `<div class="logic-highlight"><strong>Năm ${current.y}:</strong><br>${escapeHTML(k.matrix.problem)}</div><div class="advice-box"><strong>Chuyển hóa:</strong><br>${escapeHTML(k.matrix.advice)}</div>`;
             });
         } else if (type === 'career') {
-            title = 'Định hướng nghề nghiệp';
-            const c = CAREER_GUIDANCE[Number(s.duongDoi)] || CAREER_GUIDANCE[reduceNum(s.duongDoi,false)];
-            html = `<div class="logic-highlight"><strong>Đường đời ${escapeHTML(s.duongDoi)}</strong><br>${escapeHTML(c?.fit || 'Chưa có dữ liệu nghề nghiệp tương ứng trong tài liệu nguồn.')}</div><div class="advice-box"><strong>Thái độ phát triển:</strong><br>${escapeHTML(c?.advice || '')}</div>`;
+            title = 'Định hướng nghề nghiệp – Ma trận Đường đời × Sứ mệnh × Linh hồn';
+            const c = current.careerInfo;
+            const m = current.careerMatrixInfo;
+            html = `<div class="meaning-box"><strong>Đường đời ${escapeHTML(s.duongDoi)} – Môi trường:</strong><br>${escapeHTML(m.environment)}</div><div class="logic-highlight"><strong>Sứ mệnh ${escapeHTML(s.suMenh)} – Công cụ:</strong><br>${escapeHTML(m.tool)}<br><br><strong>Nghề phù hợp:</strong><br>${escapeHTML(m.jobs)}</div><div class="advice-box"><strong>Linh hồn ${escapeHTML(s.linhHon)} – Điều kiện thỏa mãn nội tâm:</strong><br>${escapeHTML(m.soulCondition)}</div><div class="logic-highlight"><strong>Kết quả tổng hợp:</strong><br>${escapeHTML(m.summary)}</div><div class="advice-box"><strong>Thái độ phát triển:</strong><br>${escapeHTML(c?.advice || '')}</div>`;
         } else if (type === 'monthly') {
-            title = `Lịch chiến lược – Năm cá nhân ${current.y}`;
-            const list = current.months.map(m => `<div class="month-item"><strong>Tháng ${m.month}:</strong> ${escapeHTML(m.text)}</div>`).join('');
-            html = `<div class="meaning-box"><strong>${escapeHTML(MONTH_GUIDANCE[current.y]?.energy || '')}</strong></div><div class="month-list">${list}</div>`;
+            title = `Chiến lược tháng  ${s.thangCaNhan}`;
+            const m = current.monthAdvice;
+            html = m ? `<div class="meaning-box"><strong>Tháng cá nhân ${escapeHTML(s.thangCaNhan)}</strong><br>${escapeHTML(MONTH_GUIDANCE[current.y]?.energy || '')}</div><div class="month-list"><div class="month-item"><strong>Lời khuyên:</strong> ${escapeHTML(m.text)}</div></div>` : `<div class="logic-highlight"><strong>Chưa có lời khuyên tương ứng cho Tháng cá nhân ${escapeHTML(s.thangCaNhan)}.</strong></div>`;
         }
         document.getElementById('modalTitle').innerText = title;
         document.getElementById('modalContent').innerHTML = html;
@@ -1306,7 +1428,7 @@
             ['duongDoi','Đường đời','r_duongDoi'],['suMenh','Sứ mệnh','r_suMenh'],['linhHon','Linh hồn','r_linhHon'],['nhanCach','Nhân cách','r_nhanCach'],['ngaySinh','Ngày sinh','r_ngaySinh'],['truongThanh','Trưởng thành','r_truongThanh'],['canBang','Cân bằng','r_canBang'],['thaiDo','Thái độ','r_thaiDo'],['knDdSm','KN Đường đời – Sứ mệnh','r_knDdSm'],['knLhNc','KN Linh hồn – Nhân cách','r_knLhNc'],['tuDuy','Tư duy lý trí','r_tuDuy'],['tiemThuc','Sức mạnh tiềm thức','r_tiemThuc'],['damMe','Đam mê','r_damMe'],['thieu','Chỉ số thiếu','r_thieu'],['namCaNhan','Năm cá nhân','r_namCaNhan'],['thangCaNhan','Tháng cá nhân','r_thangCaNhan']
         ];
         const extra = [
-            ['lifeStrategy','Chiến lược Đường đời'],['currentYear','Chiến lược năm hiện tại'],['soulYear','Giao thoa Linh hồn × Năm'],['yearAdvice','Lời khuyên cho năm nay'],['weakness','Khắc phục điểm yếu'],['karma','Nợ nghiệp'],['career','Định hướng nghề nghiệp'],['monthly','Chiến lược 9 tháng']
+            ['lifeStrategy','Chiến lược Đường đời'],['currentYear','Chiến lược năm hiện tại'],['soulYear','Giao thoa Linh hồn × Năm'],['yearAdvice','Lời khuyên cho năm nay'],['weakness','Khắc phục điểm yếu'],['karma','Nợ nghiệp'],['career','Định hướng nghề nghiệp'],['monthly','Chiến lược tháng hiện tại']
         ];
         return {core,extra};
     }
@@ -1342,14 +1464,14 @@
             if(mode===1 && item.kind!=='core') return;
             if(item.kind==='core'){
                 const val=document.getElementById(item.id)?.innerText || '--'; out.push({title:labels[item.key]||item.key, value:val});
-            } else if(item.key==='lifeStrategy'){ out.push({title:'Đường đời – chiến lược', text:`Đường đời ${s.duongDoi}. Điểm mạnh: ${dictData.duongDoi?.[String(s.duongDoi)]?.[0]||''}. Điểm mù: ${dictData.duongDoi?.[String(s.duongDoi)]?.[1]||''}.`}); out.push({title:'Nghề nghiệp',text:current.careerInfo?.fit||''}); }
+            } else if(item.key==='lifeStrategy'){ out.push({title:'Đường đời – chiến lược', text:`Đường đời ${s.duongDoi}. Điểm mạnh: ${dictData.duongDoi?.[String(s.duongDoi)]?.[0]||''}. Điểm mù: ${dictData.duongDoi?.[String(s.duongDoi)]?.[1]||''}.`}); out.push({title:'Nghề nghiệp',text:current.careerMatrixInfo?.summary||current.careerInfo?.fit||''}); }
             else if(item.key==='currentYear'){ out.push({title:`Chiến lược năm ${current.y}`,text:`Góc khuất: ${current.shadow.shadow}. ${current.shadow.difficulty} Cạm bẫy: ${current.shadow.trap}`}); }
             else if(item.key==='soulYear'){ out.push({title:'Giao thoa Linh hồn × Năm',text:current.soulAdvice}); }
             else if(item.key==='yearAdvice'){ out.push({title:'Lời khuyên cho năm nay',text:current.attitudeAdvice}); }
             else if(item.key==='weakness'){ out.push({title:'Khắc phục điểm yếu',text:current.missingAdvice}); }
-            else if(item.key==='karma'){ if(!current.karmaItems.length) out.push({title:'Nợ nghiệp',text:'Chưa phát hiện nợ nghiệp trong các tổng lõi được kiểm tra.'}); else current.karmaItems.forEach(k=>out.push({title:`Nợ nghiệp ${k.debt}`,text:`${k.core?.title||''}. Năm ${current.y}: ${k.matrix?.problem||''} Chuyển hóa: ${k.matrix?.advice||''}`})); }
-            else if(item.key==='career'){ out.push({title:'Định hướng nghề nghiệp',text:current.careerInfo?.fit||''}); out.push({title:'Thái độ phát triển nghề nghiệp',text:current.careerInfo?.advice||''}); }
-            else if(item.key==='monthly'){ current.months.forEach(m=>out.push({title:`Tháng ${m.month}`,text:m.text})); }
+            else if(item.key==='karma'){ if(!current.karmaItems.length) out.push({title:'Nợ nghiệp',text:'không nợ nghiệp'}); else current.karmaItems.forEach(k=>out.push({title:`Nợ nghiệp ${k.debt}`,text:`${k.core?.title||''}. Năm ${current.y}: ${k.matrix?.problem||''} Chuyển hóa: ${k.matrix?.advice||''}`})); }
+            else if(item.key==='career'){ out.push({title:'Định hướng nghề nghiệp',text:`Môi trường: ${current.careerMatrixInfo?.environment||''} Công cụ: ${current.careerMatrixInfo?.tool||''} Nghề phù hợp: ${current.careerMatrixInfo?.jobs||''} Điều kiện nội tâm: ${current.careerMatrixInfo?.soulCondition||''}`}); out.push({title:'Thái độ phát triển nghề nghiệp',text:current.careerInfo?.advice||''}); }
+            else if(item.key==='monthly'){ if(current.monthAdvice) out.push({title:`Tháng cá nhân ${s.thangCaNhan}`,text:current.monthAdvice.text}); }
         });
         return out;
     }
