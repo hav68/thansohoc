@@ -125,6 +125,28 @@
             color: var(--text-light);
             text-transform: uppercase;
         }
+
+        /* Nhãn cảnh báo nợ nghiệp trên chỉ số liên quan */
+        .stat-box .index-heading {
+            position: relative;
+            display: block;
+            padding-right: 54px;
+        }
+        .karmic-badge {
+            position: absolute;
+            top: -2px;
+            right: 0;
+            color: #d9534f;
+            font-size: 9px;
+            line-height: 1.1;
+            font-weight: 800;
+            text-transform: none;
+            white-space: nowrap;
+        }
+        @media (max-width: 420px) {
+            .stat-box .index-heading { padding-right: 48px; }
+            .karmic-badge { font-size: 8px; }
+        }
         .stat-box .num {
             font-size: clamp(24px, 7vw, 30px);
             font-weight: bold;
@@ -365,7 +387,7 @@
                     <div class="num" id="r_suMenh">--</div>
                 </div>
                 <div class="stat-box" onclick="showDetail('linhHon', 'r_linhHon')">
-                    <h4>Linh Hồn</h4>
+                    <h4 class="index-heading">Linh Hồn<span id="karmaBadgeLinhHon" class="karmic-badge" style="display:none;">Nợ nghiệp</span></h4>
                     <div class="num" id="r_linhHon">--</div>
                 </div>
                 <div class="stat-box" onclick="showDetail('nhanCach', 'r_nhanCach')">
@@ -373,7 +395,7 @@
                     <div class="num" id="r_nhanCach">--</div>
                 </div>
                 <div class="stat-box" onclick="showDetail('ngaySinh', 'r_ngaySinh')">
-                    <h4>Ngày Sinh</h4>
+                    <h4 class="index-heading">Ngày Sinh<span id="karmaBadgeNgaySinh" class="karmic-badge" style="display:none;">Nợ nghiệp</span></h4>
                     <div class="num" id="r_ngaySinh">--</div>
                 </div>
                 <div class="stat-box" onclick="showDetail('truongThanh', 'r_truongThanh')">
@@ -989,11 +1011,21 @@
         const t4 = Math.abs(rM - rY);
 
         // Nhận diện nợ nghiệp trên các tổng lõi trước khi rút gọn.
-        const karmicDebts = detectKarmicDebts({
+        // GIỮ NGUYÊN logic cũ và bổ sung nợ nghiệp theo ngày sinh: 13/4, 14/5, 16/7, 19/1.
+        const karmicCoreDebts = detectKarmicDebts({
             'Đường đời': sumDuongDoi,
             'Sứ mệnh': sumSuMenh,
             'Linh hồn': sumLinhHon,
             'Nhân cách': sumNhanCach
+        });
+        const birthDayKarmicDebt = detectBirthDayKarmicDebt(parseInt(dd));
+        const karmicDebts = mergeKarmicDebts(karmicCoreDebts, birthDayKarmicDebt);
+
+        // Chỉ gắn cảnh báo đỏ tại đúng 2 mục mà người dùng yêu cầu:
+        // Linh Hồn khi chính tổng Linh Hồn mang nợ nghiệp; Ngày Sinh khi ngày sinh là 13/14/16/19.
+        setKarmicBadges({
+            soulHasDebt: karmicCoreDebts.some(k => k.source === 'Linh hồn'),
+            birthDayHasDebt: Boolean(birthDayKarmicDebt)
         });
 
         analysisState = {
@@ -1351,6 +1383,42 @@
         return result;
     }
 
+    // Nợ nghiệp theo NGÀY SINH (ngày trong tháng), độc lập với logic nợ nghiệp cũ.
+    function detectBirthDayKarmicDebt(day) {
+        const map = {
+            13: '13/4',
+            14: '14/5',
+            16: '16/7',
+            19: '19/1'
+        };
+        const n = Number(day);
+        const debt = map[n];
+        return debt ? { debt, source: 'Ngày sinh', raw: n } : null;
+    }
+
+    // Gộp logic cũ + ngày sinh; cùng một loại nợ nghiệp chỉ hiển thị 1 lần.
+    // Khi cùng loại xuất hiện ở nhiều nguồn, giữ lại toàn bộ nguồn để luận giải không mất dữ liệu.
+    function mergeKarmicDebts(coreDebts, birthDayDebt) {
+        const merged = (Array.isArray(coreDebts) ? coreDebts : []).map(item => ({...item, sources: [item.source]}));
+        if (!birthDayDebt) return merged;
+
+        const found = merged.find(item => item.debt === birthDayDebt.debt);
+        if (found) {
+            if (!found.sources.includes(birthDayDebt.source)) found.sources.push(birthDayDebt.source);
+            found.source = found.sources.join(' + ');
+        } else {
+            merged.push({...birthDayDebt, sources: [birthDayDebt.source]});
+        }
+        return merged;
+    }
+
+    function setKarmicBadges({soulHasDebt = false, birthDayHasDebt = false} = {}) {
+        const soulBadge = document.getElementById('karmaBadgeLinhHon');
+        const birthBadge = document.getElementById('karmaBadgeNgaySinh');
+        if (soulBadge) soulBadge.style.display = soulHasDebt ? 'inline' : 'none';
+        if (birthBadge) birthBadge.style.display = birthDayHasDebt ? 'inline' : 'none';
+    }
+
     function buildCurrentYearStrategy() {
         const s = analysisState;
         const y = Number(s.namCaNhan);
@@ -1404,7 +1472,8 @@
             title = 'Nợ nghiệp – cảnh báo và chuyển hóa';
             if (!current.karmaItems.length) html = `<div class="logic-highlight"><strong>không nợ nghiệp</strong></div>`;
             else current.karmaItems.forEach(k => {
-                html += `<div class="logic-danger"><strong>${escapeHTML(k.debt)} – ${escapeHTML(k.core?.title || '')}</strong><p>${escapeHTML(k.core?.cause || '')}</p></div>`;
+                const sourceText = k.sources?.length ? `Phát hiện từ: ${k.sources.join(' + ')}` : (k.source ? `Phát hiện từ: ${k.source}` : '');
+                html += `<div class="logic-danger"><strong>${escapeHTML(k.debt)} – ${escapeHTML(k.core?.title || 'Nợ nghiệp')}</strong><p>${escapeHTML(k.core?.cause || '')}</p>${sourceText ? `<div class="input-hint"><strong>${escapeHTML(sourceText)}</strong></div>` : ''}</div>`;
                 if (k.core?.challenges?.length) html += `<strong>Thử thách:</strong><ul class="logic-list">${k.core.challenges.map(x=>`<li>${escapeHTML(x)}</li>`).join('')}</ul>`;
                 if (k.matrix) html += `<div class="logic-highlight"><strong>Năm ${current.y}:</strong><br>${escapeHTML(k.matrix.problem)}</div><div class="advice-box"><strong>Chuyển hóa:</strong><br>${escapeHTML(k.matrix.advice)}</div>`;
             });
