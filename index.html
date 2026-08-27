@@ -1300,28 +1300,7 @@ function showDetail(type, elementId) {
 
         let contentHTML = `<div class="meaning-box"><strong>Ý nghĩa:</strong> ${data.meaning}</div>`;
 
-        if (type === 'thieu') {
-            if (valText === 'Không thiếu' || valText === '') {
-                contentHTML += `<p>Bạn đang ở trạng thái cân bằng, không bị thiếu chỉ số nào.</p>`;
-            } else {
-                const nums = valText.split(',').map(n => n.trim());
-                nums.forEach(n => {
-                    const entry = data[n];
-                    if (entry) {
-                        const energy = getEnergyProfile(Number(n));
-                        contentHTML += `<div class="logic-highlight"><strong>Số ${escapeHTML(n)} – Thể Ngược</strong><br>${escapeHTML(energy?.under?.[String(n)] || entry[0] || '')}</div>`;
-                        if (energy?.problems?.length) {
-                            contentHTML += `<div class="logic-warning"><strong>Vấn đề gặp phải:</strong><ul class="logic-list">${energy.problems.map(x => `<li>${escapeHTML(x)}</li>`).join('')}</ul></div>`;
-                        }
-                        if (energy?.solutions?.length) {
-                            contentHTML += `<div class="advice-box"><strong>Giải pháp khắc phục:</strong><ul class="logic-list">${energy.solutions.map(x => `<li>${escapeHTML(x)}</li>`).join('')}</ul></div>`;
-                        } else {
-                            contentHTML += `<div class="advice-box"><strong>Giải pháp khắc phục:</strong> ${escapeHTML(entry[1] || '')}</div>`;
-                        }
-                    }
-                });
-            }
-        } else if (type === 'damMe') {
+        if (type === 'thieu' || type === 'damMe') {
             if (valText === 'Không thiếu' || valText === '') {
                 contentHTML += `<p>Bạn đang ở trạng thái cân bằng, không bị thiếu chỉ số nào.</p>`;
             } else {
@@ -1350,9 +1329,8 @@ function showDetail(type, elementId) {
             }
         }
 
-        // Chỉ số Thiếu đã có riêng nội dung Thể Ngược/Vấn đề/Giải pháp ở trên.
-        // Các chỉ số đơn khác vẫn giữ nguyên phần phân tích lệch năng lượng cũ.
-        if (type !== 'thieu' && valText && valText !== '--' && !['Không thiếu',''].includes(valText) && !valText.includes(',')) {
+        // Khi bấm xem từng chỉ số, hiển thị thêm phần nhận biết khi chỉ số đó lệch năng lượng.
+        if (valText && valText !== '--' && !['Không thiếu',''].includes(valText) && !valText.includes(',')) {
             contentHTML += buildEnergyHTML(valText);
         }
 
